@@ -1,0 +1,252 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>2c3e6067-6a46-4b38-98da-0ec05fe138e2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\News\image %2816%29.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\kindeditor\kindeditor-all-min.js" />
+    <None Include="wwwroot\kindeditor\kindeditor-all.js" />
+    <None Include="wwwroot\kindeditor\lang\ar.js" />
+    <None Include="wwwroot\kindeditor\lang\en.js" />
+    <None Include="wwwroot\kindeditor\lang\ko.js" />
+    <None Include="wwwroot\kindeditor\lang\ru.js" />
+    <None Include="wwwroot\kindeditor\lang\zh-CN.js" />
+    <None Include="wwwroot\kindeditor\lang\zh-TW.js" />
+    <None Include="wwwroot\kindeditor\license.txt" />
+    <None Include="wwwroot\kindeditor\plugins\anchor\anchor.js" />
+    <None Include="wwwroot\kindeditor\plugins\autoheight\autoheight.js" />
+    <None Include="wwwroot\kindeditor\plugins\baidumap\baidumap.js" />
+    <None Include="wwwroot\kindeditor\plugins\baidumap\index.html" />
+    <None Include="wwwroot\kindeditor\plugins\baidumap\map.html" />
+    <None Include="wwwroot\kindeditor\plugins\clearhtml\clearhtml.js" />
+    <None Include="wwwroot\kindeditor\plugins\code\code.js" />
+    <None Include="wwwroot\kindeditor\plugins\code\prettify.css" />
+    <None Include="wwwroot\kindeditor\plugins\code\prettify.js" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\emoticons.js" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\0.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\1.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\10.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\100.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\101.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\102.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\103.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\104.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\105.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\106.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\107.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\108.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\109.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\11.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\110.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\111.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\112.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\113.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\114.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\115.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\116.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\117.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\118.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\119.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\12.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\120.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\121.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\122.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\123.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\124.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\125.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\126.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\127.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\128.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\129.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\13.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\130.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\131.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\132.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\133.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\134.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\14.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\15.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\16.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\17.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\18.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\19.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\2.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\20.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\21.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\22.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\23.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\24.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\25.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\26.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\27.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\28.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\29.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\3.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\30.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\31.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\32.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\33.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\34.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\35.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\36.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\37.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\38.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\39.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\4.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\40.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\41.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\42.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\43.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\44.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\45.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\46.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\47.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\48.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\49.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\5.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\50.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\51.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\52.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\53.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\54.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\55.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\56.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\57.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\58.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\59.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\6.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\60.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\61.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\62.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\63.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\64.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\65.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\66.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\67.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\68.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\69.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\7.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\70.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\71.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\72.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\73.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\74.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\75.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\76.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\77.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\78.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\79.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\8.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\80.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\81.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\82.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\83.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\84.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\85.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\86.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\87.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\88.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\89.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\9.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\90.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\91.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\92.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\93.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\94.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\95.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\96.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\97.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\98.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\99.gif" />
+    <None Include="wwwroot\kindeditor\plugins\emoticons\images\static.gif" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\filemanager.js" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\images\file-16.gif" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\images\file-64.gif" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\images\folder-16.gif" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\images\folder-64.gif" />
+    <None Include="wwwroot\kindeditor\plugins\filemanager\images\go-up.gif" />
+    <None Include="wwwroot\kindeditor\plugins\fixtoolbar\fixtoolbar.js" />
+    <None Include="wwwroot\kindeditor\plugins\flash\flash.js" />
+    <None Include="wwwroot\kindeditor\plugins\image\image.js" />
+    <None Include="wwwroot\kindeditor\plugins\image\images\align_left.gif" />
+    <None Include="wwwroot\kindeditor\plugins\image\images\align_right.gif" />
+    <None Include="wwwroot\kindeditor\plugins\image\images\align_top.gif" />
+    <None Include="wwwroot\kindeditor\plugins\image\images\refresh.png" />
+    <None Include="wwwroot\kindeditor\plugins\insertfile\insertfile.js" />
+    <None Include="wwwroot\kindeditor\plugins\lineheight\lineheight.js" />
+    <None Include="wwwroot\kindeditor\plugins\link\link.js" />
+    <None Include="wwwroot\kindeditor\plugins\map\map.html" />
+    <None Include="wwwroot\kindeditor\plugins\map\map.js" />
+    <None Include="wwwroot\kindeditor\plugins\media\media.js" />
+    <None Include="wwwroot\kindeditor\plugins\multiimage\images\image.png" />
+    <None Include="wwwroot\kindeditor\plugins\multiimage\images\select-files-en.png" />
+    <None Include="wwwroot\kindeditor\plugins\multiimage\images\select-files-zh-CN.png" />
+    <None Include="wwwroot\kindeditor\plugins\multiimage\images\swfupload.swf" />
+    <None Include="wwwroot\kindeditor\plugins\multiimage\multiimage.js" />
+    <None Include="wwwroot\kindeditor\plugins\pagebreak\pagebreak.js" />
+    <None Include="wwwroot\kindeditor\plugins\plainpaste\plainpaste.js" />
+    <None Include="wwwroot\kindeditor\plugins\preview\preview.js" />
+    <None Include="wwwroot\kindeditor\plugins\quickformat\quickformat.js" />
+    <None Include="wwwroot\kindeditor\plugins\table\table.js" />
+    <None Include="wwwroot\kindeditor\plugins\template\html\1.html" />
+    <None Include="wwwroot\kindeditor\plugins\template\html\2.html" />
+    <None Include="wwwroot\kindeditor\plugins\template\html\3.html" />
+    <None Include="wwwroot\kindeditor\plugins\template\template.js" />
+    <None Include="wwwroot\kindeditor\plugins\wordpaste\wordpaste.js" />
+    <None Include="wwwroot\kindeditor\themes\common\anchor.gif" />
+    <None Include="wwwroot\kindeditor\themes\common\blank.gif" />
+    <None Include="wwwroot\kindeditor\themes\common\flash.gif" />
+    <None Include="wwwroot\kindeditor\themes\common\loading.gif" />
+    <None Include="wwwroot\kindeditor\themes\common\media.gif" />
+    <None Include="wwwroot\kindeditor\themes\common\rm.gif" />
+    <None Include="wwwroot\kindeditor\themes\default\background.png" />
+    <None Include="wwwroot\kindeditor\themes\default\default.css" />
+    <None Include="wwwroot\kindeditor\themes\default\default.png" />
+    <None Include="wwwroot\kindeditor\themes\qq\editor.gif" />
+    <None Include="wwwroot\kindeditor\themes\qq\qq.css" />
+    <None Include="wwwroot\kindeditor\themes\simple\simple.css" />
+    <None Include="wwwroot\layui\css\layui.css" />
+    <None Include="wwwroot\layui\css\modules\code.css" />
+    <None Include="wwwroot\layui\css\modules\laydate\default\laydate.css" />
+    <None Include="wwwroot\layui\css\modules\layer\default\icon-ext.png" />
+    <None Include="wwwroot\layui\css\modules\layer\default\icon.png" />
+    <None Include="wwwroot\layui\css\modules\layer\default\layer.css" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-0.gif" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-1.gif" />
+    <None Include="wwwroot\layui\css\modules\layer\default\loading-2.gif" />
+    <None Include="wwwroot\layui\font\iconfont.eot" />
+    <None Include="wwwroot\layui\font\iconfont.svg" />
+    <None Include="wwwroot\layui\font\iconfont.ttf" />
+    <None Include="wwwroot\layui\font\iconfont.woff" />
+    <None Include="wwwroot\layui\font\iconfont.woff2" />
+    <None Include="wwwroot\layui\layui.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebNet.DAL\WebNet.DAL.csproj" />
+    <ProjectReference Include="..\WebNet.Model\WebNet.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LoginCheck\" />
+  </ItemGroup>
+
+</Project>

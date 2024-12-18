@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 电气分公司网页</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css" />
+    <script src="https://www.layuicdn.com/layui-v2.8.0/layui.js"></script>
+    <style type="text/css">
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #F4F2F5;
+        }
+
+
+
+
+
+        .one:link {
+            color: #FFF;
+            text-decoration: none;
+        }
+
+
+
+        .one:visited {
+            color: #FFF;
+            text-decoration: none;
+        }
+
+
+
+        .one:hover {
+            text-decoration: none;
+            color: #9C3;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+
+        .two:link {
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+        }
+
+
+
+        .two:visited {
+            color: #000;
+            text-decoration: none;
+        }
+
+
+
+        .tzgg_1 {
+            font-family: "微软雅黑", "宋体";
+            font-size: 24px;
+        }
+
+
+
+        .two:hover {
+            text-decoration: none;
+            color: #9C3;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+
+        .table_top {
+            margin-top: 10px;
+        }
+
+
+
+        .table_bgcolor {
+            background-color: #FFF;
+            color: #FFF;
+        }
+
+
+
+        .Link_cf {
+            font-family: "微软雅黑", "宋体";
+            font-size: 14px;
+            color: #000;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+
+
+
+        .a_bt {
+            font-family: "微软雅黑", "宋体";
+            font-weight: bold;
+            color: #FFF;
+            text-align: center;
+            background-color: #C9202D;
+        }
+
+        .a_btc {
+            font-family: "微软雅黑", "宋体";
+            font-weight: bold;
+            font-size:20px;
+            color: #FFF;
+            text-align: center;
+            background-color: #343434;
+        }
+
+        
+        img {
+            margin: 0px;
+            padding: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+            border-left-width: 0px;
+        }
+
+
+
+        a:link {
+            text-decoration: none;
+        }
+
+
+
+        a:visited {
+            text-decoration: none;
+        }
+
+
+
+        a:hover {
+            text-decoration: none;
+        }
+
+
+
+        a:active {
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+
+            <tr>
+
+                <td><img src="~/pic/image (15).png" width="100%" height="154" /></td>
+
+            </tr>
+
+        </table>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#C9202D" align="center">
+
+            <tr>
+
+                <td>
+
+                    <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                        <tr align="center" bgcolor="#C9202D" text-align:"center">
+
+                            <td width="100" height="60"><a href="http://web.crrczelc.cc/" target="_blank" class="a_bt">公司首页</a></td>
+
+                            <td width="100"><a href="http://172.18.1.13:8080/eassso/login?service=http%3A//10.24.1.121%3A9999/portal/" target="_blank" class="a_bt">财务共享</a></td>
+
+                            <td width="100"><a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank" class="a_bt">考勤系统</a></td>
+
+                            <td width="100"><a href="http://hr.crrcgc.cc/jsp/login.jsp" target="_blank" class="a_bt">HCM系统</a></td>
+
+                            <td width="100"><a href="http://10.24.7.136:8000/#/" target="_blank" class="a_bt">业联系统</a></td>
+
+                            <td width="100"><a href="http://mail.crrcgc.cc/" target="_blank" class="a_bt">中车邮箱</a></td>
+
+                            <td width="100"><a href="http://172.18.1.230/" target="_blank" class="a_bt">短信平台</a></td>
+
+                            <td width="100"><a href="http://cnki.crrcgc.cc/kns55/" target="_blank" class="a_bt">中国知网</a></td>
+
+                            <td width="100"><a href="#" target="_blank" class="a_bt">会议室预定</a></td>
+
+                            <td width="100"><a href="http://10.29.40.249:8080/" target="_blank" class="a_bt">报修系统</a></td>
+
+                            <td width="100"><a href="http://web.crrczelc.cc/" target="_new" class="a_bt">应知应会</a></td>
+
+                            <td width="100"><a href="http://web.crrczelc.cc/" target="_new" class="a_bt">全寿命分析</a></td>
+
+                        </tr>
+
+                    </table>
+
+                </td>
+
+            </tr>
+
+        </table>
+    </header>
+            @RenderBody()
+
+    <footer class="border-top footer text-muted">
+        <table width="1400" border="0" align="center" cellpadding="0" cellspacing="0">
+
+            <tr bgcolor="#343434">
+
+                <td width="20%" height="228"><img src="~/pic/image (14).png" alt="2" width="371" height="228" /></td>
+
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href=" http://10.29.31.234/" target="_blank" class="a_btc" >机车事业部</a><br /><br /> <br />
+                    <a href="http://10.24.1.19/" target="_blank" class="a_btc">城轨事业部</a>
+                </td>
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href="*" target="_blank" class="a_btc">制动分公司</a><br /><br /><br />
+                    <a href="http://10.29.91.249" target="_blank" class="a_btc">车体事业部</a>
+                </td>
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href=" http://10.29.110.9" target="_new" class="a_btc">转向架事业部</a><br /><br /> <br />
+                    <a href="*" target="_blank" class="a_btc">供应链管理中心</a>
+                </td>
+              
+
+                <td width="20%"><img src="~/pic/image (37).png" alt="1" width="354" height="228" /></td>
+
+            </tr>
+
+            <tr>
+
+                <td height="67" colspan="6" bgcolor="#343434"><img src="~/pic/image (38).png" alt="1" width="1400" height="67" /></td>
+
+            </tr>
+
+        </table>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

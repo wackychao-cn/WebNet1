@@ -1,0 +1,169 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = null;
+    List<WebNet.Model.Category> List = new WebNet.DAL.CategoryDAL().GetList("");
+    var top = List.Where(a => a.Pbh == "0");
+}
+@{
+    Layout = null;
+}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .niceButton3 {
+        background-color: #D9D9D9;
+        border-radius: 0px;
+        border: none;
+        color: BLACK;
+        padding: 0;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin:0;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+        .niceButton3:hover {
+            background-color: #fff;
+            color: #A0A0A0;
+            border: 1px solid #ccc;
+        }
+
+
+    body {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        /* 淡蓝色背景 */
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    nav {
+        position: fixed;
+        width: 230px;
+        height: 98%;
+        left: 6px;
+        background-color: #C9202D;
+        /* 淡蓝色侧边栏 */
+        border-radius: 20px 20px 20px 0px;
+    }
+
+    .menus {
+        margin: 0px 0;
+        color: #333;
+    }
+
+    .li {
+        letter-spacing: 2px;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 12px 8px;
+        box-sizing: border-box;
+        transition: 0.3s;
+        background-color : #D9D9D9;
+        border: 3px solid #f4f4f4
+    }
+
+    .menus li:hover {
+        align-self: center;
+        background-color: white;
+        /* 浅蓝色悬停效果 */
+    }
+
+    .li .fa {
+        font-size: 20px;
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        margin-left: 5px;
+    }
+
+    .li ul {
+        border-radius: 20px;
+        width: 0;
+        height: 200px;
+        padding: 50px 0;
+        background-color: #C9202D;
+        /* 浅青色子菜单背景 */
+        position: absolute;
+        top: 0;
+        right: 0;
+        overflow: hidden;
+        transition: 0.3s;
+        height: 100%;
+    }
+
+        .li ul li {
+            padding: 16px 24px;
+            white-space: nowrap;
+            transition: 0.3s;
+            width: 90px;
+            height: 12px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #f4f4f4;
+            background-color: #D9D9D9;
+        }
+
+    .li:hover ul {
+        border-radius: 0px;
+        width: 140px;
+    }
+
+    .li ul li:hover {
+        background-color: white;
+        /* 更深一点的蓝色 */
+    }
+</style>
+<nav>
+    <div >
+        <img src="~/pic/image (28).png">
+    </div>
+    <div class="main_left" >
+        <ul class="menus">
+            @foreach (var item in top)
+            {
+                var sub = List.Where(a => a.Pbh == item.Bh);
+                <li class="li" value=@item.Caname id="@item.Caname" onclick="train(event)">
+                    @item.Caname
+                    <ul>
+                        @foreach (var item2 in sub)
+                        {
+
+                            <li value=@item2.Caname id="@item2.Caname"  onclick="train(event)">
+                                @item2.Caname
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+        </ul>
+    </div>
+</nav>
+<script>
+
+     function   train(event){
+         event.stopPropagation();
+         var is=event.currentTarget;
+         const con=event.currentTarget.id;
+         self.parent.mainFrame.location.href="/News/Front?"+"txt="+encodeURI(con);
+
+      }
+
+</script>

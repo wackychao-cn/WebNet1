@@ -1,0 +1,170 @@
+﻿@{
+    Layout = null;
+    List<WebNet.Model.Category> List = new WebNet.DAL.CategoryDAL().GetList("");
+    var top = List.Where(a => a.Pbh == "0");
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>赏心悦目的侧边导航栏</title>
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        }
+
+        .niceButton3 {
+            background-color: #1795bb;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 4px 2px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+            .niceButton3:hover {
+                background-color: #fff;
+                color: #1795bb;
+                border: 1px solid #ccc;
+
+            }
+
+
+        body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f8ff;
+        /* 淡蓝色背景 */
+        }
+
+        ul {
+        list-style: none;
+        }
+
+        nav {
+        position: fixed;
+        width: 300px;
+        height: 98%;
+        left: 6px;
+        background-color: #e0ffff;
+        /* 淡蓝色侧边栏 */
+        border-radius: 20px 20px 20px 0px;
+        }
+
+        .menus {
+        margin: 50px 0;
+        color: #333;
+        }
+
+        .li {
+        letter-spacing: 2px;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 12px 8px;
+        box-sizing: border-box;
+        transition: 0.3s;
+        }
+
+        .menus li:hover {
+            align-self:center;
+        background-color: #add8e6;
+        /* 浅蓝色悬停效果 */
+        }
+
+        .li .fa {
+        font-size: 20px;
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        margin-left: 5px;
+        }
+
+        .li ul {
+        border-radius: 20px;
+        width: 0;
+        height: 200px;
+        padding: 50px 0;
+        background-color: #b0e0e6;
+        /* 浅青色子菜单背景 */
+        position: absolute;
+        top: 0;
+        right: 0;
+        overflow: hidden;
+        transition: 0.3s;
+        height: 100%;
+        }
+
+        .li ul li {
+        padding: 16px 24px;
+        white-space: nowrap;
+        transition: 0.3s;
+        width: 120px;
+        height: 20px;
+        text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+        }
+
+        .li:hover ul {
+        border-radius: 20px;
+            width: 200px;
+        }
+
+        .li ul li:hover {
+        background-color: #87cefa;
+        /* 更深一点的蓝色 */
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="main_left">
+        <ul class="menus">
+            
+            @foreach (var item in top)
+            {
+                var sub = List.Where(a => a.Pbh == item.Bh);
+                <li class="li">
+
+                    @item.Caname
+                    <ul>
+                        @foreach (var item2 in sub)
+                        {
+
+                            <li>
+            @*                     <a href="/Back/Database" target="mainFrame"> *@
+                                <input type="button" value=@item2.Caname id="@item2.Caname" class="niceButton3" onclick="train(event)" />
+                                    @*      </a> *@
+                            </li>
+                        }
+                        </ul>
+                        </li>
+            }
+
+            </ul>
+        </div>
+    </nav>
+</body>
+
+</html>
+<script>
+     function   train(event){
+         var is=event.currentTarget;
+         const con=event.currentTarget.id;
+         self.parent.mainFrame.location.href="/News/Index?"+"txt="+encodeURI(con);
+      }
+</script>

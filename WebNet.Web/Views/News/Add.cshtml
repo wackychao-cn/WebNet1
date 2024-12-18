@@ -1,0 +1,190 @@
+@using System.Data
+@using WebNet.DAL
+@model WebNet.Model.News
+@{
+    ViewBag.Title = Model.Id == 0 ? "新增内容" : "编辑内容";
+    bool newadd = Model.Id == 0 ? true : false;
+    Layout="_Layout";
+}
+
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">@ViewBag.Title</li>
+    </ul> 
+</div> 
+<div id="box" hidden="hidden"></div>
+<form class="layui-form" action="" id="myForm">
+
+    <div class='layui-form'>
+        <div class='layui-form-item'> 
+            @{
+                CategoryDAL categoryDAL = new CategoryDAL();
+                DataTable dt = new DataTable();
+                dt = categoryDAL.GetDistinctTable("Caname", "Pbh != 0");
+            }
+            <label class='layui-form-label'>选择发布板块</label> 
+
+            <div class='layui-input-block'> 
+
+                <select id="category" name="Caname">
+                    @for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        bool sel=false;
+                        if (dt.Rows[i][0].ToString()==Model.Caname)
+                        {
+                            sel = true;
+                        }
+                        <option value=@dt.Rows[i][0] selected=@sel>@dt.Rows[i][0]</option>
+                    }
+@*                     @Html.TextBoxFor(a => a.Caname, new { @class = "layui-input", lay_verify = "required" }) *@
+                </select>
+            </div>  
+            <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
+        </div> 
+      
+        <div class='layui-form-item'> 
+            <label class='layui-form-label'>标题</label> 
+            <div class='layui-input-block' name="title" id="titleid">
+                @Html.TextBoxFor(a => a.Title, new { @class = "layui-input title",lay_verify = "required"})
+            </div> 
+            <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
+        </div> 
+<div class='layui-form-item'> 
+            <label class='layui-form-label' name="body" >正文</label>
+            <div class="layui-input-block" id="bodyid">
+                @Html.TextAreaFor(a => a.Body, new { @class = "layui-textarea body", style = "height:330px" })
+            </div> 
+        </div> 
+
+
+        
+        <div class="layui-form-item">
+ <label class='layui-form-label'>&nbsp;</label>
+            <div class="layui-input-inline">
+                <button id="btn1" class="layui-btn" lay-submit="" lay-filter="demo1">@ViewBag.Title</button> 
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(a=>a.Id)
+            </div>
+            <div class="layui-input-inline">
+ @*                <button id="btn2" class="layui-btn" lay-submit="" lay-filter="demo2" onclick="openPostWindow()">预览</button> *@
+                <button id="btn2" class="layui-btn" lay-submit="" lay-filter="demo2" >预览</button>
+            </div>
+ <div class="layui-input-inline">
+            
+                <button class="layui-btn layui-btn-primary" type="button" onclick="history.go(-1)">返回</button>
+            </div>
+        </div>
+    </div>
+
+    </form>
+<!-- <script type="text/javascript" src="//unpkg.com/wangeditor/dist/wangEditor.min.js"> -->
+<link rel="stylesheet" href="~/kindeditor/themes/default/default.css" />
+<link rel="stylesheet" href="~/kindeditor/plugins/code/prettify.css" />
+<script src="~/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="~/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="~/kindeditor/plugins/code/prettify.js"></script>
+@if (newadd)
+{
+    <script>
+                                var loc = location.href;
+                 var n1 = loc.length;
+                 var n2 = loc.indexOf('=');
+                 var txt = decodeURI(loc.substr(n2+1,n1-n2));
+                 var box = document.getElementById('box');
+                 box.innerHTML = txt;
+          var sel=txt;
+        document.getElementById('category').value= sel;
+    </script>
+}
+<script>
+
+     var pop_index;
+     var editor1;
+     KindEditor.ready(function (K) {
+           editor1 = K.create('#Body', {
+             cssPath: '/kindeditor/plugins/code/prettify.css',
+             uploadJson: '/Home/KE_Upload',
+             afterCreate: function () {
+                 var self = this;
+                 K.ctrl(document, 13, function () {
+                    self.sync();
+                   K('form[name=form1]')[0].submit();
+                 });
+                 K.ctrl(self.edit.doc, 13, function () {
+                     self.sync();
+                     K('form[name=form1]')[0].submit();
+                 });
+             }
+
+         });
+         prettyPrint();
+     });
+
+        /*加载layui编辑器*/
+        layui.use(['form',  'layer','laydate','upload'], function () {
+            var form = layui.form;
+var laydate = layui.laydate;
+  var upload = layui.upload;
+  var layer = layui.layer;
+  var $ = layui.jquery;
+ 
+
+ var uploadInst = upload.render({
+				elem:'#btnimg',
+                url: '/Home/ImgUpload' //上传接口
+                , done: function (res) { //上传成功后的回调
+                   // console.log(res);
+                    document.getElementById("img1").src = res.data.src;
+                    document.getElementById("img").value = res.data.src;    //这里的img对应表中的字段，有可能是face也有可能是logo
+                }
+            });
+
+
+
+            //监听提交
+                form.on('submit(demo1)', function (data) {
+                    var url = "/News/add";
+                    var postdata = data.field;
+                    postdata.Body = editor1.html();
+
+            $('#btn1').attr("class", "layui-btn layui-btn-disabled");
+                $('#btn1').attr("disabled", "disabled");
+
+                    pop_index = layer.load(0, {
+                    shade: [0.3, '#000'] //0.1透明度的白色背景
+                });
+                    $.post(url, postdata, function (data) {
+    layer.close(pop_index);
+                        if (data.code == 0) {
+                                layer.msg(data.msg, function () { window.close();})
+                        } else {
+                            layer.alert(data.msg);
+    $('#btn1').attr("class", "layui-btn");
+                $('#btn1').removeAttr("disabled");
+                        }
+                    }, 'json')
+                    return false;
+                });
+          //监听预览
+                form.on('submit(demo2)', function (data) {
+                     var postdata = data.field;
+                     postdata.Body = editor1.html();
+                     var newWin = window.open(),
+                     formStr = '';
+                     params="test";
+                     formStr = '<form style="visibility:hidden;" method="POST" action="/Back/Preview">' +
+                     '<input type="hidden" name="title" value="' +$(".title").val()+ '" />' +
+                     '<input type="hidden" name="body" value="' +postdata.Body + '" />'
+                      '</form>';
+
+               newWin.document.body.innerHTML = formStr;
+               newWin.document.forms[0].submit();
+                    return false;
+                });
+                      
+                   
+             
+        });
+
+               
+    </script>

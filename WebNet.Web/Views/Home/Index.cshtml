@@ -1,0 +1,1454 @@
+﻿@using System.Data
+@using WebNet.DAL
+@{
+    List<WebNet.Model.Category> top = new WebNet.DAL.CategoryDAL().GetTopList(12, "[Pbh] like '0'");
+    string imp=new WebNet.DAL.CategoryDAL().GetModelByCond("[Caname] like '重点工作'").Bh;
+    List<WebNet.Model.Category> importwork = new WebNet.DAL.CategoryDAL().GetTopList(3, "[Pbh] like '"+imp+"'");
+    List<string> lanmu=new List<string>();
+    foreach (var item in top)
+    {
+        lanmu.Add(item.Caname);
+    }
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>电气设备分公司信息管理平台</title>
+
+    <style type="text/css">
+
+        .a_btc {
+        font-family: "微软雅黑", "宋体";
+        font-weight: bold;
+        font-size:20px;
+        color: #FFF;
+        text-align: center;
+        background-color: #343434;
+        }
+        .t_bj {
+
+        background-image: url(../s_image/%E7%94%B5%E5%8A%9B%E6%9C%BA%E8%BD%A6.png);
+
+        image:width="100%"
+
+        background-repeat: no-repeat;
+
+        background-repeat: repeat-x;
+
+        }
+
+        .a3_youce {
+
+        font-family: "宋体";
+
+        font-size: 18px;
+
+        color: #FFF;
+
+        }
+
+        img {
+
+        margin: 0px;
+
+        border-top-width: 0px;
+
+        border-right-width: 0px;
+
+        border-bottom-width: 0px;
+
+        border-left-width: 0px;
+
+        padding: 0px;
+
+        }
+
+        .t_z {
+
+        background-image: url(../q_index/%E5%88%86%E5%85%AC%E5%8F%B8%E9%A6%96%E9%A1%B5ps%E7%BB%88%E7%89%882020%EF%BC%88%E6%8B%93%E5%B1%95%EF%BC%89.jpg);
+
+        background-repeat: repeat-x;
+
+        color: #F4F2F5;
+
+        }
+
+        .lb_border {
+
+        border-top-width: 2px;
+
+        border-right-width: 2px;
+
+        border-bottom-width: 2px;
+
+        border-left-width: 2px;
+
+        border-top-color: #CCF;
+
+        border-right-color: #CCF;
+
+        border-bottom-color: #CCF;
+
+        border-left-color: #CCF;
+
+        }
+
+        body {
+
+        margin: 0px;
+
+        border-top-width: 0px;
+
+        border-right-width: 0px;
+
+        border-bottom-width: 0px;
+
+        border-left-width: 0px;
+
+        font-family: "宋体";
+
+        font-size: 16px;
+
+        clear: none;
+
+        background:#F4F2F5;
+
+        padding: 0px;
+
+        }
+
+        .td_biankuang {
+
+        border: 0px none #F4F2F5;
+
+        margin: 2px;
+
+        }
+
+        .a_bt {
+
+        font-family: "微软雅黑", "宋体";
+
+        font-weight: bold;
+
+        color: #FFF;
+
+        text-align: center;
+
+        background-color: #C9202D;
+
+        }
+        .a_btd {
+
+        font-family: "微软雅黑", "楷体";
+
+        color: #FFF;
+
+        text-align: center;
+
+        background-color:#C9202D;
+
+        }
+        .hr_xhx {
+
+        color: #EAEAEA;
+
+        }
+
+        .t_spry {
+
+        height: 211px;
+
+        width: 520px;
+
+        border-top-width: 0px;
+
+        border-right-width: 0px;
+
+        border-bottom-width: 0px;
+
+        border-left-width: 0px;
+
+        margin-top: 0px;
+
+        margin-right: 0px;
+
+        margin-bottom: 0px;
+
+        margin-left: 12px;
+
+        }
+
+        .t_spry1 {
+
+        height: 300px;
+
+        width: 900px;
+
+        margin-top: 0px;
+
+        margin-right: 0px;
+
+        margin-bottom: 0px;
+
+        margin-left: 10px;
+
+        border-top-width: 0px;
+
+        border-right-width: 0px;
+
+        border-bottom-width: 0px;
+
+        border-left-width: 0px;
+
+        }
+
+        .c-chongfu {
+
+        line-height: 0.8cm;
+
+        font-family: "宋体";
+
+        font-size: 14px;
+
+        color: #000;
+
+        }
+
+    </style>
+
+    <script src="~/js/SpryTabbedPanels.js" type="text/javascript"></script>
+
+    <link href="~/css/site.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+
+        a {
+
+        font-family: "宋体";
+
+        color: #000;
+
+        }
+
+        a:link {
+
+        text-decoration: none;
+
+        }
+
+        a:visited {
+
+        text-decoration: none;
+
+        }
+
+        a:hover {
+
+        text-decoration: none;
+
+        color:#FF6600;
+
+        }
+
+        a:active {
+
+        text-decoration: none;
+
+        }
+
+        .overflow {
+
+        overflow:hidden;
+
+        white-space:nowrap;
+
+        text-overflow:ellipsis;
+
+        table-layout:fixed;
+
+        }
+
+        .bg3 {
+
+        background-image:url(../s_image/bg3.jpg);
+
+        background-repeat:no-repeat;
+
+        background-size:cover;
+
+        -webkit-background-size:cover;
+
+        -moz-background-size:cover;
+
+        }
+
+        .bg6 {
+
+        background-image: url(images/bg9.png) ;
+
+        background-repeat: no-repeat;
+
+        background-size:100%;
+
+        -webkit-background-size:100%;
+
+        -moz-background-size:100%;
+
+        background-color:#161616;
+
+        }
+
+        .xx {
+
+        width:1270px;
+
+        margin-top:7px;
+
+        border:0; 
+
+        color:white; 
+
+        background-color:white; 
+
+        height:3px;
+
+        }
+
+        .dibu1 {
+
+        font-family: "Times New Roman";
+
+        font-size: 12px;
+
+        font-style: normal;
+
+        font-weight: normal;
+
+        color: #FFF;
+
+        }
+
+        .dibu {
+
+        align:center
+
+        font-size: 16px;
+
+        font-style: normal;
+
+        font-weight: normal;
+
+        color: #FFF;
+
+        font-family: "Times New Roman";
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+
+
+    <table width="1400" border="0" align="center" cellpadding="0" cellspacing="0"
+
+    background="#FFFFFF">
+
+        <tr>
+
+            <td width="100%" rowspan="10" bgcolor="#F4F2F5">&nbsp;</td>
+
+            
+
+            <td width="100%" rowspan="10" bgcolor="#F4F2F5">&nbsp;</td>
+
+        </tr>
+
+        <tr>
+
+            <td width="1400" height="501" colspan="3" class="t_bj"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                    <tr bgcolor="#FFFFFF">
+
+                        <td width="100" height="100">&nbsp;</td>
+
+                        <td width="1201" height="100"><img src="../pic/title.png"  width="1201" height="100" /></td>
+
+                        <td width="99">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td width="100" height="60" align="center" bgcolor="#C9202D"><a href="http://oa.zelc.csr.com/indishare/office.nsf/(frame)/frame" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OA</a></td>
+
+                        <td height="60" bgcolor="#C9202D"><table width="1201" border="0" cellpadding="0" cellspacing="0">
+
+                                <tr align="center" class="a_bt">
+
+                                    <td width="100" height="60"><a href="http://web.crrczelc.cc/" target="_blank" class="a_bt">公司首页</a></td>
+
+                                    <td width="100" align="center"><a href="http://10.24.204.241/index.action" target="_blank" class="a_bt">财务共享</a></td>
+
+                                    <td width="100"><a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank" class="a_bt">考勤系统</a></td>
+
+                                    <td width="100"><a href="http://hr.crrcgc.cc/jsp/login.jsp" target="_blank" class="a_bt">HCM系统</a></td>
+
+                                    <td width="100"><a href="http://10.24.7.136:8000/#/" target="_blank" class="a_bt">业联系统</a></td>
+
+                                    <td width="100"><a href="http://mail.crrcgc.cc/" target="_blank" class="a_bt">中车邮箱</a></td>
+
+                                    <td width="100"><a href="http://172.18.1.230/" target="_blank" class="a_bt">短信平台</a></td>
+
+                                    <td width="100"><a href="http://cnki.crrcgc.cc/kns55/" target="_blank" class="a_bt">中国知网</a></td>
+
+                                    <td width="100"><a href="*" target="_blank" class="a_bt">会议室预定</a></td>
+
+                                    <td><table width="301" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                                            <tr align="center">
+
+                                                <td width="100" height="60"><a href="http://10.29.51.2:89/" target="_blank" class="a_bt">报修系统</a></td>
+
+                                                <td width="100"><a href="http://yun.csrzelc.com:7000/crrc_exam_new/menu.html?ticket=0d41ca518aa246464a38465df3503d1e" target="_blank" class="a_bt">应知应会</a></td>
+
+                                                <td><a href="http://10.29.43.240/" target="_blank" class="a_bt">全寿命分析</a></td>
+
+                                            </tr>
+
+                                        </table></td>
+
+                                </tr>
+
+                            </table></td>
+
+                        <td width="99" bgcolor="#C9202D">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+
+                        @* <td height="343" colspan="3">&nbsp;</td>*@
+
+
+                    </tr>
+
+                </table>
+                <img height="341" src="~/pic/topimage.png" width="1400"/>
+            </td>
+
+        </tr>
+        <tr >
+            <td width="1400" height="38" colspan="3"><table width="1400" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                    <tr >
+
+                        <td width="600" height="38" class="a_btd">欢迎您来到电气设备分公司：
+                            @if (!string.IsNullOrEmpty(ViewBag.name))
+                            {
+                                 <a href="/Back/Index" class="a_btd">@ViewBag.name</a>
+                            }
+                            else
+                            {
+                                <a href="/Back/Index" class="a_btd">后台管理请登陆</a>
+                            }
+
+                        </td>
+
+                        <td  align="right" class="a_btd">当前时间：<span id="time">
+
+                                <script>
+
+                                    document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());
+
+                                    setInterval("document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+
+                                </script></span></td>
+
+                    </tr>
+
+                </table></td>
+        </tr>
+        <tr>
+
+            <td width="109" height="1243" rowspan="6" bgcolor="#FFFBF0">&nbsp;</td>
+
+            <td width="1186" height="21" bgcolor="#FFFBF0">&nbsp;</td>
+
+            <td width="109" rowspan="6" valign="top" bgcolor="#FFFBF0">&nbsp;</td>
+
+        </tr>
+
+        <tr>
+
+            <td width="1186" height="262" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+
+                        <td width="387" height="262" bgcolor="#FFFFFF"><table width="385" border="2" align="center" cellpadding="0" cellspacing="0" class="lb_border">
+
+                                <tr>
+
+                                    <td width="385" height="260">
+
+                                        <!--图片展播开始：-->
+
+                                        <script>
+
+
+
+                                            var widths=385;
+
+
+
+                                            var heights=260;
+
+
+
+                                            var counts=3;   //显示的图片数
+
+
+
+                                            img1=new Image ();
+
+
+
+                                            img1.src='../pic/lunbo1.png';
+
+
+
+                                            img2=new Image ();
+
+
+
+                                            img2.src='../pic/lunbo2.png';
+
+
+
+                                            img3=new Image ();
+
+
+
+                                            img3.src='../pic/lunbo3.png';
+
+
+
+                                            url1=new Image ();
+
+
+
+                                            url1.src='#';
+
+
+
+                                            url2=new Image ();
+
+
+
+                                            url2.src='#';
+
+
+
+                                            url3=new Image ();
+
+
+
+                                            url3.src='#';
+
+
+
+                                            var nn=1;
+
+
+
+                                            var key=0;
+
+
+
+                                            function change_img(){
+
+
+
+                                            if(key==0){
+
+
+
+                                            key=1;
+
+
+
+                                            } else if(document.all) {
+
+
+
+                                            document.getElementById("pic").filters[0].Apply();
+
+
+
+                                            document.getElementById("pic").filters[0].Play(duration=2);
+
+
+
+                                            }
+
+
+
+
+
+
+
+                                            eval('document.getElementById("pic").src=img'+nn+'.src');
+
+
+
+                                            eval('document.getElementById("url").href=url'+nn+'.src');
+
+
+
+
+
+
+
+                                            for (var i=1;i<=counts;i++){
+
+
+
+                                            document.getElementById("xxjdjj"+i).className='axx';
+
+
+
+                                            }
+
+
+
+                                            document.getElementById("xxjdjj"+nn).className='bxx';
+
+
+
+                                            nn++;
+
+
+
+
+
+
+
+                                            if(nn>counts){
+
+
+
+                                            nn=1;
+
+
+
+                                            }
+
+
+
+                                            tt=setTimeout('change_img()',4000);
+
+
+
+                                            }
+
+
+
+                                            function changeimg(n){
+
+
+
+                                            nn=n;
+
+
+
+                                            window.clearInterval(tt);
+
+
+
+                                            change_img();
+
+
+
+                                            }
+
+
+
+                                            document.write('<style>');
+
+
+
+                                            document.write('.axx{padding:1px 7px;border-left:#cccccc 1px solid;}');
+
+
+
+                                            document.write('a.axx:link,a.axx:visited{text-decoration:none;color:#fff;line-height:12px;font:9px sans-serif;background-color:#666;}');
+
+
+
+                                            document.write('a.axx:active,a.axx:hover{text-decoration:none;color:#fff;line-height:12px;font:9px sans-serif;background-color:#999;}');
+
+
+
+                                            document.write('.bxx{padding:1px 7px;border-left:#cccccc 1px solid;}');
+
+
+
+                                            document.write('a.bxx:link,a.bxx:visited{text-decoration:none;color:#fff;line-height:12px;font:9px sans-serif;background-color:#D34600;}');
+
+
+
+                                            document.write('a.bxx:active,a.bxx:hover{text-decoration:none;color:#fff;line-height:12px;font:9px sans-serif;background-color:#D34600;}');
+
+
+
+                                            document.write('</style>');
+
+
+
+
+
+
+
+                                            document.write('<div style="width:'+widths+'px;height:'+heights+'px;overflow:hidden;text-overflow:clip;">');
+
+
+
+                                            document.write('<div><a id="url"><img id="pic" style="border:0px;filter:progid:dximagetransform.microsoft.wipe(gradientsize=1.0,wipestyle=4, motion=forward)" width='+widths+' height='+heights+' /></a></div>');
+
+
+
+                                            document.write('<div style="filter:alpha(style=1,opacity=10,finishOpacity=80);background: #888888;width:100%-2px;text-align:right;top:-12px;position:relative;margin:1px;height:12px;padding:0px;margin:0px;border:0px;">');
+
+
+
+                                            for(var i=1;i<counts+1;i++){
+
+
+
+                                            document.write('<a href="javascript:changeimg('+i+');" id="xxjdjj'+i+'" class="axx" target="_self">'+i+'</a>');
+
+
+
+                                            }
+
+
+
+                                            document.write('</div></div>');
+
+
+
+                                            change_img();
+
+
+
+                                        </script>
+
+                                        <!--图片展播结束。 -->
+
+                                    </td>
+
+                                </tr>
+
+                            </table></td>
+
+                        <td width="538" bgcolor="#FFFFFF"><table width="538" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr>
+
+                                    <td width="298" height="51" rowspan="2"><img src="..\pic/keyproject.png" width="298" height="51" /></td>
+
+                                    <td width="60" height="41">&nbsp;</td>
+
+                                    <td width="132"><a href="/NewsPage/Index" target="_new"><img src="..\pic/more1.png" alt="1" width="132" height="41" /></a></td>
+
+                                    <td width="48">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="10" colspan="3">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="211" colspan="4" bgcolor="#FFFFFF"><div class="t_spry">
+
+                                            <div id="TabbedPanels1" class="TabbedPanels">
+
+                                                <ul class="TabbedPanelsTabGroup">
+                                                    @foreach (var item in importwork)
+                                                    {
+
+                                                        <li class="TabbedPanelsTab" tabindex="0"> @item.Caname<br /></li>
+                                                    }       
+                                                </ul>
+
+                                                <div class="TabbedPanelsContentGroup">
+                                                    @foreach (var item in importwork)
+                                                    {
+                                                        List<WebNet.Model.News> list2 = new WebNet.DAL.NewsDAL().GetBottomList(5, "[Caname] like '"+item.Caname+"'");
+                                                        <div class="TabbedPanelsContent">
+                                                            @foreach (var item2 in list2)
+                                                            {
+                                                                string conr = "/NewsPage/Details/" + item2.Id.ToString();
+
+                                                                <table width="500" border="0" cellspacing="0" cellpadding="5" style="table-layout:fixed;">
+
+                                                                    <tr class="c-chongfu">
+
+                                                                        <td width="10"><img src="../pic/1.png" alt="1" width="10" height="18" align="left" /></td>
+
+                                                                        <td width="100"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
+
+                                                                        <td width="40"><div  align="right" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
+
+                                                                    </tr>
+
+                                                                </table>
+                                                            }
+
+                                                        </div>
+                                                    }
+
+                                                </div>
+
+                                            </div>
+
+                                        </div></td>
+
+                                </tr>
+
+                            </table></td>
+
+                        <td bgcolor="#FFFFFF"><table width="261" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr>
+
+                                    <td width="261" height="59" bgcolor="#FFFFFF"><table width="261" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr bgcolor="#FFFFFF">
+
+                                                <td width="128" height="59"><img src="..\pic/post1.png" width="128" height="59" /></td>
+
+                                                <td width="133" height="59"><img src="..\pic/post2.png" width="132" height="59" /></td>
+
+                                            </tr>
+
+                                        </table></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td width="261" height="41" bgcolor="#FFFFFF"><table width="261" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr>
+
+                                                <td width="128" height="41"><img src="../pic/news.png" width="128" height="41" /></td>
+
+                                                <td width="133" height="41" bgcolor="#FFFFFF"><a href="/NewsPage/Index" target="_new"><img src="../pic/more1.png" alt="1" width="132" height="41" /></a></td>
+
+                                            </tr>
+
+                                        </table></td>
+
+                                </tr>
+
+                                <tr class="c-chongfu">
+
+                                    <td width="261" height="162" valign="top" bgcolor="#FFFFFF">
+                                        @{
+                                                        List<WebNet.Model.News> list4 = new NewsDAL().GetBottomList(5,"[Caname] like '公告栏'");
+                                                        foreach (var item in list4)
+                                                        {
+                                                            string conr = "/NewsPage/Details/" + item.Id;
+                                                            <table width="261" border="0" cellpadding="0" cellspacing="0"  style="table-layout:fixed;">
+
+                                                        <tr>
+                                                         <td width="10" height="15">&nbsp;</td>
+                                                         <td width="15" height="15"><img src="../pic/1.png" alt="1" width="12" height="18" /></td>
+                                                         <td width="236" height="15" class="overflow"><a href=@conr target="_new"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.Title</div></a></td>
+
+
+                                                        </tr>
+
+                                                    </table>
+                                                        }
+                                                    }
+
+                                        <p>&nbsp;</p></td>
+
+                                </tr>
+
+                            </table></td>
+
+                    </tr>
+
+                </table></td>
+
+        </tr>
+
+        <tr>
+
+            <td width="1186" height="37" bgcolor="#FFFFFF">&nbsp;</td>
+
+        </tr>
+
+        <tr>
+
+            <td width="1186" height="347" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+
+                        <td width="387" height="347"><table width="387" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr>
+
+                                    <td width="127" height="106"><img src="../pic/tel.png" width="127" height="106" /></td>
+
+                                    <td width="131"><img src="../pic/zhuanli.png" width="131" height="106" /></td>
+
+                                    <td><img src="../pic/huiyi.png" width="129" height="106" /></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td width="127" height="123"><img src="../pic/xiazai.png" width="127" height="123" /></td>
+
+                                    <td width="131"><img src="../pic/tel2.png" width="131" height="123" /></td>
+
+                                    <td><img src="../pic/yelian.png" width="129" height="123" /></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td width="127" height="118"><img src="../pic/diaoyan.png" width="127" height="118" /></td>
+
+                                    <td width="131"><img src="../pic/daikaifa.png" width="131" height="118" /></td>
+
+                                    <td><img src="../pic/daikaifa2.png" width="129" height="118" /></td>
+
+                                </tr>
+
+                            </table></td>
+
+                        <td width="558" height="347"><table width="558" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr>
+
+                                    <td width="558" height="64"><table width="558" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr>
+
+                                                <td width="425" height="64"><img src="../pic/work.png" width="425" height="64" /></td>
+
+                                                <td width="133"><a href="/NewsPage/Index" target="_new"><img src="../pic/more2.png" width="133" height="64" /></a></td>
+
+                                            </tr>
+
+                                        </table></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="283"><table width="558" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr>
+
+                                                <td width="190" height="283"><table width="190" border="0" cellspacing="0" cellpadding="0">
+
+                                                        <tr>
+
+                                                            <td height="93"><img src="../pic/train1.png" width="190" height="93" /></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td height="91"><img src="../pic/train2.png" width="190" height="91" /></td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td height="99"><img src="../pic/train3.png" width="190" height="99" /></td>
+
+                                                        </tr>
+
+                                                    </table></td>
+
+                                                <td width="368" height="283" valign="top" bgcolor="#FFFFFF">
+                                                    @{
+                                                        List<WebNet.Model.News> list3 = new NewsDAL().GetBottomList(5,"[Caname] like '工作动态'");
+                                                        foreach (var item in list3)
+                                                        {
+                                                            string conr = "/NewsPage/Details/" + item.Id;
+                                                            <table width="360" border="0" align="left" cellpadding="3" cellspacing="1" style="table-layout:fixed;">
+
+                                                        <tr>
+
+                                                            <td width="225" height="30" overflow="hidden" class="c-chongfu overflow"><a href=@conr target="_new"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.Title</div></a></td>
+
+                                                            <td width="120" height="30"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.CreateTime.ToShortDateString()</div></td>
+
+                                                        </tr>
+
+                                                    </table>
+                                                        }
+                                                    }
+                                                    <p>&nbsp;</p>
+
+                                                    <p></p></td>
+
+                                            </tr>
+
+                                        </table></td>
+
+                                </tr>
+
+                            </table></td>
+
+                        <td width="241" align="center" bgcolor="#FFFFFF"><table width="241" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                                <tr align="center" valign="middle">
+                                    @{
+                                        string? cons;
+                                        string? link;
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                                        <td width="241" height="60" bgcolor="#74CBE6"><a href=@link class="a3_youce">@cons</a></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+                                    @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                                    <td height="60" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+                                     @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                                    <td height="60" align="center" bgcolor="#F9C766"><a href=@link class="a3_youce">@cons</a></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+                                     @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                                    <td height="60" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="26" bgcolor="#FFFFFF">&nbsp;</td>
+
+                                </tr>
+
+                            </table></td>
+
+                    </tr>
+
+                </table></td>
+     
+
+
+        <tr>
+
+            <td width="1186" height="154" bgcolor="#FFFFFF"><img src="../pic/geduan.png" width="1186" height="154" /></td>
+
+        </tr>
+
+        <tr>
+
+            <td width="1186" height="422" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+
+                        <td width="945"><table width="944" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr bgcolor="#FFFFFF"></tr>
+
+                            </table>
+
+                            <table width="1186" border="0" cellspacing="0" cellpadding="0">
+
+                                <tr>
+
+                                    <td width="945"><table width="944" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr bgcolor="#FFFFFF"></tr>
+
+                                        </table>
+
+                                        <table width="1186" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr>
+
+                                                <td width="945"><table width="944" border="0" cellspacing="0" cellpadding="0">
+
+                                                        <tr>
+
+                                                            <td width="944" height="57"><table width="945" border="0" cellspacing="0" cellpadding="0">
+
+                                                                    <tr>
+
+                                                                        <td width="822" height="57"><img src="../pic/newspic.png" width="822" height="57" /></td>
+
+                                                                        <td width="123" height="57"><a href="/NewsPage/Index" target="_new"><img src="../pic/more3.png" width="123" height="57" /></a></td>
+
+                                                                    </tr>
+
+                                                                </table></td>
+
+                                                        </tr>
+
+                                                        <tr bgcolor="#FFFFFF">
+
+                                                            <td height="365"><div class="t_spry1">
+
+                                                                    <div id="TabbedPanels2" class="TabbedPanels">
+
+                                                                        <ul class="TabbedPanelsTabGroup">
+
+                                                                            @foreach (var item in top)
+                                                                            {
+
+                                                                                <li class="TabbedPanelsTab" tabindex="0"> @item.Caname<br /></li>
+                                                                            }                    
+                                                                        </ul>
+                                                                        <div class="TabbedPanelsContentGroup">
+                                                                            @foreach (var item in top)
+                                                                            {
+                                                                                List<WebNet.Model.News> sub = new WebNet.DAL.NewsDAL().GetBottomList(5, "[Bh] like '"+item.Bh+"'");
+
+                                                                                <div class="TabbedPanelsContent">
+                                                                                    @foreach (var item2 in sub)
+                                                                                    {
+                                                                                        string conr = "/NewsPage/Details/" + item2.Id.ToString();
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5"  style="table-layout:fixed;">
+
+                                <tr class="c-chongfu">
+
+                                  <td width="7%"><img src="../pic/1.png" alt="1" width="12" height="18" align="middle" /></td>
+
+                                  <td width="60%"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
+
+                                  <td width="33%"><div align="right"  class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
+
+                                </tr>
+
+                              </table>
+
+                              <hr .hr_xhx {
+
+color: #eaeaea;
+
+} />
+}
+ </div>
+}
+
+                           
+                          </div>
+                        </div>
+
+                      </div></td>
+
+                    </tr>
+
+                  </table></td>
+                  <td width="241" height="422"><table width="241" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+
+                      <td height="22" bgcolor="#FFFFFF">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#1668B2"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#74CBE6"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="16">&nbsp;</td>
+
+                    </tr>
+
+                    <tr>
+                         @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                      <td height="50" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                      <td height="20">&nbsp;</td>
+
+                    </tr>
+
+                  </table></td>
+                  </tr>
+                   </table>
+
+              <table width="944" border="0" cellspacing="0" cellpadding="0">
+
+              </table></td>
+
+          </tr>
+
+          </table>
+
+          <table width="944" border="0" cellspacing="0" cellpadding="0">
+
+          </table></td>
+
+      </tr>
+
+    </table>
+  </tr>
+  
+
+  <tr>
+
+    <td height="41" colspan="3" bgcolor="#FFFBF0">&nbsp;</td>
+
+  </tr>
+
+  
+
+</table>
+ <footer class="border-top footer text-muted">
+        <table width="1400" border="0" align="center" cellpadding="0" cellspacing="0">
+
+            <tr bgcolor="#343434">
+
+                <td width="20%" height="228"><img src="~/pic/image (14).png" alt="2" width="371" height="228" /></td>
+
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href=" http://10.29.31.234/" target="_blank" class="a_btc" >机车事业部</a><br /><br /> <br />
+                    <a href="http://10.24.1.19/" target="_blank" class="a_btc">城轨事业部</a>
+                </td>
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href="*" target="_blank" class="a_btc">制动分公司</a><br /><br /><br />
+                    <a href="http://10.29.91.249" target="_blank" class="a_btc">车体事业部</a>
+                </td>
+                <td width="20%" height="228" align="center" valign="top">
+                    <br /><br /><br />
+                    <a href=" http://10.29.110.9" target="_new" class="a_btc">转向架事业部</a><br /><br /> <br />
+                    <a href="*" target="_blank" class="a_btc">供应链管理中心</a>
+                </td>
+              
+
+                <td width="20%"><img src="~/pic/image (37).png" alt="1" width="354" height="228" /></td>
+
+            </tr>
+
+            <tr>
+
+                <td height="67" colspan="6" bgcolor="#343434"><img src="~/pic/image (38).png" alt="1" width="1400" height="67" /></td>
+
+            </tr>
+
+        </table>
+    </footer>
+<script type="text/javascript">
+
+var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1");
+
+var TabbedPanels2 = new Spry.Widget.TabbedPanels("TabbedPanels2");
+
+</script>
+
+</body>
+
+</html>
+
+05
+

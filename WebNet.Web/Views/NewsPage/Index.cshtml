@@ -1,0 +1,174 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutDetails";
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <style type="text/css">
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+
+
+
+        .one:link {
+            color: #FFF;
+            text-decoration: none;
+        }
+
+
+
+        .one:visited {
+            color: #FFF;
+            text-decoration: none;
+        }
+
+
+
+        .one:hover {
+            text-decoration: none;
+            color: #9C3;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+
+        .two:link {
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+        }
+
+
+
+        .two:visited {
+            color: #000;
+            text-decoration: none;
+        }
+
+
+
+        .tzgg_1 {
+            font-family: "微软雅黑", "宋体";
+            font-size: 24px;
+        }
+
+
+
+        .two:hover {
+            text-decoration: none;
+            color: #9C3;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+
+        .table_top {
+            margin-top: 10px;
+        }
+
+
+
+        .table_bgcolor {
+            background-color: #FFF;
+            color: #FFF;
+        }
+
+
+
+        .Link_cf {
+            font-family: "微软雅黑", "宋体";
+            font-size: 14px;
+            color: #000;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+
+
+
+        .a_bt {
+            font-family: "微软雅黑", "宋体";
+            font-weight: bold;
+            color: #FFF;
+            text-align: center;
+            background-color: #C9202D;
+        }
+
+
+
+        img {
+            margin: 0px;
+            padding: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-width: 0px;
+            border-left-width: 0px;
+        }
+
+
+
+        a:link {
+            text-decoration: none;
+        }
+
+
+
+        a:visited {
+            text-decoration: none;
+        }
+
+
+
+        a:hover {
+            text-decoration: none;
+        }
+
+
+
+        a:active {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<div id="box" hidden="hidden"></div>
+<div width="1200"  style="text-align: center">
+
+    <iframe src=Left  name="leftFrame" id="leftFrame" title="leftFrame" width="230" height="900"></iframe>
+
+    <iframe src="/News/Front" name="mainFrame" id="mainFrame" title="mainFrame" width="1050" height="900"></iframe>
+</div>
+
+<script>
+                    var loc = location.href;
+                    var n1 = loc.length;
+                    var txt;
+                                let n2 = loc.indexOf('=');
+            if (n2 === -1) {
+                     txt = null;
+        }
+            else
+                {
+                     txt = decodeURI(loc.slice(n2+1,n1));
+                }
+                        var box = document.getElementById('box');
+                    box.innerHTML = txt;
+        mainFrame.location.href="/News/Front?"+"txt="+encodeURI(txt);
+
+</script>
