@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<div>
+
+    <br />
+    <br />
+    <div class="layui-carousel" id="ID-carousel-demo-image" style="align-self:center">
+        <div carousel-item anim:fade>
+            <div><img src="~/pic/lunbo/R-C0.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/R-C1.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/R-C2.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/R-C3.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/R-C4.jpg" style="width: 100%;height: auto" /></div>
+        </div>
+    </div>
+    <script src="~/layui/layui.js"></script>
+    <script>
+        layui.use(function(){
+          var carousel = layui.carousel;
+          // 渲染 - 图片轮播
+          carousel.render({
+            elem: '#ID-carousel-demo-image',
+            width: '900px',
+            height: '600px',
+            anim:'fade',
+            interval: 3000
+          });
+        });
+    </script>
+    <br />
+    <br />
+    <br />
+    <br />
+    <form id="uploadForm" class="layui-form">
+        <p style="font-size: 18px;font-weight: bold;text-align:left">支持同时上传多个图片文件替换主页轮播图，按顺序命名"R-C0.jpg;R-C1.jpg;R-C2.jpg;R-C3.jpg;R-C4.jpg;"： </p>
+        <br />
+        <br />
+        <input type="file" name="file" multiple style="font-size: 18px;font-weight: bold;text-align:left" />
+        <input type="button" value="上传" onclick="doUpload()" style="font-size: 18px;font-weight: bold;text-align:left" />
+    </form>
+</div>
+<script>
+    function doUpload() {
+            var formData = new FormData($("#uploadForm")[0]);
+            $.ajax({
+                url: '@Url.Action("FileSave")',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    alert("上传完成");
+                    window.history.go(-1);
+                },
+                error: function (returndata) {
+                    alert("上传失败");
+                    window.history.go(-1);
+                }
+            });
+            }
+</script>

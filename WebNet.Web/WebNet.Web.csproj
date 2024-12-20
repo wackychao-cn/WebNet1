@@ -247,6 +247,7 @@
 
   <ItemGroup>
     <Folder Include="LoginCheck\" />
+    <Folder Include="wwwroot\upload\duty\" />
   </ItemGroup>
 
 </Project>

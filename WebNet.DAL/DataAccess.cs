@@ -36,7 +36,29 @@ namespace WebNet.DAL
 				 }
 				 return dal;
 			 }
+        public static Interface.ITravel CreateTravelDAL(string db)
+        {
+            Interface.ITravel dal = null;
+            switch (db.ToLower())
+            {
+                case "sqlserver":
+                    dal = new TravelDAL();
+                    break;
+            }
+            return dal;
+        }
 
+        public static Interface.IDuty CreateDutyDAL(string db)
+        {
+            Interface.IDuty dal = null;
+            switch (db.ToLower())
+            {
+                case "sqlserver":
+                    dal = new DutyDAL();
+                    break;
+            }
+            return dal;
+        }
 
-	}
+    }
 }

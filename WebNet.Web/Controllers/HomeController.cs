@@ -17,6 +17,7 @@ namespace WebNet.Web.Controllers
         }
         public ActionResult Index()
         {
+            //获取登录账号名
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Username")))
             {
 
@@ -25,6 +26,16 @@ namespace WebNet.Web.Controllers
             else
             {
                 ViewBag.name = null;
+            }
+            //获取值班领导名
+            DutyDAL dutyDAL = new DutyDAL();
+            if (dutyDAL.GetModelByCond("[DutyTime] = '" + DateTime.Now.ToShortDateString() + "'") != null)
+            {
+                ViewBag.dutyname = dutyDAL.GetModelByCond("[DutyTime] = '" + DateTime.Now.ToShortDateString() + "'").Name;
+            }
+            else
+            {
+                ViewBag.dutyname= null;
             }
             return View();
         }

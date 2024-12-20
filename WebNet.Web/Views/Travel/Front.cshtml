@@ -1,0 +1,171 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutTravel";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+<link rel="stylesheet" type="text/css" href="~/layui/css/layui.css" />
+<script src="~/layui/layui.js"></script>
+<style>
+  
+    body {
+        margin: 0px;
+        padding: 0px;
+        background-color: #F0F0F0;
+    }
+
+    .layui-form select {
+        display: block;
+        border: 1px solid #d2d2d2;
+        height: 38px;
+    }
+
+</style>
+<div style="padding:10px;" width="900">
+        @Html.Hidden("order", "Id")
+        @Html.Hidden("ordertype", "desc")
+    </div>
+    <br />
+<br />
+<div class="layui-div" style="font-size: 24px;font-weight: bold;text-align:center">分公司领导出差情况</div>
+<table class="layui-table" lay-even lay-size="lg" >
+    <thead style="background-color:darkgray">
+        <tr>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                    序号
+                </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                    姓名
+                </th >
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                    出差开始日期
+                </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                    出差结束日期
+                </th>
+
+
+            </tr>
+        </thead>
+    <tbody id="tbody">
+        </tbody>
+    </table>
+    <div>
+        <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;" hidden="hidden">
+            当前共<span id="totalcount"></span>条记录，每页<span id="pagesize"></span>条，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
+        </div>
+    <div id="pages" hidden="hidden">
+        </div>
+    </div>
+<style>
+    .layui-icon {
+        color: #dcdcdc;
+    }
+
+    .layui-icon-active {
+        color: black;
+    }
+</style>
+<script>
+    var pop_index;
+            var pagesize = 30; //页大小
+            document.getElementById('pagesize').innerHTML = pagesize;
+
+                 search();
+    
+
+
+
+        /*加载第X页数据*/
+        function load_blog_data(pageindex) {
+          //  console.log("加载第" + pageindex + "页");
+
+
+            layui.use('layer', function () {
+                var $ = layui.jquery, layer = layui.layer;
+
+                $('#pageindex').text(pageindex);
+
+
+                var postdata = getcond();
+
+                var url = "/Travel/ListbyDate?pageindex=" + pageindex + "&pagesize=" + pagesize;
+                pop_index = layer.load(0, {
+                    shade: [0.3, '#000'] //0.1透明度的白色背景
+                });
+                $.post(url,postdata, function (json) {
+    layer.close(pop_index);
+                    var html = '';
+                    $.each(json, function (i, item) {
+                       // console.log("第" + i + "个元素：");
+                      //  console.log(blog);
+                        html += '<tr>';
+                        html += '    <td style="font-size: 18px;text-align:center">' + item.Id + '</td>';
+    html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
+    html += '    <td style="font-size: 18px;text-align:center">' + item.StartTime.split(' ')[0] + '</td>';
+    html += '    <td style="font-size: 18px;text-align:center">' + item.EndTime.split(' ')[0] + '</td>';
+
+
+                        html += '</tr>';
+
+                    })
+
+                    $('#tbody').html(html);
+
+                }, 'json');
+            })
+
+
+        }
+
+        /*拼接条件返回postdata*/
+        function getcond() {
+
+            var key = null;
+            var start = null;
+            var end = null;
+            var cabh = null;
+             var order = $('#order').val();
+            var ordertype = $('#ordertype').val();
+            var postdata = { key: key, start: start, end: end, cabh: cabh, order: order, ordertype: ordertype };
+            return postdata;
+        }
+
+        /*查询*/
+        function search() {
+
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+
+                var postdata = getcond();
+
+                var url = "/Travel/GetTotalCountbyDate?t=" + new Date().valueOf();
+                $.post(url,postdata, function (count) {
+
+                    var pagecount = (count % pagesize == 0 ? count / pagesize : Math.ceil(count / pagesize)); //总页数
+                   // console.log("总记录数：" + count + "，总页数：" + pagecount);
+                    $('#totalcount').text(count);
+                    $('#pagecount').text(pagecount);
+            $('#pagesize').text(pagesize);
+                    laypage.render({
+                        elem: 'pages',
+                        count: count, //得到总页数
+            limit: pagesize,
+                        jump: function (obj) {
+                            var pageindex = obj.curr;
+                            //layer.alert("点击了第" + pageindex + "页。");
+                            //读取后台数据数据返回JSON后拼接HTML
+                            load_blog_data(pageindex);
+                        }
+                    });
+
+                });
+
+            });
+
+        }
+
+
+</script>
