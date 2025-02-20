@@ -11,6 +11,7 @@ namespace WebNet.DAL.Interface
         bool DeleteByCond(string cond);
         Model.UserInfo GetModel(int id);
         Model.UserInfo GetModelByCond(string cond);
+        Model.UserInfo GetModelByUsernameAndPassword(string username, string password);
         List<Model.UserInfo> GetList(string cond);
         List<Model.UserInfo> GetList(string fileds, string order,
             string ordertype, int pagesize, int pageindex, string cond);

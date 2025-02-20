@@ -4,7 +4,7 @@ namespace WebNet.Model
 {
 	/// <summary>Duty表实体类
 	/// 作者:牛腩(QQ:164423073)
-	/// 创建时间:2024-12-19 09:00:16
+	/// 创建时间:2024-12-24 11:44:54
 	/// </summary>
 	public partial class Duty
 	{
@@ -35,6 +35,16 @@ namespace WebNet.Model
 		{
 			set{ _Name=value;}
 			get{return _Name;}
+		}
+		private string _Name1;
+	 /// <summary> 
+	 /// Name1 
+	 /// </summary> 
+		[DisplayFormat(ConvertEmptyStringToNull = false)]
+		public string Name1
+		{
+			set{ _Name1=value;}
+			get{return _Name1;}
 		}
 		private DateTime _DutyTime = DateTime.Now;
 	 /// <summary> 

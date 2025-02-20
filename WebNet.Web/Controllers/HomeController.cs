@@ -32,10 +32,12 @@ namespace WebNet.Web.Controllers
             if (dutyDAL.GetModelByCond("[DutyTime] = '" + DateTime.Now.ToShortDateString() + "'") != null)
             {
                 ViewBag.dutyname = dutyDAL.GetModelByCond("[DutyTime] = '" + DateTime.Now.ToShortDateString() + "'").Name;
+                ViewBag.dutyname1 = dutyDAL.GetModelByCond("[DutyTime] = '" + DateTime.Now.ToShortDateString() + "'").Name1;
             }
             else
             {
                 ViewBag.dutyname= null;
+                ViewBag.dutyname1 = null;
             }
             return View();
         }

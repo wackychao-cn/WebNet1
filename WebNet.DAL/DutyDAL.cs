@@ -7,7 +7,7 @@ namespace WebNet.DAL
 {
     /// <summary>[Duty]表数据访问类
     /// 作者:牛腩(QQ:164423073)
-    /// 创建时间:2024-12-19 09:00:16
+    /// 创建时间:2024-12-24 11:44:54
     /// </summary>
     public partial class DutyDAL:Interface.IDuty
     {
@@ -20,15 +20,16 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into [Duty](");
-            strSql.Append("[CreateTime], [Name], [DutyTime]  )");
+            strSql.Append("[CreateTime], [Name], [Name1], [DutyTime]  )");
             strSql.Append(" values (");
-            strSql.Append("@CreateTime, @Name, @DutyTime  )");
+            strSql.Append("@CreateTime, @Name, @Name1, @DutyTime  )");
             strSql.Append(";select @@IDENTITY");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
             h.AddParameter("@Id", model.Id);
             h.AddParameter("@CreateTime", model.CreateTime);
             h.AddParameter("@Name", model.Name);
+            h.AddParameter("@Name1", model.Name1);
             h.AddParameter("@DutyTime", model.DutyTime);
 
             int result;
@@ -47,13 +48,14 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update [Duty] set ");
-            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [DutyTime]=@DutyTime  ");
+            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [Name1]=@Name1, [DutyTime]=@DutyTime  ");
             strSql.Append(" where Id=@Id ");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
             h.AddParameter("@Id", model.Id);
             h.AddParameter("@CreateTime", model.CreateTime);
             h.AddParameter("@Name", model.Name);
+            h.AddParameter("@Name1", model.Name1);
             h.AddParameter("@DutyTime", model.DutyTime);
 
             return h.ExecuteNonQuery();
@@ -345,6 +347,11 @@ namespace WebNet.DAL
             {
                 model.Name = ojb.ToString();
             }
+            ojb = dataReader["Name1"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.Name1 = ojb.ToString();
+            }
             ojb = dataReader["DutyTime"];
             if (ojb != null && ojb != DBNull.Value)
             {
@@ -387,6 +394,19 @@ namespace WebNet.DAL
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(sql);
             return h.ExecuteQuery();
+        }
+        public int ImportDutyToDatabase(string filePath)
+        {
+            MSSQLHelper h = new MSSQLHelper();
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+            h.CreateCommand($@"BULK INSERT [Duty] FROM '{fullPath}' WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '0x0A', FIRSTROW = 2); SELECT @@ROWCOUNT;");
+            return int.Parse(h.ExecuteScalar());
+        }
+        public bool ClearAll()
+        {
+            MSSQLHelper h = new MSSQLHelper();
+            h.CreateCommand("TRUNCATE TABLE [Duty];");
+            return h.ExecuteDel();
         }
     }
 }

@@ -35,14 +35,49 @@
     <br />
     <br />
     <br />
+    <div class="layui-carousel" id="ID-carousel-demo-image1" style="align-self:center">
+        <div carousel-item anim:fade>
+            <div><img src="~/pic/lunbo/Title0.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/Title1.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/Title2.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/Title3.jpg" style="width: 100%;height: auto" /></div>
+            <div><img src="~/pic/lunbo/Title4.jpg" style="width: 100%;height: auto" /></div>
+        </div>
+    </div>
+    <script src="~/layui/layui.js"></script>
+    <script>
+        layui.use(function(){
+          var carousel = layui.carousel;
+          // 渲染 - 图片轮播
+          carousel.render({
+            elem: '#ID-carousel-demo-image1',
+            width: '1400px',
+            height: '340px',
+            anim:'fade',
+            interval: 3000
+          });
+        });
+    </script>
+    <br />
     <br />
     <form id="uploadForm" class="layui-form">
         <p style="font-size: 18px;font-weight: bold;text-align:left">支持同时上传多个图片文件替换主页轮播图，按顺序命名"R-C0.jpg;R-C1.jpg;R-C2.jpg;R-C3.jpg;R-C4.jpg;"： </p>
+        <p style="font-size: 18px;font-weight: bold;text-align:left">分辨率建议450×300，防止图片拉伸变形</p>
         <br />
+        <br />
+        <p style="font-size: 18px;font-weight: bold;text-align:left">支持同时上传多个图片文件替换主页顶部轮播图，按顺序命名"Title0.jpg;Title1.jpg;Title2.jpg;Title3.jpg;Title4.jpg;"： </p>
+        <p style="font-size: 18px;font-weight: bold;text-align:left">分辨率设置建议1400×340，防止图片变形拉伸 </p>
         <br />
         <input type="file" name="file" multiple style="font-size: 18px;font-weight: bold;text-align:left" />
         <input type="button" value="上传" onclick="doUpload()" style="font-size: 18px;font-weight: bold;text-align:left" />
     </form>
+    <br />
+
+
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
 <script>
     function doUpload() {

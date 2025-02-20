@@ -22,9 +22,9 @@
         <a class="layui-btn" href="/Duty/Add">
             <i class="layui-icon">&#xe608;</i> 手工添加
         </a>
-        <a class="layui-btn" href="/Duty/Daoru">
-            <i class="layui-icon">&#xe608;</i> 批量导入
-        </a>
+        <button class="layui-btn" id="importButton">
+            <i class="layui-icon"></i> 批量导入
+        </button>
         <div class="layui-input-inline">
             <input type="text" id="search_key" class="layui-input" placeholder="标题关键字" />
         </div>
@@ -63,9 +63,13 @@
 <span class="layui-icon layui-icon-up" title="CreateTime asc"></span> 
 <span class="layui-icon layui-icon-down" title="CreateTime desc"></span> 
 </th> 
-<th>姓名
+<th>值班领导姓名
 <span class="layui-icon layui-icon-up" title="Name asc"></span> 
 <span class="layui-icon layui-icon-down" title="Name desc"></span> 
+</th> 
+<th>值班主管姓名
+<span class="layui-icon layui-icon-up" title="Name1 asc"></span> 
+<span class="layui-icon layui-icon-down" title="Name1 desc"></span> 
 </th> 
 <th>值班日期
 <span class="layui-icon layui-icon-up" title="DutyTime asc"></span> 
@@ -112,7 +116,8 @@ var pop_index;
         }); 
     });
    //排序图标点击
-    $(".layui-table .layui-icon").click(function () {
+         var $ = layui.jquery;
+        $(".layui-table .layui-icon").click(function () {
         $('.layui-icon-active').removeClass("layui-icon-active");
         $(this).addClass("layui-icon-active");
         var title = $(this).attr('title');
@@ -157,6 +162,7 @@ layer.close(pop_index);
 					html += '    <td>' + item.Id + '</td>'; 
 html += '    <td>' + item.CreateTime + '</td>'; 
 html += '    <td>' + item.Name + '</td>'; 
+html += '    <td>' + item.Name1 + '</td>'; 
 html += '    <td>' + item.DutyTime + '</td>'; 
 
             
@@ -249,4 +255,75 @@ html += '    <td>' + item.DutyTime + '</td>';
 
 
     }
+         layui.use(['layer', 'jquery', 'upload'], function(){
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            var upload = layui.upload;
+
+            // 绑定按钮点击事件
+            $('#importButton').on('click', function(){
+
+                    // 创建弹出层
+                    layer.open({
+                        type: 1,
+                        title: '批量导入',
+                        area: ['600px', '400px'], // 设置弹出层大小
+                        content: `
+                            <div class="upload-container" style="padding: 20px;">
+                                <button type="button" class="layui-btn" id="downloadTemplate">
+                                    <i class="layui-icon">&#xe67c;</i>导入模板下载
+                                </button><br />
+                                <i>1、可能存在部分数据能够正常导入，部分数据不能导入的情况，请检查导入前后数据条数变化是否与导入条数相符。</i><br />
+                                <i>如不相符，请根据创建日期进行定向筛选并删除条目，然后重新修改源文件csv后再次尝试</i><br />
+                                <i>2、在导入前确保将文本中的英文逗号','替换为中文逗号'，'</i><br />
+                                <i>3、仅支持逗号分隔的CSV文件，大小限制为20M</i><br />
+                                <button type="button" class="layui-btn" id="LAY-upload-csv">
+                                    <i class="layui-icon">&#xe67c;</i>选择文件
+                                </button>
+                            </div>
+                        `,
+                        success: function(layero, index){
+                            // 初始化下载模板按钮事件
+                            $('#downloadTemplate').on('click', function(){
+                                window.location.href = '/upload/duty/template.csv';
+                            });
+
+                            // 初始化上传组件
+                            var uploadInst = upload.render({
+                                elem: '#LAY-upload-csv', // 绑定元素
+                                url: '@Url.Action("FileSave")', // 上传接口
+                                accept: 'file', // 允许上传的文件类型
+                                size: 20*1024*1024, // 最大允许上传的文件大小（单位：字节）
+                                before: function(obj){ // obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                                    this.data = {
+                                        fileExt: 'csv',
+                                        fileSize: this.size,
+                                        fileAccept: '.csv'
+                                    };
+                                },
+                                exts: 'csv',
+                                done: function(res){
+                                    if(res.code === 0){
+                                            layer.msg("上传完成：" + res.msg+ "，导入行数：" + res.rowsImported, {icon: 6}, function() {
+                                            layer.closeAll();
+                                            search();
+                                        });
+                                    } else {
+                                        layer.msg("上传失败：" + res.msg, {icon: 5}, function() {
+                                            layer.closeAll();
+                                            search();
+                                        });
+                                    }
+                                },
+                                error: function(){
+                                    layer.msg("上传过程中发生错误。", {icon: 5}, function() {
+                                        layer.closeAll();
+                                        search();
+                                    });
+                                }
+                            });
+                        }
+                    });
+            });
+        });
 </script>

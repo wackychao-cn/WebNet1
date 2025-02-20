@@ -170,6 +170,27 @@ namespace WebNet.DAL
             }
             return model;
         }
+        public WebNet.Model.UserInfo GetModelByUsernameAndPassword(string username, string password)
+        {
+            string query = "SELECT TOP 1 * FROM [UserInfo] WHERE [Username] = @Username AND [Password] = @Password";
+
+            using (MSSQLHelper h = new MSSQLHelper())
+            {
+                h.CreateCommand(query);
+                h.AddParameter("@Username", username);
+                h.AddParameter("@Password", password);
+
+                using (IDataReader dataReader = h.ExecuteReader())
+                {
+                    if (dataReader.Read())
+                    {
+                        return ReaderBind(dataReader);
+                    }
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>获得数据列表
         /// 

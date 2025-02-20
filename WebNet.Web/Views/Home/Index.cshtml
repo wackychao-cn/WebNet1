@@ -33,11 +33,26 @@
         text-align: center;
         background-color: #343434;
         }
+          .td_bg {
+        font-family: "微软雅黑", "宋体";
+        text-align:center;color: white;
+        border-left:#fff solid 10px;
+        border-bottom:#fff solid 10px;
+        }
+         .td_bgl {
+        font-family: "微软雅黑", "宋体";
+        text-align:left;color: white;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding-left:10px;
+        }
         .t_bj {
 
         background-image: url(../s_image/%E7%94%B5%E5%8A%9B%E6%9C%BA%E8%BD%A6.png);
 
-        image:width="100%"
+        image:width="100%";
 
         background-repeat: no-repeat;
 
@@ -54,7 +69,61 @@
         color: #FFF;
 
         }
+        /* 下拉菜单容器 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+/* 下拉菜单内容（默认隐藏） */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* 下拉菜单中的链接 */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 鼠标悬停时显示下拉菜单 */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 鼠标悬停时改变下拉菜单链接的背景颜色 */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+         .a4_youce {
+
+        font-family: "细圆";
+
+        font-size: 14px;
+
+        color: #FFF;
+
+        }
+         .a5_youce {
+
+        font-family: "宋体";
+
+        font-size: 18px;
+
+        color: #FFF;
+
+        line-height: 60px;
+        
+        text-decoration:none
+        }
         img {
 
         margin: 0px;
@@ -138,17 +207,21 @@
         font-family: "微软雅黑", "宋体";
 
         font-weight: bold;
+        font-size:18px;
 
         color: #FFF;
 
         text-align: center;
 
         background-color: #C9202D;
+         white-space: nowrap; /* 防止换行 */
+        overflow: hidden; /* 隐藏超出部分 */
 
         }
         .a_btd {
 
         font-family: "微软雅黑", "楷体";
+        font-size:18px;
 
         color: #FFF;
 
@@ -217,7 +290,7 @@
 
         font-family: "宋体";
 
-        font-size: 14px;
+        font-size: 18px;
 
         color: #000;
 
@@ -229,131 +302,7 @@
 
     <link href="~/css/site.css" rel="stylesheet" type="text/css" />
     <link href="~/layui/css/layui.css" rel="stylesheet" />
-    <style type="text/css">
-
-        a {
-
-        font-family: "宋体";
-
-        color: #000;
-
-        }
-
-        a:link {
-
-        text-decoration: none;
-
-        }
-
-        a:visited {
-
-        text-decoration: none;
-
-        }
-
-        a:hover {
-
-        text-decoration: none;
-
-        color:#FF6600;
-
-        }
-
-        a:active {
-
-        text-decoration: none;
-
-        }
-
-        .overflow {
-
-        overflow:hidden;
-
-        white-space:nowrap;
-
-        text-overflow:ellipsis;
-
-        table-layout:fixed;
-
-        }
-
-        .bg3 {
-
-        background-image:url(../s_image/bg3.jpg);
-
-        background-repeat:no-repeat;
-
-        background-size:cover;
-
-        -webkit-background-size:cover;
-
-        -moz-background-size:cover;
-
-        }
-
-        .bg6 {
-
-        background-image: url(images/bg9.png) ;
-
-        background-repeat: no-repeat;
-
-        background-size:100%;
-
-        -webkit-background-size:100%;
-
-        -moz-background-size:100%;
-
-        background-color:#161616;
-
-        }
-
-        .xx {
-
-        width:1270px;
-
-        margin-top:7px;
-
-        border:0; 
-
-        color:white; 
-
-        background-color:white; 
-
-        height:3px;
-
-        }
-
-        .dibu1 {
-
-        font-family: "Times New Roman";
-
-        font-size: 12px;
-
-        font-style: normal;
-
-        font-weight: normal;
-
-        color: #FFF;
-
-        }
-
-        .dibu {
-
-        align:center
-
-        font-size: 16px;
-
-        font-style: normal;
-
-        font-weight: normal;
-
-        color: #FFF;
-
-        font-family: "Times New Roman";
-
-        }
-
-    </style>
+   
 
 </head>
 
@@ -380,7 +329,7 @@
 
         <tr>
 
-            <td width="1400" height="501" colspan="3" class="t_bj"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <td width="1400" height="500" colspan="3" class="t_bj"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 
                     <tr bgcolor="#FFFFFF">
 
@@ -394,7 +343,8 @@
 
                     <tr>
 
-                        <td width="100" height="60" align="center" bgcolor="#C9202D"><a href="http://oa.zelc.csr.com/indishare/office.nsf/(frame)/frame" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OA</a></td>
+
+                        <td width="100" height="60" align="center" bgcolor="#C9202D"><a href="http://10.24.204.132:8081" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OA</a></td>
 
                         <td height="60" bgcolor="#C9202D"><table width="1201" border="0" cellpadding="0" cellspacing="0">
 
@@ -406,9 +356,7 @@
 
                                     <td width="100"><a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank" class="a_bt">考勤系统</a></td>
 
-                                    <td width="100"><a href="http://hr.crrcgc.cc/jsp/login.jsp" target="_blank" class="a_bt">HCM系统</a></td>
-
-                                    <td width="100"><a href="http://10.24.7.136:8000/#/" target="_blank" class="a_bt">业联系统</a></td>
+                                    <td width="100"><a href="http://10.24.204.65:8080/shr/home.do" target="_blank" class="a_bt">s-HR系统</a></td>
 
                                     <td width="100"><a href="http://mail.crrcgc.cc/" target="_blank" class="a_bt">中车邮箱</a></td>
 
@@ -416,17 +364,39 @@
 
                                     <td width="100"><a href="http://cnki.crrcgc.cc/kns55/" target="_blank" class="a_bt">中国知网</a></td>
 
-                                    <td width="100"><a href="http://localhost:8080" target="_blank" class="a_bt">会议室预定</a></td>
+                                    <td width="100"><a href="http://10.24.205.122:8080" target="_blank" class="a_bt">会议室预定</a></td>
+                                     <td width="100"><a href="http://10.24.30.247/Citrix/NXDWeb" target="_blank" class="a_bt">虚拟桌面</a></td>
+
 
                                     <td><table width="301" border="0" align="center" cellpadding="0" cellspacing="0">
 
                                             <tr align="center">
 
-                                                <td width="100" height="60"><a href="http://10.29.51.2:89/" target="_blank" class="a_bt">报修系统</a></td>
+                                                <td width="100" height="60"><a href="10.24.1.211:8080/TecWF/framwork.do" target="_blank" class="a_bt">IT运维</a></td>
 
-                                                <td width="100"><a href="http://yun.csrzelc.com:7000/crrc_exam_new/menu.html?ticket=0d41ca518aa246464a38465df3503d1e" target="_blank" class="a_bt">应知应会</a></td>
+                                                                                 <td width="100">
+    <div class="dropdown">
+        <a href="javascript:void(0);" target="_blank" class="a_bt">株机业务</a>
+        <div class="dropdown-content">
+            <a href="http://10.24.206.172:6888/ierp/login.html"  target="_blank">苍穹正式库</a>
+            <a href="http://mesty.zelc.crrc.cc:8330/uma-unimax-web/index.action"  target="_blank">MES统一平台</a>
+            <a href="http://10.24.7.136:8888/qms2/login"  target="_blank">株机QMS</a>
+            <a href="http://10.24.108.132:18080/smartbi/vision/index.jsp"  target="_blank">SmartBI</a>
+            <a href="http://18.0.142.147/crrc/login.html"  target="_blank">供应商门户</a>
+        </div>
+    </div>
+</td>
 
-                                                <td><a href="http://10.29.43.240/" target="_blank" class="a_bt">全寿命分析</a></td>
+                                                                               <td width="100">
+    <div class="dropdown">
+        <a href="javascript:void(0);" target="_blank" class="a_bt">电气业务</a>
+        <div class="dropdown-content">
+            <a href="http://10.24.207.17:8801  target="_blank"">受电弓智能拧紧</a>
+            <a href="http://10.29.54.129"  target="_blank">受电弓装配系统</a>
+            <a href="http://10.24.205.122"  target="_blank">机加工管理系统</a>
+        </div>
+    </div>
+</td>
 
                                             </tr>
 
@@ -440,15 +410,34 @@
 
                     </tr>
 
-                    <tr>
-
-                        @* <td height="343" colspan="3">&nbsp;</td>*@
-
-
-                    </tr>
-
                 </table>
-                <img height="341" src="~/pic/topimage.png" width="1400"/>
+                  <div class="layui-carousel" style="width:1400px;height:340px"id="ID-carousel-demo-image1">
+  <div carousel-item anim:fade>
+    <div><img src="~/pic/lunbo/Title0.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title1.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title2.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title3.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title4.jpg" style="width: 100%;height: auto"/></div>
+  </div>
+</div>
+
+                                        <!--图片展播开始：-->
+                                        <script src="~/layui/layui.js"></script>
+<script>
+layui.use(function(){
+  var carousel = layui.carousel;
+  // 渲染 - 图片轮播
+  carousel.render({
+    elem: '#ID-carousel-demo-image1',
+    width: '1400px',
+    height:'340px',
+    anim:'fade',
+    indicator:'none',
+    arrow:'none',
+    interval: 4000
+  });
+});
+</script>
             </td>
 
         </tr>
@@ -468,7 +457,7 @@
                             }
 
                         </td>
-                        <td align="right" class="a_btd">值班领导: @ViewBag.dutyname</td>
+                        <td align="right" class="a_btd">今日值班主管: @ViewBag.dutyname1   &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;今日值班领导: @ViewBag.dutyname </td>
                         <td  align="right" class="a_btd">当前时间：<span id="time">
 
                                 <script>
@@ -486,11 +475,11 @@
         </tr>
         <tr>
 
-            <td width="109" height="1243" rowspan="6" bgcolor="#FFFBF0">&nbsp;</td>
+            <td width="109" height="1243" rowspan="6" bgcolor="#F4F2F5">&nbsp;</td>
 
-            <td width="1186" height="21" bgcolor="#FFFBF0">&nbsp;</td>
+            <td width="1186" height="0" bgcolor="#F4F2F5"></td>
 
-            <td width="109" rowspan="6" valign="top" bgcolor="#FFFBF0">&nbsp;</td>
+            <td width="109" rowspan="6" valign="top" bgcolor="#F4F2F5">&nbsp;</td>
 
         </tr>
 
@@ -564,13 +553,13 @@ layui.use(function(){
 
                                     <td height="211" colspan="4" bgcolor="#FFFFFF"><div class="t_spry">
 
-                                            <div id="TabbedPanels1" class="TabbedPanels">
+                                            <div id="TabbedPanels1" class="TabbedPanels" >
 
-                                                <ul class="TabbedPanelsTabGroup">
+                                                <ul class="TabbedPanelsTabGroup " style="height:22px">
                                                     @foreach (var item in importwork)
                                                     {
 
-                                                        <li class="TabbedPanelsTab" tabindex="0"> @item.Caname<br /></li>
+                                                        <li class="TabbedPanelsTab" tabindex="0" style="height:22px;font-size:12px"> @item.Caname<br /></li>
                                                     }       
                                                 </ul>
 
@@ -583,7 +572,7 @@ layui.use(function(){
                                                             {
                                                                 string conr = "/NewsPage/Details/" + item2.Id.ToString();
 
-                                                                <table width="500" border="0" cellspacing="0" cellpadding="5" style="table-layout:fixed;">
+                                                                <table width="500" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;">
 
                                                                     <tr class="c-chongfu">
 
@@ -681,51 +670,41 @@ layui.use(function(){
 
         <tr>
 
-            <td width="1186" height="37" bgcolor="#FFFFFF">&nbsp;</td>
-
-        </tr>
-
-        <tr>
-
-            <td width="1186" height="347" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
+            <td width="1186" height="324" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
 
                     <tr>
 
-                        <td width="387" height="347"><table width="387" border="0" cellspacing="0" cellpadding="0">
+                        <td width="387" height="324"><table width="387" border="0" cellspacing="0" cellpadding="0">
+
 
                                 <tr>
 
-                                    <td width="127" height="106"><img src="../pic/tel.png" width="127" height="106" /></td>
 
-                                    <td width="131"><img src="../pic/zhuanli.png" width="131" height="106" /></td>
-
-                                    <td><a href="http://localhost:8080" class="a3_youce" target=_blank><img src="../pic/huiyi.png" width="129" height="106" /></a></td>
+                                    <td width="120" height="100" class="td_bg"style="background-color:#C9202D"><a href="http://10.24.205.122:8080" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-group" style=" font-size: 40px; color: white;"></i><br />预定会议</a></td>
+                                    <td width="120" height="100" class="td_bg"style="background-color:#16baaa"><a href="Duty/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-date" style=" font-size: 40px; color: white;"></i><br />值班情况</a></td>
+                                     <td width="120" height="100" class="td_bg"style="background-color:#ffb800"><a href="Travel/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-release" style=" font-size: 40px; color: white;"></i><br />出差情况</a></td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td width="127" height="123"><img src="../pic/xiazai.png" width="127" height="123" /></td>
-
-                                    <td width="131"  height=103 ><a href="/Travel/Front" class="a3_youce" target=_blank><img src="../pic/Travel.png" width="127" height="126" /></a></td>
-
-                                   <td width="131"  height=103 ><a href="/Duty/Front" class="a3_youce" target=_blank><img src="../pic/onduty.png" width="127" height="126" /></a></td>
+                                  <td width="120" height="100" class="td_bg"style="background-color:#16b777"><a href="javascript:;" class="a4_youce"  ><i class="layui-icon layui-icon-cellphone" style=" font-size: 40px; color: white;"></i><br /></a></td>
+                                    <td width="120" height="100" class="td_bg"style="background-color:#1e9fff"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-template" style=" font-size: 40px; color: white;"></i><br /></a></td>
+                                     <td width="120" height="100" class="td_bg"style="background-color:#a233c6"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-read" style=" font-size: 40px; color: white;"></i><br /></a></td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td width="127" height="118"><img src="../pic/diaoyan.png" width="127" height="118" /></td>
-
-                                    <td width="131"><img src="../pic/daikaifa.png" width="131" height="118" /></td>
-
-                                    <td><img src="../pic/daikaifa2.png" width="129" height="118" /></td>
+                                   <td width="120" height="100" class="td_bg"style="background-color:#ffb800"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-download-circle" style=" font-size: 40px; color: white;"></i><br /></a></td>
+                                    <td width="120" height="100" class="td_bg"style="background-color:#16b777"><a href="javascript:;" class="a4_youce"  ><i class="layui-icon layui-icon-file" style=" font-size: 40px; color: white;"></i><br /></a></td>
+                                     <td width="120" height="100" class="td_bg"style="background-color:#31bdec"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-share" style=" font-size: 40px; color: white;"></i><br /></a></td>
 
                                 </tr>
 
                             </table></td>
 
-                        <td width="558" height="347"><table width="558" border="0" cellspacing="0" cellpadding="0">
+                        <td width="558" height="324"><table width="558" border="0" cellspacing="0" cellpadding="0">
 
                                 <tr>
 
@@ -745,33 +724,33 @@ layui.use(function(){
 
                                 <tr>
 
-                                    <td height="283"><table width="558" border="0" cellspacing="0" cellpadding="0">
+                                    <td height="260"><table width="558" border="0" cellspacing="0" cellpadding="0">
 
                                             <tr>
 
-                                                <td width="190" height="283"><table width="190" border="0" cellspacing="0" cellpadding="0">
+                                                <td width="190" height="260"><table width="190" border="0" cellspacing="0" cellpadding="0">
 
                                                         <tr>
 
-                                                            <td height="93"><img src="../pic/train1.png" width="190" height="93" /></td>
+                                                            <td height="86"><img src="../pic/train1.png" width="190" height="86" /></td>
 
                                                         </tr>
 
                                                         <tr>
 
-                                                            <td height="91"><img src="../pic/train2.png" width="190" height="91" /></td>
+                                                            <td height="87"><img src="../pic/train2.png" width="190" height="87" /></td>
 
                                                         </tr>
 
                                                         <tr>
 
-                                                            <td height="99"><img src="../pic/train3.png" width="190" height="99" /></td>
+                                                            <td height="86"><img src="../pic/train3.png" width="190" height="86" /></td>
 
                                                         </tr>
 
                                                     </table></td>
 
-                                                <td width="368" height="283" valign="top" bgcolor="#FFFFFF">
+                                                <td width="368" height="260" valign="top" bgcolor="#FFFFFF">
                                                     @{
                                                         List<WebNet.Model.News> list3 = new NewsDAL().GetBottomList(5,"[Caname] like '工作动态'");
                                                         foreach (var item in list3)
@@ -802,7 +781,7 @@ layui.use(function(){
 
                             </table></td>
 
-                        <td width="241" align="center" bgcolor="#FFFFFF"><table width="241" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <td width="241" height="324"><table width="241" border="0"  cellpadding="0" cellspacing="0">
 
                                 <tr align="center" valign="middle">
                                     @{
@@ -818,13 +797,13 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                        <td width="241" height="60" bgcolor="#74CBE6"><a href=@link class="a3_youce">@cons</a></td>
+                                        <td width="241" height="50" bgcolor="#C9202D" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-notice" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
+                                    <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
 
                                 </tr>
 
@@ -840,35 +819,13 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                    <td height="60" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+                                    <td height="50" align="center" bgcolor="#37BD9C" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-template-1" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
-
-                                </tr>
-
-                                <tr>
-                                     @{
-                                        if (lanmu.FirstOrDefault()!=null)
-                                        {
-                                            cons= lanmu.FirstOrDefault();
-                                            lanmu.RemoveAt(0);
-                                        }
-                                        else{
-                                            cons = null;
-                                        }
-                                        link = "/NewsPage/Index?txt=" + cons;
-                                    }
-                                    <td height="60" align="center" bgcolor="#F9C766"><a href=@link class="a3_youce">@cons</a></td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td height="27" bgcolor="#FFFFFF">&nbsp;</td>
+                                    <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
 
                                 </tr>
 
@@ -884,13 +841,35 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                    <td height="60" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+                                    <td height="50" align="center" bgcolor="#1e9fff" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-file-b" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td height="26" bgcolor="#FFFFFF">&nbsp;</td>
+                                    <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
+
+                                </tr>
+
+                                <tr>
+                                     @{
+                                        if (lanmu.FirstOrDefault()!=null)
+                                        {
+                                            cons= lanmu.FirstOrDefault();
+                                            lanmu.RemoveAt(0);
+                                        }
+                                        else{
+                                            cons = null;
+                                        }
+                                        link = "/NewsPage/Index?txt=" + cons;
+                                    }
+                                    <td height="50" align="center" bgcolor="#8DBE51" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-flag" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td height="16" bgcolor="#FFFFFF">&nbsp;</td>
 
                                 </tr>
 
@@ -942,7 +921,8 @@ layui.use(function(){
 
                                                                     <tr>
 
-                                                                        <td width="822" height="57"><img src="../pic/newspic.png" width="822" height="57" /></td>
+                                                                        <td width="20" height="57">&nbsp;</td>
+                                                                        <td width="802" height="57"><img src="../pic/newspic.png" width="802" height="57" /></td>
 
                                                                         <td width="123" height="57"><a href="/NewsPage/Index" target="_new"><img src="../pic/more3.png" width="123" height="57" /></a></td>
 
@@ -958,12 +938,12 @@ layui.use(function(){
 
                                                                     <div id="TabbedPanels2" class="TabbedPanels">
 
-                                                                        <ul class="TabbedPanelsTabGroup">
+                                                                        <ul class="TabbedPanelsTabGroup" style="height:22px">
 
                                                                             @foreach (var item in top)
                                                                             {
 
-                                                                                <li class="TabbedPanelsTab" tabindex="0"> @item.Caname<br /></li>
+                                                                                <li class="TabbedPanelsTab" style="height:22px;font-size:12px" tabindex="0"> @item.Caname<br /></li>
                                                                             }                    
                                                                         </ul>
                                                                         <div class="TabbedPanelsContentGroup">
@@ -1027,7 +1007,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#1668B2"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#1668B2" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-friends" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1049,7 +1029,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#74CBE6"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#74CBE6" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-chart-screen" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1071,7 +1051,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#a233c6" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-util" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1093,7 +1073,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#8DBE51" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-component" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1115,7 +1095,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#37BD9C"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#37BD9C" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-file-b" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1137,7 +1117,7 @@ color: #eaeaea;
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#8DBE51"><a href=@link class="a3_youce">@cons</a></td>
+                      <td height="50" align="center" bgcolor="#8DBE51" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-read" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1171,7 +1151,7 @@ color: #eaeaea;
 
   <tr>
 
-    <td height="41" colspan="3" bgcolor="#FFFBF0">&nbsp;</td>
+    <td height="41" colspan="3" bgcolor="#F4F2F5">&nbsp;</td>
 
   </tr>
 
@@ -1225,6 +1205,4 @@ var TabbedPanels2 = new Spry.Widget.TabbedPanels("TabbedPanels2");
 </body>
 
 </html>
-
-05
 

@@ -6,7 +6,7 @@ namespace WebNet.DAL
     /// <summary>MSSQL数据库操作类
     /// 
     /// </summary>
-    public class MSSQLHelper
+    public class MSSQLHelper:IDisposable
     {
         private SqlConnection conn = null;
         private SqlCommand cmd = null;
@@ -79,6 +79,36 @@ namespace WebNet.DAL
         public string GetOutputParameter(string paramName)
         {
             return cmd.Parameters[paramName].Value.ToString();
+        }
+        /// <summary>执行删库过程
+        ///  
+        /// </summary>
+        /// <returns></returns>
+        public bool ExecuteDel()
+        {
+            int res;
+            try
+            {
+                res = cmd.ExecuteNonQuery();
+                if (res == -1)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    cmd.Parameters.Clear();
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+            return false;
         }
         /// <summary>执行增删改SQL语句或存储过程
         ///  
@@ -197,6 +227,14 @@ namespace WebNet.DAL
                     conn.Close();
 					conn.Dispose();
                 }
+            }
+        }
+        public void Dispose()
+        {
+            if (conn != null)
+            {
+                conn.Dispose();
+                conn = null;
             }
         }
     }

@@ -37,7 +37,10 @@
                 序号
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
-                姓名
+                值班主管
+            </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                值班领导
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
                 值班日期
@@ -100,7 +103,9 @@
                       //  console.log(blog);
                         html += '<tr>';
                         html += '    <td style="font-size: 18px;text-align:center">' + item.Id + '</td>';
+                          html += '    <td style="font-size: 18px;text-align:center">' + item.Name1 + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
+      
     html += '    <td style="font-size: 18px;text-align:center">' + item.DutyTime.split(' ')[0] + '</td>';
 
 

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
 using WebNet.DAL;
+using WebNet.DAL.Interface;
+using WebNet.Model;
 
 
 
@@ -67,15 +69,21 @@ namespace Server.Controllers
             UserInfoDAL userInfoDAL = new UserInfoDAL();
             ///以下为验证内容
             ///
-            if (userInfoDAL.GetModelByCond("[Username] like '" + userName + "' and [Password] like '" + password + "'")!=null)
+            if (userInfoDAL.GetModelByUsernameAndPassword(userName, password) != null)
 
             {
+                // 根据用户权限设置角色
+                string role = "guest";
+                if (userName == "admin")
+                {
+                    role = "admin";
 
+                }
                 var claims = new List<Claim>(){
 
-new Claim(ClaimTypes.Name,userName),new Claim("password",password)
+                new Claim(ClaimTypes.Name,userName),new Claim("password",password), new Claim(ClaimTypes.Role, role)
 
-};
+                };
 
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Customer"));
 

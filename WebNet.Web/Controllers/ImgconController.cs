@@ -33,9 +33,7 @@ namespace WebNet.Web.Controllers
                     }
                 }
             }
-            //数据库录入
-          
-
+         
                 return Json(new { code = 0, msg = "新增成功！下次重启服务器生效" });
             }
             catch (Exception ex)

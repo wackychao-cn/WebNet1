@@ -16,5 +16,7 @@ namespace WebNet.DAL.Interface
             string ordertype, int pagesize, int pageindex, string cond);
         int CalcCount(string cond);
         string GetOneField(string filed, string cond);
+        public int ImportDutyToDatabase(string filePath);
+        public bool ClearAll();
     }
 }

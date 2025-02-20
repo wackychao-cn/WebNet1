@@ -1,21 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.FileIO;
-using static System.Net.Mime.MediaTypeNames;
+using System;
+using System.Collections.Generic;
 
 namespace WebNet.Web.Controllers
 {
-
     public class DutyController : Controller
     {
-
         private readonly  DAL.Interface.IDuty dal ;
  
         public DutyController(DAL.Interface.IDuty dal) {
@@ -131,56 +125,33 @@ try
             return View(n);
         }
         [Authorize]
-        [AutoValidateAntiforgeryToken]
-        [HttpPost]
-        public ActionResult Daoru()
-        {
-          return View();
-        }
+
         public async Task<IActionResult> FileSave()
         {
-            //文件上传
             var files = Request.Form.Files;
             long size = files.Sum(f => f.Length);
             string webRootPath = Directory.GetCurrentDirectory();
-            string contentRootPath = "\\wwwroot\\upload\\duty\\duty.csv";
+            string contentRootPath = Path.Combine("wwwroot", "upload", "duty", "duty.csv");
+
+            // 文件上传
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0)
                 {
-                    var filePath = webRootPath + contentRootPath;
+                    var filePath = Path.Combine(webRootPath, contentRootPath);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-
                         await formFile.CopyToAsync(stream);
                     }
                 }
             }
-            //数据库录入
+
+            // 数据库录入
             try
             {
-                //连接数据库并删除值班表，重新导入值班表
-                var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json");
-                var configuration = builder.Build();
-                string connStr = configuration.GetConnectionString("SqlServerConnstr").ToString();
-                using (SqlConnection cn = new SqlConnection(connStr))
-                {
-                    cn.Open();
-                    {
-                        using (SqlCommand cmd = cn.CreateCommand())
-                        {
-                            string rootpath = Directory.GetCurrentDirectory();
-                            string filename = "\\wwwroot\\upload\\duty\\duty.csv";
-                            string filepath = rootpath + filename;
-                            cmd.CommandTimeout = 0;
-                            cmd.CommandText = @"delete from [Duty] BULK INSERT [Duty] FROM '" + filepath + "' WITH (FIELDTERMINATOR = ',',ROWTERMINATOR ='0x0A',FIRSTROW =2)";
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    cn.Close();
-                }
-                return Json(new { code = 0, msg = "新增成功！" });
+                dal.ClearAll();
+                int rowsAffected = dal.ImportDutyToDatabase(contentRootPath);
+                return Json(new { code = 0, msg = "新增成功！", rowsImported = rowsAffected });
             }
             catch (Exception ex)
             {

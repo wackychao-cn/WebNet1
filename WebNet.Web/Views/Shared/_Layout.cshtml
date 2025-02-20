@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
     <link rel="stylesheet" type="text/css" href="~/layui/css/layui.css" />
     <script src="~/layui/layui.js"></script>
- @*    <script type="text/javascript" src="~/js/jquery-1.11.3/jquery.js"></script> 暂不支持排序*@
 </head>
 <body>
     <header>
@@ -23,12 +22,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Home/Index" target="_blank">跳转前台主页</a>
                         </li>
-                        <li class="nav-item">
+                        @if (User.IsInRole("admin"))
+                        {
+                         
+                            <li class="nav-item">
+          
 <a class="nav-link text-dark" href="/UserInfo/Index">账户管理</a>
 </li>
 <li class="nav-item">
 <a class="nav-link text-dark" href="/Category/Index">板块管理</a>
 </li>
+}
 <li class="nav-item">
 <a class="nav-link text-dark" href="/News/Index">数据管理</a>
 </li>

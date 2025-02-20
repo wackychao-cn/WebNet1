@@ -10,7 +10,7 @@ using WebNet.DAL;
 
 namespace WebNet.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly  DAL.Interface.ICategory dal ;
@@ -29,28 +29,7 @@ namespace WebNet.Web.Controllers
         public string GetCond(string key, string start, string end, string cabh) {
 
             string cond = "1=1";
-            /* 
-  Expression<Func<Model.Admin, bool>> cond = a => true;
-              if (!string.IsNullOrEmpty(key))
-              {
-                  cond = cond.And(a => a.username.Contains(key));
-              }
-              if (!string.IsNullOrEmpty(start))
-              {
-                  DateTime d;
-                  if (DateTime.TryParse(start,out d))
-                  {
-                      cond = cond.And(a => a.createtime > d);
-                  }
-              }
-              if (!string.IsNullOrEmpty(end))
-              {
-                  DateTime d;
-                  if (DateTime.TryParse(end,out d))
-                  {
-                      cond = cond.And(a => a.createtime <= d);
-                  }
-              }*/
+
 
             if (!string.IsNullOrEmpty(key))
             {
