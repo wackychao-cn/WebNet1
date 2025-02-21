@@ -47,6 +47,12 @@ namespace Server.Controllers
 
 
 
+        public ActionResult Regist(string Name, string Identity, string Password, string Phone, string DepartMent)
+        {
+
+                return Json(new { code = 0, msg = "暂未开放" });
+
+        }
         /// <summary>
 
         /// post 登录请求
@@ -60,10 +66,11 @@ namespace Server.Controllers
         public async Task<IActionResult> Login(string userName, string password)
 
         {
-
+            // 先登出当前用户
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (userName==null || password==null)
             {
-                return Content("用户名和账号不能为空!");
+                return Json(new { code = 0, msg = "用户名或密码不能为空" });
             }
 
             UserInfoDAL userInfoDAL = new UserInfoDAL();
@@ -77,7 +84,6 @@ namespace Server.Controllers
                 if (userName == "admin")
                 {
                     role = "admin";
-
                 }
                 var claims = new List<Claim>(){
 
@@ -99,10 +105,10 @@ namespace Server.Controllers
 
                 });
                 HttpContext.Session.SetString("Username", userName);
-                return Redirect("/Back/Index");
+                return Json(new { code = 1, msg = $"{userName}，欢迎登录" });
 
             }
-            return Content("用户名密码错误!");
+            return Json(new { code = 0, msg = "用户名或密码不能为空" });
 
 
         }

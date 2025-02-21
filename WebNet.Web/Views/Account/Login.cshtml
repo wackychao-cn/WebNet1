@@ -1,9 +1,15 @@
-﻿@{
+﻿@model WebNet.Model.UserInfo
+@using System.Data
+@using WebNet.DAL
+@using WebNet.Model
+@{
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <!-- https://codepen.io/danielkvist/pen/LYNVyPL -->
+<script src="~/layui/layui.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +33,7 @@
         body {
             align-items: center;
             background-color: var(--white);
-            background: url("/pic/login.jpg");
+            background: url("/pic/Login.jpg");
             background-attachment: fixed;
             background-position: center;
             background-repeat: repeat;
@@ -35,6 +41,7 @@
             display: grid;
             height: 100vh;
             place-items: center;
+            overflow: hidden;
         }
 
         .form__title {
@@ -194,6 +201,17 @@
             text-align: center;
         }
 
+        .layui-form {
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 3rem;
+            height: 100%;
+            text-align: center;
+        }
+
         .input {
             background-color: #fff;
             border: none;
@@ -202,47 +220,29 @@
             width: 100%;
         }
 
-        keyframes show {
-            0%, 49.99%
-
-        {
-            opacity: 0;
-            z-index: 1;
-        }
-
-        50%,
-        100% {
-            opacity: 1;
-            z-index: 5;
-        }
-
-        }
     </style>
 </head>
 
 <body>
-    <div class="container right-panel-active">
+    <div class="container left-panel-active">
         <!-- Sign Up -->
         <div class="container__form container--signup">
-            <form action="#" class="form" id="form1">
-                <h2 class="form__title">注册(未开放)</h2>
-                <input type="text" placeholder="账号" class="input" />
-                <input type="password" placeholder="密码" class="input" />
-                <button class="btn">确认注册</button>
+            <form method="post" action="" class="layui-form" id="form1">
+                <h2 class="form__title">注册</h2>
+                <input type="text" placeholder="工号" class="layui-input" name="Identity" />
+                <input type="password" placeholder="密码" class="layui-input" name="Password" />
+                <button id="btn1" class="btn" lay-submit="" lay-filter="demo1">确认注册</button>
             </form>
         </div>
-
         <!-- Sign In -->
         <div class="container__form container--signin">
-            <form  method="post" class="form" id="form2">
+            <form method="post" class="layui-form" id="form2">
                 <h2 class="form__title">登录</h2>
-                <input type="text" name="userName" placeholder="账号" class="input" />
+                <input type="text" name="userName" placeholder="工号" class="input" />
                 <input type="password" name="password" placeholder="密码" class="input" />
-                <input type="submit" class="btn" />
+                <button id="btn2" class="btn" lay-submit="" lay-filter="demo2">登录</button>
             </form>
-
         </div>
-
         <!-- Overlay -->
         <div class="container__overlay">
             <div class="overlay">
@@ -255,7 +255,6 @@
             </div>
         </div>
     </div>
-
     <script>
         const signInBtn = document.getElementById("signIn");
         const signUpBtn = document.getElementById("signUp");
@@ -270,9 +269,69 @@
         signUpBtn.addEventListener("click", () => {
           container.classList.add("right-panel-active");
         });
+                 var pop_index;
+                                 /*加载layui编辑器*/
+                layui.use(['form',  'layer','laydate','upload'], function () {
+                    var form = layui.form;
+        var laydate = layui.laydate;
+          var upload = layui.upload;
+          var layer = layui.layer;
+          var $ = layui.jquery;
+         var uploadInst = upload.render({
+                        elem:'#btnimg',
+                        url: '/Home/ImgUpload' //上传接口
+                        , done: function (res) { //上传成功后的回调
+                           // console.log(res);
+                            document.getElementById("img1").src = res.data.src;
+                            document.getElementById("Img").value = res.data.src;    //这里的img对应表中的字段，有可能是face也有可能是logo
+                        }
+                    });
+                    //监听提交
+                    form.on('submit(demo1)', function (data) {
+                        var url = "/Account/Regist";
+                        var postdata = data.field;
 
-        // fistForm.addEventListener("submit", (e) => e.preventDefault());
-        // secondForm.addEventListener("submit", (e) => e.preventDefault());
+
+                $('#btn1').attr("class", "btn layui-btn-disabled");
+                    $('#btn1').attr("disabled", "disabled");
+
+                        pop_index = layer.load(0, {
+                        shade: [0.3, '#000'] //0.1透明度的白色背景
+                    });
+                        $.post(url, postdata, function (data) {
+        layer.close(pop_index);
+                            if (data.code == 1) {
+                                    layer.msg(data.msg, function () { location.href = "/Account/Login";})
+                            } else {
+                                layer.msg(data.msg);
+        $('#btn1').attr("class", "btn");
+                    $('#btn1').removeAttr("disabled");
+                            }
+                        }, 'json')
+                        return false;
+                    });
+                    //监听登录
+                    form.on('submit(demo2)', function (data) {
+                        var url = "/Account/Login";
+                        var postdata = data.field;
+                $('#btn1').attr("class", "btn layui-btn-disabled");
+                    $('#btn1').attr("disabled", "disabled");
+                        pop_index = layer.load(0, {
+                        shade: [0.3, '#000'] //0.1透明度的白色背景
+                    });
+                        $.post(url, postdata, function (data) {
+        layer.close(pop_index);
+                            if (data.code == 1) {
+                                    layer.msg(data.msg,{ anim: 0 },  function () { location.href = "/Back/Index";})
+                            } else {
+                                layer.msg(data.msg);
+        $('#btn1').attr("class", "btn");
+                    $('#btn1').removeAttr("disabled");
+                            }
+                        }, 'json')
+                        return false;
+                    });
+                });
 
     </script>
 
@@ -280,7 +339,9 @@
 
 </html>
 @section Scripts {
- 
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
- 
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }
