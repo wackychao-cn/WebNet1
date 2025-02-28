@@ -96,23 +96,10 @@ Expression<Func<Model.Admin, bool>> cond = a => true;
         /// <param name="pageindex"></param>
         /// <param name="pagesize"></param>
         /// <returns></returns>
-        public ActionResult List(int pageindex, int pagesize, string key, string start, string end, string cabh)
+        public ActionResult List(int pageindex, int pagesize, string key, string order, string ordertype, string start, string end, string cabh)
         {
-            List<Model.UserInfo> list = dal.GetList("*","id","desc", pagesize, pageindex, GetCond(key, start, end, cabh));
+            List<Model.UserInfo> list = dal.GetList("*", order, ordertype, pagesize, pageindex, GetCond(key, start, end, cabh));
             return Json(list);
-            /*ArrayList arr = new ArrayList();
-            foreach (var item in list)
-            {
-                arr.Add(new
-                { 
-					Id = item.Id, 
-CreateTime = item.CreateTime, 
-Username = item.Username, 
-Password = item.Password, 
-
-                });
-            }
-            return Json(arr);*/
         }
 
         public ActionResult Add(int? id) {

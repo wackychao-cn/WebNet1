@@ -11,6 +11,7 @@ namespace WebNet.DAL
     /// </summary>
     public partial class NewsDAL:Interface.INews
     {
+        private static readonly object _lock = new object();
         public NewsDAL()
         { }
         /// <summary>增加一条数据
@@ -403,7 +404,7 @@ namespace WebNet.DAL
             return h.ExecuteQuery();
         }
         /// <summary>
-        /// 根据获取后n条数据
+        /// 根据获取后n条数据,根据创建时间
         /// </summary>
         /// <param name="strWhere"></param>
         /// <returns></returns>
@@ -423,6 +424,37 @@ namespace WebNet.DAL
             else
             {
                 strSql.Append(" ORDER BY Id DESC");
+            }
+            List<WebNet.Model.News> list = new List<WebNet.Model.News>();
+            MSSQLHelper h = new MSSQLHelper();
+            h.CreateCommand(strSql.ToString());
+
+            using (IDataReader dataReader = h.ExecuteReader())
+            {
+                while (dataReader.Read())
+                {
+                    list.Add(ReaderBind(dataReader));
+                }
+                h.CloseConn();
+            }
+            return list;
+        }
+        public List<WebNet.Model.News> GetBottomListbytime(int num, string strWhere)
+        {
+            if (num < 1)
+            {
+                num = 1;
+            }
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select TOP " + num.ToString() + " * ");
+            strSql.Append(" FROM [News]");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere + " ORDER BY CreateTime DESC");
+            }
+            else
+            {
+                strSql.Append(" ORDER BY CreateTime DESC");
             }
             List<WebNet.Model.News> list = new List<WebNet.Model.News>();
             MSSQLHelper h = new MSSQLHelper();

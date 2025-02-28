@@ -15,7 +15,7 @@ namespace WebNet.Web.Controllers
     public class NewsController : Controller
     {
         private readonly  DAL.Interface.INews dal ;
- 
+        private static int _uploadedFiles = 0; // 已上传文件数
         public NewsController(DAL.Interface.INews dal) {
             this.dal = dal;
         }
@@ -39,32 +39,12 @@ namespace WebNet.Web.Controllers
 
             string cond = "1=1";
           
-            //Expression<Func<Model.News, bool>> cond = a => true;
-            //if (!string.IsNullOrEmpty(key))
-            //{
-            //    cond = cond.And(a => a.username.Contains(key));
-            //}
-            //if (!string.IsNullOrEmpty(start))
-            //{
-            //    DateTime d;
-            //    if (DateTime.TryParse(start,out d))
-            //    {
-            //        cond = cond.And(a => a.createtime > d);
-            //    }
-            //}
-            //if (!string.IsNullOrEmpty(end))
-            //{
-            //    DateTime d;
-            //    if (DateTime.TryParse(end,out d))
-            //    {
-            //        cond = cond.And(a => a.createtime <= d);
-            //    }
-            //}
+       
 
             if (!string.IsNullOrEmpty(key))
             {
                 //key = Tool.GetSafeSQL(key);
-                cond += $" and "+ cabh + " like '%"+ key +"%'";
+                cond += $" and "+ cabh + " like '"+ key +"'";
             }
             if (!string.IsNullOrEmpty(start))
             {
@@ -89,12 +69,107 @@ namespace WebNet.Web.Controllers
             //}
             return cond;
         }
+        /// <summary>
+        /// 批量上传文件
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> FileSave()
+        {
+            try
+            {
+                var files = Request.Form.Files;
+                long size = files.Sum(f => f.Length);
 
-		 /// <summary>
+                // 获取 search_key 的值
+                var searchKey = Request.Form["search_key"].ToString();
+                if (string.IsNullOrEmpty(searchKey))
+                {
+                    return Json(new { code = 1, msg = "搜索关键字不能为空" });
+                }
+
+                // 验证文件大小和类型
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 20 * 1024 * 1024) // 20MB
+                    {
+                        return Json(new { code = 1, msg = "文件大小不能超过20MB" });
+                    }
+
+                    if (Path.GetExtension(formFile.FileName).ToLower() != ".pdf")
+                    {
+                        return Json(new { code = 1, msg = "只能上传PDF文件" });
+                    }
+                }
+
+                string webRootPath = Directory.GetCurrentDirectory();
+                string uploadFolder = Path.Combine(webRootPath, "wwwroot", "upload", searchKey, DateTime.Now.ToString("yyyyMMdd"));
+
+                // 如果文件夹不存在，则创建
+                if (!Directory.Exists(uploadFolder))
+                {
+                    Directory.CreateDirectory(uploadFolder);
+                }
+
+                // 单线程处理每个文件
+                _uploadedFiles = 0; // 重置已上传文件数
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(formFile.FileName);
+                        var filePath = Path.Combine(uploadFolder, fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+
+                        // 将文件路径转换为 href 模板形式
+                        string hrefPath = $"/upload/{searchKey}/{DateTime.Now.ToString("yyyyMMdd")}/{fileName}";
+
+                        // 创建 News 对象
+                        var news = new Model.News
+                        {
+                            Caname = searchKey,
+                            Title = fileName,
+                            Body = $"href=\"{hrefPath}\""
+                        };
+
+                        // 获取 Bh 值
+                        var categoryDAL = new CategoryDAL();
+                        var category = categoryDAL.GetModelByCond($"[Caname] like '{searchKey}'");
+                        if (category != null)
+                        {
+                            news.Bh = category.Pbh;
+                        }
+
+                        // 调用 Add 函数插入数据库
+                        dal.Add(news);
+
+                        _uploadedFiles++; // 更新已上传文件数
+                    }
+                }
+
+                return Json(new { code = 0, msg = "新增成功！" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 1, msg = $"出错：{ex.Message}" });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetUploadProgress()
+        {
+            return Json(new { code = 0, uploadedFiles = _uploadedFiles });
+        }
+
+
+        /// <summary>
         /// 取总记录数
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetTotalCount(string key, string start, string end, string cabh)
+        public ActionResult GetTotalCount(string key,string start, string end, string cabh)
         {
             int totalcount = dal.CalcCount(GetCond(key,start,end,cabh));
             //如果是找父类集合
@@ -114,15 +189,15 @@ namespace WebNet.Web.Controllers
         /// <param name="pageindex"></param>
         /// <param name="pagesize"></param>
         /// <returns></returns>
-        public ActionResult List(int pageindex, int pagesize, string key, string start, string end, string cabh)
+        public ActionResult List(int pageindex, int pagesize, string key, string order, string ordertype, string start, string end, string cabh)
         {
-            List<Model.News> list = dal.GetList("*","id","desc", pagesize, pageindex, GetCond(key, start, end, cabh));
+            List<Model.News> list = dal.GetList("*", order, ordertype, pagesize, pageindex, GetCond(key, start, end, cabh));
             //如果是找父类集合
             CategoryDAL categoryDAL = new CategoryDAL();
             if (list.Count==0 && key!="null")
             {
                 string pbh = categoryDAL.GetModelByCond("[Caname] like '" + key + "'").Bh;
-                list=dal.GetList("*", "id", "desc", pagesize, pageindex, GetCond(pbh, start, end, "Bh"));
+                list=dal.GetList("*", order, ordertype, pagesize, pageindex, GetCond(pbh, start, end, "Bh"));
             }
             return Json(list);
            

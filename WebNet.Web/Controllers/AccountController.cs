@@ -108,7 +108,10 @@ namespace Server.Controllers
                 return Json(new { code = 1, msg = $"{userName}，欢迎登录" });
 
             }
-            return Json(new { code = 0, msg = "用户名或密码不能为空" });
+            else
+            {
+                return Json(new { code = 0, msg = "账号密码错误，验证未通过" });
+            }
 
 
         }

@@ -247,6 +247,7 @@
 
   <ItemGroup>
     <Folder Include="LoginCheck\" />
+    <Folder Include="wwwroot\pic\lunbo\" />
   </ItemGroup>
 
 </Project>

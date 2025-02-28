@@ -25,12 +25,13 @@ namespace WebNet.Web.Controllers
         {
             return View();
         }
-        public IActionResult Preview(string title,string body)
+        [HttpPost]
+        public ActionResult Preview(string title,string body)
         {
-            BackModels backModels= new BackModels();
-            backModels.title=title;
-            backModels.body= body;
-            return View(backModels);
+        
+            ViewBag.Title = title;
+            ViewBag.Body = body;
+            return View();
         }
     }
 }

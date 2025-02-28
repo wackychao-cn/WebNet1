@@ -27,6 +27,9 @@
         <a class="layui-btn"  onclick="train()">
             <i class="layui-icon">&#xe608;</i> 添加
         </a>
+        <a class="layui-btn" onclick="batchAdd()">
+            <i class="layui-icon">&#xe608;</i> 文件批量添加
+        </a>
         <div class="layui-input-inline">
             <input type="text" id="search_key"  name="ser" class="layui-input" placeholder="搜索关键字" />
         </div>
@@ -138,6 +141,7 @@
             elem: '#search_end' //指定元素
         }); 
     });
+        var $ = layui.jquery;
    //排序图标点击
     $(".layui-table .layui-icon").click(function () {
         $('.layui-icon-active').removeClass("layui-icon-active");
@@ -280,6 +284,118 @@ html += '    <td>' + item.Title + '</td>';
 
 
     }
+       function batchAdd() {
+        layui.use(['upload', 'layer', 'element', 'jquery'], function () {
+            var upload = layui.upload;
+            var layer = layui.layer;
+            var element = layui.element;
+            var $ = layui.jquery;
+
+            var totalFiles = 0; // 文件总数
+            var uploadedFiles = 0; // 已上传文件数
+            var progressInterval; // 定时器
+
+            var uploadIndex = layer.open({
+                type: 1,
+                title: '批量上传PDF文件',
+                content: '<div class="layui-upload">' +
+                    '<button type="button" class="layui-btn" id="uploadBtn">选择文件</button>' +
+                    '<span style="margin-left: 10px;">只能上传PDF文件，单个文件不超过20MB</span>' +
+                    '<div style="margin-top: 10px;">' +
+                    '<span>文件总数: <span id="totalFiles">0</span></span>' +
+                    '<span style="margin-left: 20px;">已上传: <span id="uploadedFiles">0</span></span>' +
+                    '</div>' +
+                    '<div class="layui-progress layui-progress-big" lay-filter="uploadProgress" style="margin-top: 10px;">' +
+                    '<div class="layui-progress-bar" lay-percent="0%"></div>' +
+                    '</div>' +
+                    '</div>',
+                area: ['500px', '250px'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // 点击确定按钮时触发上传
+                    uploadList.upload();
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    // 点击取消按钮时关闭弹层
+                    layer.close(index);
+                }
+            });
+
+            // 初始化上传组件
+            var uploadList = upload.render({
+                elem: '#uploadBtn',
+                url: '/News/FileSave', // 上传文件的接口
+                accept: 'file',
+                exts: 'pdf', // 只允许上传PDF文件
+                size: 20 * 1024, // 限制文件大小为20MB
+                multiple: true, // 允许多文件上传
+                data: {
+                    search_key: function () {
+                        return $('#search_key').val(); // 获取 search_key 的值
+                    }
+                },
+                before: function (obj) {
+                    // 使用 obj.pushFile() 获取文件列表
+                    var files = obj.pushFile();
+                    totalFiles = files.length;
+                    $('#totalFiles').text(totalFiles);
+                    $('#uploadedFiles').text(0);
+                    layer.msg('开始上传...', { icon: 16, time: 100 });
+
+                    // 启动定时器，定期获取进度
+                    progressInterval = setInterval(function () {
+                        $.ajax({
+                            url: '/News/GetUploadProgress',
+                            type: 'GET',
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    var percent = Math.round((res.uploadedFiles / totalFiles) * 100) + '%';
+                                    element.progress('uploadProgress', percent);
+                                    $('#uploadedFiles').text(res.uploadedFiles);
+                                }
+                            }
+                        });
+                    }, 100); // 每0.1秒获取一次进度
+                },
+                    allDone: function (res) {
+        // 所有文件上传完成
+        clearInterval(progressInterval); // 停止定时器
+        layer.msg('所有文件上传完成', { icon: 1 });
+        layer.open({
+            type: 1,
+            title: '上传完成',
+            content: '<div style="padding: 20px;">已上传文件总数: ' + uploadedFiles + '</div>',
+            area: ['300px', '150px'],
+            btn: ['确定'],
+            yes: function (index, layero) {
+                layer.close(index);
+                layer.close(uploadIndex); // 关闭上传弹出层
+                location.reload(); // 刷新页面
+            }
+        });
+    },
+                done: function (res) {
+                    // 单个文件上传成功
+                    uploadedFiles++;
+                    $('#uploadedFiles').text(uploadedFiles);
+                    if (res.code === 0) {
+                        layer.msg('上传成功', { icon: 1 });
+                    } else {
+                        layer.msg(res.msg, { icon: 2 });
+                    }
+                },
+                error: function () {
+                    clearInterval(progressInterval); // 停止定时器
+                    layer.msg('上传失败', { icon: 2 });
+                }
+            });
+
+            // 初始化进度条
+            element.render('progress');
+        });
+    }
+
 
 
 </script>

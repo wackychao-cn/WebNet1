@@ -1,12 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     Layout = "_LayoutDetails";
 }
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <head>
     <style type="text/css">
 
@@ -145,30 +142,34 @@
         a:active {
             text-decoration: none;
         }
+
+        iframe {
+            position: relative;
+            margin-bottom: 60px; /* 根据 footer 的高度调整 */
+        }
     </style>
 </head>
 <div id="box" hidden="hidden"></div>
 <div width="1200"  style="text-align: center">
 
-    <iframe src=Left  name="leftFrame" id="leftFrame" title="leftFrame" width="230" height="900"></iframe>
-
-    <iframe src="/News/Front" name="mainFrame" id="mainFrame" title="mainFrame" width="1050" height="900"></iframe>
+   <iframe src="Left" name="leftFrame" id="leftFrame" title="leftFrame" width="230" height="900" onload="loadMainFrame()"></iframe>
+<iframe src="" name="mainFrame" id="mainFrame" title="mainFrame" width="1050" height="900"></iframe>
 </div>
 
 <script>
-                    var loc = location.href;
-                    var n1 = loc.length;
-                    var txt;
-                                let n2 = loc.indexOf('=');
-            if (n2 === -1) {
-                     txt = null;
+function loadMainFrame() {
+        var loc = location.href;
+        var n1 = loc.length;
+        var txt;
+        let n2 = loc.indexOf('=');
+        if (n2 === -1) {
+            txt = null;
+        } else {
+            txt = decodeURI(loc.slice(n2 + 1, n1));
         }
-            else
-                {
-                     txt = decodeURI(loc.slice(n2+1,n1));
-                }
-                        var box = document.getElementById('box');
-                    box.innerHTML = txt;
-        mainFrame.location.href="/News/Front?"+"txt="+encodeURI(txt);
-
+        var box = document.getElementById('box');
+        box.innerHTML = txt;
+        document.getElementById('mainFrame').src = "/News/Front?" + "txt=" + encodeURI(txt);
+    }
+                 
 </script>

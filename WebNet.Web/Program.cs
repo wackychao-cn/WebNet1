@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace WebNet.Web;
 
@@ -14,6 +14,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        //启用生产环境
+        builder.Environment.IsProduction();
         builder.Services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>
             {
@@ -62,14 +64,28 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
         builder.Services.AddSession();
 
         builder.Services.AddMvc();
-
+        //添加启用Gzip压缩
+        builder.Services.AddResponseCompression(options =>
+        {
+            options.Providers.Add<GzipCompressionProvider>();
+            options.EnableForHttps = true;
+        });
         var app = builder.Build();
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
         }
-        app.UseStaticFiles();
+        //启用静态文件缓存
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            OnPrepareResponse = ctx =>
+            {
+                ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=31536000");
+            }
+        });
+        //启用响应压缩
+        app.UseResponseCompression();
         app.UseCookiePolicy();
         //启用Session管道
         app.UseSession();

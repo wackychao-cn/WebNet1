@@ -50,7 +50,7 @@
             <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
         </div> 
 <div class='layui-form-item'> 
-            <label class='layui-form-label' name="body" >正文</label>
+            <label class='layui-form-label' name="body" >正文（注意如果是网页链接或者pdf文件，则直接传文件或者直接粘贴链接，不要出现其他文本和其他内容）</label>
             <div class="layui-input-block" id="bodyid">
                 @Html.TextAreaFor(a => a.Body, new { @class = "layui-textarea body", style = "height:330px" })
             </div> 
@@ -166,24 +166,18 @@ var laydate = layui.laydate;
                     return false;
                 });
           //监听预览
-                form.on('submit(demo2)', function (data) {
-                     var postdata = data.field;
-                     postdata.Body = editor1.html();
-                     var newWin = window.open(),
-                     formStr = '';
-                     params="test";
-                     formStr = '<form style="visibility:hidden;" method="POST" action="/Back/Preview">' +
-                     '<input type="hidden" name="title" value="' +$(".title").val()+ '" />' +
-                     '<input type="hidden" name="body" value="' +postdata.Body + '" />'
+                   form.on('submit(demo2)', function (data) {
+        var postdata = data.field;
+        postdata.Body = editor1.html();
+        var newWin = window.open();
+        var formStr = '<form style="visibility:hidden;" method="POST" action="/Back/Preview">' +
+                      '<input type="hidden" name="title" value="' + $(".title").val() + '" />' +
+                      '<input type="hidden" name="body" value="' + postdata.Body + '" />' +
                       '</form>';
-
-               newWin.document.body.innerHTML = formStr;
-               newWin.document.forms[0].submit();
-                    return false;
-                });
-                      
-                   
-             
+        newWin.document.body.innerHTML = formStr;
+        newWin.document.forms[0].submit();
+        return false;
+        });
         });
 
                

@@ -34,7 +34,7 @@ namespace WebNet.Web.Controllers
                 }
             }
          
-                return Json(new { code = 0, msg = "新增成功！下次重启服务器生效" });
+                return Json(new { code = 0, msg = "新增成功！刷新网页缓存后生效" });
             }
             catch (Exception ex)
             {

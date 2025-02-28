@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using System.Collections;
+using System.Diagnostics;
 using WebNet.DAL;
 using WebNet.Web.Models;
 
@@ -45,7 +46,18 @@ namespace WebNet.Web.Controllers
         {
             return View();
         }
-     
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            // 获取当前请求的错误信息
+            var errorViewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            // 返回错误视图，并传递错误信息
+            return View(errorViewModel);
+        }
         /// <summary>
         /// layui编辑器里的上传图片功能 
         /// {

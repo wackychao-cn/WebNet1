@@ -11,18 +11,16 @@
     }
     Layout = null;
 }
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <title>电气设备分公司信息平台</title>
-
+     <link rel="icon" type="image/x-icon" href="~/favicon.png">
     <style type="text/css">
 
         .a_btc {
@@ -33,13 +31,13 @@
         text-align: center;
         background-color: #343434;
         }
-          .td_bg {
+        .td_bg {
         font-family: "微软雅黑", "宋体";
         text-align:center;color: white;
         border-left:#fff solid 10px;
         border-bottom:#fff solid 10px;
         }
-         .td_bgl {
+        .td_bgl {
         font-family: "微软雅黑", "宋体";
         text-align:left;color: white;
         border-bottom-left-radius: 5px;
@@ -70,41 +68,41 @@
 
         }
         /* 下拉菜单容器 */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+        .dropdown {
+        position: relative;
+        display: inline-block;
+        }
 
-/* 下拉菜单内容（默认隐藏） */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+        /* 下拉菜单内容（默认隐藏） */
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        }
 
-/* 下拉菜单中的链接 */
-.dropdown-content a {
-    font-size:16px;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+        /* 下拉菜单中的链接 */
+        .dropdown-content a {
+        font-size: 14px; /* 修改字体大小 */
+        color: black;
+        padding: 4px 8px; /* 修改单元格高度 */
+        text-decoration: none;
+        display: block;
+        }
 
-/* 鼠标悬停时显示下拉菜单 */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+        /* 鼠标悬停时显示下拉菜单 */
+        .dropdown:hover .dropdown-content {
+        display: block;
+        }
 
-/* 鼠标悬停时改变下拉菜单链接的背景颜色 */
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
+        /* 鼠标悬停时改变下拉菜单链接的背景颜色 */
+        .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        }
 
-         .a4_youce {
+        .a4_youce {
 
         font-family: "细圆";
 
@@ -113,7 +111,7 @@
         color: #FFF;
 
         }
-         .a5_youce {
+        .a5_youce {
 
         font-family: "宋体";
 
@@ -122,7 +120,7 @@
         color: #FFF;
 
         line-height: 60px;
-        
+
         text-decoration:none
         }
         img {
@@ -215,7 +213,7 @@
         text-align: center;
 
         background-color: #C9202D;
-         white-space: nowrap; /* 防止换行 */
+        white-space: nowrap; /* 防止换行 */
         overflow: hidden; /* 隐藏超出部分 */
 
         }
@@ -303,7 +301,7 @@
 
     <link href="~/css/site.css" rel="stylesheet" type="text/css" />
     <link href="~/layui/css/layui.css" rel="stylesheet" />
-   
+
 
 </head>
 
@@ -322,7 +320,7 @@
 
             <td width="100%" rowspan="10" bgcolor="#F4F2F5">&nbsp;</td>
 
-            
+
 
             <td width="100%" rowspan="10" bgcolor="#F4F2F5">&nbsp;</td>
 
@@ -365,32 +363,38 @@
 
                                                 <td width="171"><a href="http://10.24.30.247/Citrix/NXDWeb" target="_blank" class="a_bt">虚拟桌面</a></td>
 
-                                                                                 <td width="171">
-    <div class="dropdown">
-        <a href="javascript:void(0);"  target="_blank" class="a_bt">数字化业务平台</a>
-<div class="dropdown-content">
-    <a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank">时间管理系统</a>
-    <a href="http://bim.crrczelc.com.cn:18110/idp/authcenter/ActionAuthChain?entityId=supplierPortal" target="_blank">苍穹云平台</a>
-    <a href="http://mesty.zelc.crrc.cc/uma-unimax-web/login.action" target="_blank" rel="noreferrer">MES系统</a>
-    <a href="http://10.24.207.17:8801/login?redirect=/dashboard/analysis" target="_blank">受电弓智能拧紧系统</a>
-    <a href="http://10.29.54.129/Account/Logins?ReturnUrl=%2f" target="_blank">受电弓装配系统</a>
-    <a href="https://www.crrcgo.cc/#/homePage" target="_blank">中车购2.0</a>
-    <a href="http://18.0.142.147/crrc/login.html" target="_blank">供应商门户</a>
-    <a href="http://10.24.1.206:8080/material.html" target="_blank">外购物料查询</a>
-    <a href="http://10.24.7.45:8080/login-main.action" target="_blank">株机科技管理平台</a>
-    <a href="https://otms-ilp.crrcgo.cc/" target="_blank" rel="noreferrer">株机OTMS</a>
-    <a href="http://lcpro.crrcgc.cc/crrc/login.html" target="_blank" rel="noreferrer">株机ITMS</a>
-    <a href="http://mail.crrcgc.cc/" target="_blank">中车邮箱</a>
-    <a href="http://10.24.1.212:9100/cas/login" target="_blank">IT运维平台</a>
-    <a href="http://10.24.206.233/jz8001011A/index.do" target="_blank">EBPM云平台</a>
-    <a href="http://10.24.109.7:8768/cas/login" target="_blank">主数据管理平台</a>
-    <a href="http://10.24.108.132:18080/smartbi/vision/login.jsp?surl=index.jsp rel="noreferrer"" target="_blank">SmartBI</a>
-    <a href="http://cnki.crrcgc.cc/kns55/" target="_blank">中国知网</a>
-</div>
-    </div>
-</td>
-
-                                     <td width="171"><a href="javascript:void(0);" target="_blank" class="a_bt">制度与体系文件</a></td>
+                                                <td width="171">
+                                                    <div class="dropdown">
+                                                        <a href="javascript:void(0);"  target="_blank" class="a_bt">数字化业务平台</a>
+                                                        <div class="dropdown-content">
+                                                            <a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank">时间管理系统</a>
+                                                            <a href="http://10.24.206.172:6888/ierp/" target="_blank">苍穹云平台</a>
+                                                            <a href="http://mesty.zelc.crrc.cc/uma-unimax-web/login.action" target="_blank" rel="noreferrer">MES系统</a>
+                                                            <a href="http://10.24.207.17:8801/login?redirect=/dashboard/analysis" target="_blank">受电弓智能拧紧系统</a>
+                                                            <a href="http://10.29.54.129/Account/Logins?ReturnUrl=%2f" target="_blank">受电弓装配系统</a>
+                                                            <a href="https://www.crrcgo.cc/#/homePage" target="_blank">中车购2.0</a>
+                                                            <a href="http://18.0.142.147/crrc/login.html" target="_blank">供应商门户</a>
+                                                            <a href="http://10.24.1.206:8080/material.html" target="_blank">外购物料查询</a>
+                                                            <a href="http://10.24.7.45:8080/login-main.action" target="_blank">株机科技管理平台</a>
+                                                            <a href="https://otms-ilp.crrcgo.cc/" target="_blank" rel="noreferrer">株机OTMS</a>
+                                                            <a href="http://lcpro.crrcgc.cc/crrc/login.html" target="_blank" rel="noreferrer">株机ITMS</a>
+                                                            <a href="http://mail.crrcgc.cc/" target="_blank">中车邮箱</a>
+                                                            <a href="http://10.24.1.212:9100/cas/login" target="_blank">IT运维平台</a>
+                                                            <a href="http://10.24.206.233/jz8001011A/index.do" target="_blank">EBPM云平台</a>
+                                                            <a href="http://10.24.109.7:8768/cas/login" target="_blank">主数据管理平台</a>
+                                                            <a href="http://10.24.108.132:18080/smartbi/vision/login.jsp?surl=index.jsp rel="noreferrer"" target="_blank">SmartBI</a>
+                                                            <a href="http://cnki.crrcgc.cc/kns55/" target="_blank">中国知网</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @{
+                                                    string url="javascript:void(0)";
+                                                    if ((new WebNet.DAL.CategoryDAL().GetModelByCond("[Caname] like '规章制度'"))!=null)
+                                                    {
+                                                        url = "/NewsPage/Index?txt=规章制度";
+                                                    }
+                                     <td width="171"><a href="@url" target="_blank" class="a_bt">制度与体系文件</a></td>
+                                     }
 
                                             </tr>
 
@@ -407,11 +411,11 @@
                 </table>
                   <div class="layui-carousel" style="width:1400px;height:340px"id="ID-carousel-demo-image1">
   <div carousel-item anim:fade>
-    <div><img src="~/pic/lunbo/Title0.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/Title1.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/Title2.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/Title3.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/Title4.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title0.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title1.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title2.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title3.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/Title4.png" style="width: 100%;height: auto"/></div>
   </div>
 </div>
 
@@ -492,11 +496,11 @@ layui.use(function(){
                                     <td >
                                         <div class="layui-carousel" style="width:387px;height:262px"id="ID-carousel-demo-image">
   <div carousel-item anim:fade>
-    <div><img src="~/pic/lunbo/R-C0.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/R-C1.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/R-C2.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/R-C3.jpg" style="width: 100%;height: auto"/></div>
-    <div><img src="~/pic/lunbo/R-C4.jpg" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/R-C0.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/R-C1.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/R-C2.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/R-C3.png" style="width: 100%;height: auto"/></div>
+    <div><img src="~/pic/lunbo/R-C4.png" style="width: 100%;height: auto"/></div>
   </div>
 </div>
 
@@ -602,9 +606,12 @@ layui.use(function(){
 
                                             <tr bgcolor="#FFFFFF">
 
-                                                <td width="128" height="59"><img src="..\pic/post1.png" width="128" height="59" /></td>
-
-                                                <td width="133" height="59"><img src="..\pic/post2.png" width="132" height="59" /></td>
+                                                <td width="128" height="59">
+                                                    <img src="../pic/post1.png" width="128" height="59" onclick="redirectToEmail('post1')" style="cursor:pointer;" />
+                                                </td>
+                                                <td width="133" height="59">
+                                                    <img src="../pic/post2.png" width="132" height="59" onclick="redirectToEmail('post2')" style="cursor:pointer;" />
+                                                </td>
 
                                             </tr>
 
@@ -632,7 +639,7 @@ layui.use(function(){
 
                                     <td width="261" height="162" valign="top" bgcolor="#FFFFFF">
                                         @{
-                                                        List<WebNet.Model.News> list4 = new NewsDAL().GetBottomList(5,"[Caname] like '公告栏'");
+                                                        List<WebNet.Model.News> list4 = new NewsDAL().GetBottomListbytime(5,"[Caname] like '公告栏'");
                                                         foreach (var item in list4)
                                                         {
                                                             string conr = "/NewsPage/Details/" + item.Id;
@@ -669,21 +676,17 @@ layui.use(function(){
                     <tr>
 
                         <td width="387" height="324"><table width="387" border="0" cellspacing="0" cellpadding="0">
-
-
                                 <tr>
-
-
                                     <td width="120" height="100" class="td_bg"style="background-color:#C9202D"><a href="http://10.24.205.122:8080" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-group" style=" font-size: 40px; color: white;"></i><br />预定会议</a></td>
-                                    <td width="120" height="100" class="td_bg"style="background-color:#16baaa"><a href="Duty/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-date" style=" font-size: 40px; color: white;"></i><br />值班情况</a></td>
-                                     <td width="120" height="100" class="td_bg"style="background-color:#ffb800"><a href="Travel/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-release" style=" font-size: 40px; color: white;"></i><br />出差情况</a></td>
+                                    <td width="120" height="100" class="td_bg"style="background-color:#16baaa"><a href="/Duty/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-date" style=" font-size: 40px; color: white;"></i><br />值班情况</a></td>
+                                     <td width="120" height="100" class="td_bg"style="background-color:#ffb800"><a href="/Travel/Front" class="a4_youce" target=_blank ><i class="layui-icon layui-icon-release" style=" font-size: 40px; color: white;"></i><br />出差情况</a></td>
 
                                 </tr>
 
                                 <tr>
 
                                   <td width="120" height="100" class="td_bg"style="background-color:#16b777"><a href="javascript:;" class="a4_youce"  ><i class="layui-icon layui-icon-cellphone" style=" font-size: 40px; color: white;"></i><br /></a></td>
-                                    <td width="120" height="100" class="td_bg"style="background-color:#1e9fff"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-template" style=" font-size: 40px; color: white;"></i><br /></a></td>
+                                    <td width="120" height="100" class="td_bg" style="background-color:#1e9fff"><a href="http://10.24.205.122" class="a4_youce" target="_blank"><i class="layui-icon layui-icon-template" style=" font-size: 40px; color: white;"></i><br />机加工生产系统</a></td>
                                      <td width="120" height="100" class="td_bg"style="background-color:#a233c6"><a href="javascript:;" class="a4_youce" ><i class="layui-icon layui-icon-read" style=" font-size: 40px; color: white;"></i><br /></a></td>
 
                                 </tr>
@@ -746,7 +749,7 @@ layui.use(function(){
 
                                                 <td width="368" height="260" valign="top" bgcolor="#FFFFFF">
                                                     @{
-                                                        List<WebNet.Model.News> list3 = new NewsDAL().GetBottomList(5,"[Caname] like '工作动态'");
+                                                        List<WebNet.Model.News> list3 = new NewsDAL().GetBottomListbytime(5,"[Caname] like '工作动态'");
                                                         foreach (var item in list3)
                                                         {
                                                             string conr = "/NewsPage/Details/" + item.Id;
@@ -943,7 +946,7 @@ layui.use(function(){
                                                                         <div class="TabbedPanelsContentGroup">
                                                                             @foreach (var item in top)
                                                                             {
-                                                                                List<WebNet.Model.News> sub = new WebNet.DAL.NewsDAL().GetBottomList(5, "[Bh] like '"+item.Bh+"'");
+                                                                                List<WebNet.Model.News> sub = new WebNet.DAL.NewsDAL().GetBottomListbytime(5, "[Bh] like '"+item.Bh+"'");
 
                                                                                 <div class="TabbedPanelsContent">
                                                                                     @foreach (var item2 in sub)
@@ -1154,31 +1157,7 @@ color: #eaeaea;
 </table>
  <footer class="border-top footer text-muted">
         <table width="1400" border="0" align="center" cellpadding="0" cellspacing="0">
-
-            <tr bgcolor="#343434">
-
-                <td width="20%" height="228"><img src="~/pic/image (14).png" alt="2" width="371" height="228" /></td>
-
-                <td width="20%" height="228" align="center" valign="top">
-                    <br /><br /><br />
-                    <a href=" http://10.29.31.234/" target="_blank" class="a_btc" >机车事业部</a><br /><br /> <br />
-                    <a href="http://10.24.1.19/" target="_blank" class="a_btc">城轨事业部</a>
-                </td>
-                <td width="20%" height="228" align="center" valign="top">
-                    <br /><br /><br />
-                    <a href="*" target="_blank" class="a_btc">制动分公司</a><br /><br /><br />
-                    <a href="http://10.29.91.249" target="_blank" class="a_btc">车体事业部</a>
-                </td>
-                <td width="20%" height="228" align="center" valign="top">
-                    <br /><br /><br />
-                    <a href=" http://10.29.110.9" target="_new" class="a_btc">转向架事业部</a><br /><br /> <br />
-                    <a href="*" target="_blank" class="a_btc">供应链管理中心</a>
-                </td>
-              
-
-                <td width="20%"><img src="~/pic/image (37).png" alt="1" width="354" height="228" /></td>
-
-            </tr>
+        
 
             <tr>
 
@@ -1189,6 +1168,15 @@ color: #eaeaea;
         </table>
     </footer>
 <script type="text/javascript">
+                    function redirectToEmail(post) {
+                    let email;
+                    if (post === 'post1') {
+                        email = '010200000404@zelc.crrc.cc';
+                    } else if (post === 'post2') {
+                        email = '0102000057434@zelc.crrc.cc';
+                    }
+                    window.location.href = 'mailto:' + email;
+                }
 
 var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1");
 
