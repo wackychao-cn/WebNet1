@@ -1,4 +1,5 @@
-﻿@using System.Data
+﻿<html>
+@using System.Data
 @using WebNet.DAL
 @{
     List<WebNet.Model.Category> top = new WebNet.DAL.CategoryDAL().GetTopList(12, "[Pbh] like '0'");
@@ -348,9 +349,19 @@
                         <td height="60"  align="center" bgcolor="#C9202D"><table width="1201" border="0" cellpadding="0" cellspacing="0" >
 
                                 <tr align="center" class="a_bt">
-
-                                    <td width="171" height="60"><a href="http://10.24.204.132:8081" target="_blank" class="a_bt">OA</a></td>
-
+                                    <td width="171" height="60">
+                                        <div class="dropdown" align="center">
+                                            <a href="javascript:void(0);" target="_blank" class="a_bt">OA</a>
+                                            
+                                                <div class="dropdown-content">
+                                                   <a href="http://coa.crrcgc.cc/login/" target="_blank">信创OA</a>
+                                                   <a href="http://10.24.204.132:8081/" target="_blank">原协同办公OA</a>
+                                               </div>
+                                      </div>
+                                
+                                        
+                                      </td>
+                                   
                                     <td width="171" align="center"><a href="http://10.24.204.241/index.action" target="_blank" class="a_bt">财务共享</a></td>
 
                                     <td width="171"><a href="http://10.24.204.65:8080/shr/home.do" target="_blank" class="a_bt">s-HR系统</a></td>
@@ -471,13 +482,14 @@ layui.use(function(){
 
                 </table></td>
         </tr>
+
         <tr>
 
-            <td width="109" height="1243" rowspan="6" bgcolor="#F4F2F5">&nbsp;</td>
+            <td width="59" height="1243" rowspan="6" bgcolor="#F4F2F5">&nbsp;</td>
 
-            <td width="1186" height="0" bgcolor="#F4F2F5"></td>
+            <td width="2186" height="0" bgcolor="#F4F2F5"></td>
 
-            <td width="109" rowspan="6" valign="top" bgcolor="#F4F2F5">&nbsp;</td>
+            <td width="59" rowspan="6" valign="top" bgcolor="#F4F2F5">&nbsp;</td>
 
         </tr>
 
@@ -488,7 +500,7 @@ layui.use(function(){
                     <tr>
 
 
-                        <td width="387" height="262" bgcolor="#FFFFFF"><table width="385" border="2" align="center" cellpadding="0" cellspacing="0" class="lb_border">
+                        <td width="387" height="262" bgcolor="#FFFFFF"><table width="385" border="1" align="center" cellpadding="0" cellspacing="0" class="lb_border">
 
                                 <tr>
 
@@ -574,17 +586,18 @@ layui.use(function(){
 
                                                                     <tr class="c-chongfu">
 
-                                                                        <td width="10"><img src="../pic/1.png" alt="1" width="10" height="18" align="left" /></td>
+                                                                        <td width="10"><img src="../pic/1.png" alt="1" width="12" height="12" align="left" /></td>
 
-                                                                        <td width="100"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
+                                                                        <td width="100"><a href=@conr target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size: 16px">@item2.Title</div></a></td>
 
                                                                         <td width="40"><div  align="right" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
-
+                                                                        
                                                                     </tr>
-
+                                                                   
                                                                 </table>
+                                                               
                                                             }
-
+                                                            
                                                         </div>
                                                     }
 
@@ -643,17 +656,18 @@ layui.use(function(){
                                                         foreach (var item in list4)
                                                         {
                                                             string conr = "/NewsPage/Details/" + item.Id;
-                                                            <table width="261" border="0" cellpadding="0" cellspacing="0"  style="table-layout:fixed;">
+                                                            <table width="361" border="0" cellpadding="0" cellspacing="0"  style="table-layout:fixed;">
 
                                                         <tr>
                                                          <td width="10" height="15">&nbsp;</td>
-                                                         <td width="15" height="15"><img src="../pic/1.png" alt="1" width="12" height="18" /></td>
-                                                         <td width="236" height="15" class="overflow"><a href=@conr target="_new"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.Title</div></a></td>
+                                                         <td width="15" height="15"><img src="../pic/1.png" alt="1" width="12" height="12" /></td>
+                                                        <td width="336" height="15" class="overflow"><a href=@conr target="_new"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size: 16px">@item.Title</div></a></td>
 
 
                                                         </tr>
 
                                                     </table>
+                                                <hr .hr_xhx {color: #eaeaea;width="361" } />
                                                         }
                                                     }
 
@@ -701,11 +715,11 @@ layui.use(function(){
 
                             </table></td>
 
-                        <td width="558" height="324"><table width="558" border="0" cellspacing="0" cellpadding="0">
+                        <td width="658" height="324"><table width="558" border="0" cellspacing="0" cellpadding="0">
 
                                 <tr>
 
-                                    <td width="558" height="64"><table width="558" border="0" cellspacing="0" cellpadding="0">
+                                    <td width="658" height="64"><table width="558" border="0" cellspacing="0" cellpadding="0">
 
                                             <tr>
 
@@ -716,7 +730,7 @@ layui.use(function(){
                                             </tr>
 
                                         </table></td>
-
+                                    
                                 </tr>
 
                                 <tr>
@@ -725,29 +739,9 @@ layui.use(function(){
 
                                             <tr>
 
-                                                <td width="190" height="260"><table width="190" border="0" cellspacing="0" cellpadding="0">
+                                                
 
-                                                        <tr>
-
-                                                            <td height="86"><img src="../pic/train1.png" width="190" height="86" /></td>
-
-                                                        </tr>
-
-                                                        <tr>
-
-                                                            <td height="87"><img src="../pic/train2.png" width="190" height="87" /></td>
-
-                                                        </tr>
-
-                                                        <tr>
-
-                                                            <td height="86"><img src="../pic/train3.png" width="190" height="86" /></td>
-
-                                                        </tr>
-
-                                                    </table></td>
-
-                                                <td width="368" height="260" valign="top" bgcolor="#FFFFFF">
+                                                <td width="558" height="260" valign="top" bgcolor="#FFFFFF">
                                                     @{
                                                         List<WebNet.Model.News> list3 = new NewsDAL().GetBottomListbytime(5,"[Caname] like '工作动态'");
                                                         foreach (var item in list3)
@@ -757,13 +751,20 @@ layui.use(function(){
 
                                                         <tr>
 
-                                                            <td width="225" height="30" overflow="hidden" class="c-chongfu overflow"><a href=@conr target="_new"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.Title</div></a></td>
+                                                            <td width="225" height="30" overflow="hidden" class="c-chongfu overflow">
+                                                            <a href=@conr target="_new">
+                                                            <div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                                            @item.Title</div></a></td>
 
-                                                            <td width="120" height="30"><div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item.CreateTime.ToShortDateString()</div></td>
+                                                            <td width="120" height="30">
+                                                            <div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                                            @item.CreateTime.ToShortDateString()
+                                                            </div></td>
 
                                                         </tr>
-
+                                                                
                                                     </table>
+                                                           
                                                         }
                                                     }
                                                     <p>&nbsp;</p>
@@ -778,7 +779,7 @@ layui.use(function(){
 
                             </table></td>
 
-                        <td width="241" height="324"><table width="241" border="0"  cellpadding="0" cellspacing="0">
+                        <td width="341" height="324"><table width="341" border="0"  cellpadding="0" cellspacing="0">
 
                                 <tr align="center" valign="middle">
                                     @{
@@ -794,7 +795,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                        <td width="241" height="50" bgcolor="#C9202D" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-notice" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                                        <td width="341" height="50" bgcolor="#C9202D" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-notice" style=" font-size: 30px; color: white;"></i>@cons</a></td>
 
                                 </tr>
 
@@ -880,13 +881,13 @@ layui.use(function(){
 
         <tr>
 
-            <td width="1186" height="154" bgcolor="#FFFFFF"><img src="../pic/geduan.png" width="1186" height="154" /></td>
+            <td width="1286" height="154" bgcolor="#FFFFFF"><img src="../pic/geduan.png" width="1286" height="154" /></td>
 
         </tr>
 
         <tr>
 
-            <td width="1186" height="422" bgcolor="#FFFFFF"><table width="1186" border="0" cellspacing="0" cellpadding="0">
+            <td width="1286" height="422" bgcolor="#FFFFFF"><table width="1286" border="0" cellspacing="0" cellpadding="0">
 
                     <tr>
 
@@ -896,7 +897,7 @@ layui.use(function(){
 
                             </table>
 
-                            <table width="1186" border="0" cellspacing="0" cellpadding="0">
+                            <table width="1286" border="0" cellspacing="0" cellpadding="0">
 
                                 <tr>
 
@@ -906,7 +907,7 @@ layui.use(function(){
 
                                         </table>
 
-                                        <table width="1186" border="0" cellspacing="0" cellpadding="0">
+                                        <table width="1286" border="0" cellspacing="0" cellpadding="0">
 
                                             <tr>
 
@@ -952,39 +953,36 @@ layui.use(function(){
                                                                                     @foreach (var item2 in sub)
                                                                                     {
                                                                                         string conr = "/NewsPage/Details/" + item2.Id.ToString();
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5"  style="table-layout:fixed;">
+                                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="5"  style="table-layout:fixed;">
 
-                                <tr class="c-chongfu">
+                                                                                           <tr class="c-chongfu">
 
-                                  <td width="7%"><img src="../pic/1.png" alt="1" width="12" height="18" align="middle" /></td>
+                                                                                              <td width="7%"><img src="../pic/1.png" alt="1" width="12" height="12" align="middle" /></td>
 
-                                  <td width="60%"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
+                                                                                              <td width="60%"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
 
-                                  <td width="33%"><div align="right"  class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
+                                                                                              <td width="33%"><div align="right"  class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
 
-                                </tr>
+                                                                                           </tr>
 
-                              </table>
+                                                                                        </table>
 
-                              <hr .hr_xhx {
-
-color: #eaeaea;
-
-} />
-}
- </div>
-}
+                                                                                        <hr .hr_xhx {color: #eaeaea;} />
+                                                                                    }
+                                                                                </div>
+                                                                             }
 
                            
-                          </div>
-                        </div>
+                                                                        </div>
+                                                                    </div>
 
-                      </div></td>
+                                                               </div>
+                                                             </td>
 
-                    </tr>
+                                                        </tr>
 
-                  </table></td>
-                  <td width="241" height="422"><table width="241" border="0" cellspacing="0" cellpadding="0">
+                                                </table></td>
+                                  <td width="341" height="422"><table width="341" border="0" cellspacing="0" cellpadding="0">
 
                     <tr>
 
