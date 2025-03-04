@@ -77,16 +77,12 @@
     </div>
 
     </form>
-<!-- <script type="text/javascript" src="//unpkg.com/wangeditor/dist/wangEditor.min.js"> -->
-<link rel="stylesheet" href="~/kindeditor/themes/default/default.css" />
-<link rel="stylesheet" href="~/kindeditor/plugins/code/prettify.css" />
-<script src="~/kindeditor/kindeditor-all-min.js"></script>
-<script charset="utf-8" src="~/kindeditor/lang/zh-CN.js"></script>
-<script charset="utf-8" src="~/kindeditor/plugins/code/prettify.js"></script>
+
+<script src="~/js/tinymce/js/tinymce/tinymce.min.js"></script>
 @if (newadd)
 {
     <script>
-                                var loc = location.href;
+                 var loc = location.href;
                  var n1 = loc.length;
                  var n2 = loc.indexOf('=');
                  var txt = decodeURI(loc.substr(n2+1,n1-n2));
@@ -100,25 +96,53 @@
 
      var pop_index;
      var editor1;
-     KindEditor.ready(function (K) {
-           editor1 = K.create('#Body', {
-             cssPath: '/kindeditor/plugins/code/prettify.css',
-             uploadJson: '/Home/KE_Upload',
-             afterCreate: function () {
-                 var self = this;
-                 K.ctrl(document, 13, function () {
-                    self.sync();
-                   K('form[name=form1]')[0].submit();
-                 });
-                 K.ctrl(self.edit.doc, 13, function () {
-                     self.sync();
-                     K('form[name=form1]')[0].submit();
-                 });
-             }
+       tinymce.init({
+        selector: '#Body',
+        language:'zh_CN',
+         relative_urls: false,
+        plugins: 'image link',
+        toolbar: 'image link',
+        setup: function (editor) {
+        editor1 = editor; // 将编辑器实例赋值给 editor1
+        },
+        images_upload_url: '/Home/ImgUpload',
+             file_picker_callback: function(callback, value, meta) {
+             //指定pdf
+            var filetype='.pdf';
+            //后端接收上传文件的地址
+             var upurl='/Home/KE_Upload';
+             //模拟出一个input用于添加本地文件
+            var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', filetype);
+            input.click();
+            input.onchange = function() {
+                var file = this.files[0];
 
-         });
-         prettyPrint();
-     });
+                var xhr, formData;
+                console.log(file.name);
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', upurl);
+                xhr.onload = function() {
+                    var json;
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    json = JSON.parse(xhr.responseText);
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    callback(json.location);
+                    };
+                formData = new FormData();
+                formData.append('file', file, file.name );
+                xhr.send(formData);
+                };
+             },
+    });
 
         /*加载layui编辑器*/
         layui.use(['form',  'layer','laydate','upload'], function () {
@@ -145,7 +169,7 @@ var laydate = layui.laydate;
                 form.on('submit(demo1)', function (data) {
                     var url = "/News/add";
                     var postdata = data.field;
-                    postdata.Body = editor1.html();
+                     postdata.Body = editor1.getContent(); // 获取编辑器内容
 
             $('#btn1').attr("class", "layui-btn layui-btn-disabled");
                 $('#btn1').attr("disabled", "disabled");
@@ -166,18 +190,43 @@ var laydate = layui.laydate;
                     return false;
                 });
           //监听预览
-                   form.on('submit(demo2)', function (data) {
+        form.on('submit(demo2)', function (data) {
         var postdata = data.field;
-        postdata.Body = editor1.html();
-        var newWin = window.open();
-        var formStr = '<form style="visibility:hidden;" method="POST" action="/Back/Preview">' +
-                      '<input type="hidden" name="title" value="' + $(".title").val() + '" />' +
-                      '<input type="hidden" name="body" value="' + postdata.Body + '" />' +
-                      '</form>';
-        newWin.document.body.innerHTML = formStr;
-        newWin.document.forms[0].submit();
-        return false;
+            postdata.Body = editor1.getContent(); // 获取编辑器内容
+
+        // 打开新窗口
+        var newWin = window.open('', '_blank');
+
+        // 使用 AJAX 提交数据
+        $.ajax({
+            url: '/Back/Preview',
+            type: 'POST',
+            data: {
+                title: $(".title").val(),
+                body: postdata.Body
+            },
+                success: function(response) {
+                // 正则表达式匹配绝对路径
+                var absoluteUrlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+                // 判断返回的内容是否为绝对路径
+                if (absoluteUrlPattern.test(response)) {
+                    // 如果是绝对路径，直接在新窗口中打开该URL
+                    newWin.location.href = response;
+                } else {
+                    // 否则将返回的HTML内容写入新窗口
+                    newWin.document.write(response);
+                    newWin.document.close();
+                }
+            },
+            error: function(xhr, status, error) {
+                newWin.document.write('<p>预览加载失败，请稍后再试。</p>');
+                newWin.document.close();
+            }
         });
+
+        return false; // 阻止表单默认提交行为
+    });
         });
 
                
