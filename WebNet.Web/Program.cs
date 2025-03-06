@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Routing.Patterns;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using WebNet.Web.Models;
 
 namespace WebNet.Web;
 
@@ -34,7 +33,6 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
         builder.Services.AddSingleton(DAL.DataAccess.CreateTravelDAL(db));
         builder.Services.AddSingleton(DAL.DataAccess.CreateDutyDAL(db));
 
-
         //验证登录
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
@@ -50,14 +48,17 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
     o.AccessDeniedPath = new PathString("/Home/Index");
 
 });
-        //session
+      
         builder.Services.Configure<CookiePolicyOptions>(options =>
               {
                   // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                   options.CheckConsentNeeded = context => false;       //改为false或者直接注释掉，上面的Session才能正常使用
                   options.MinimumSameSitePolicy = SameSiteMode.None;
              });
+        //session
         //注册Session服务
+
+     
         //基于内存的Session
         builder.Services.AddDistributedMemoryCache();
         //默认过期时间为20分钟，每次访问都会重置
@@ -81,7 +82,8 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
         {
             OnPrepareResponse = ctx =>
             {
-                ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=31536000");
+                ctx.Context.Response.Headers["Cache-Control"] = "no-store, no-cache";
+                ctx.Context.Response.Headers["Pragma"] = "no-cache"; // 兼容旧版 HTTP 协议
             }
         });
         //启用响应压缩
@@ -90,7 +92,6 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
         //启用Session管道
         app.UseSession();
         app.UseRouting();
-
         app.UseAuthorization();// 授权
 
         app.MapControllerRoute(
