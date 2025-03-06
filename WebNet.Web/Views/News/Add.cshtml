@@ -52,7 +52,7 @@
 <div class='layui-form-item'> 
             <label class='layui-form-label' name="body" >正文（注意如果是网页链接或者pdf文件，则直接传文件或者直接粘贴链接，不要出现其他文本和其他内容）</label>
             <div class="layui-input-block" id="bodyid">
-                @Html.TextAreaFor(a => a.Body, new { @class = "layui-textarea body", style = "height:330px" })
+                @Html.TextAreaFor(a => a.Body, new { @class = "layui-textarea body", style = "height:600px" })
             </div> 
         </div> 
 
@@ -97,11 +97,12 @@
      var pop_index;
      var editor1;
        tinymce.init({
-        selector: '#Body',
-        language:'zh_CN',
-         relative_urls: false,
-        plugins: 'image link',
-        toolbar: 'image link',
+            selector: '#Body',
+      language: 'zh_CN',
+      license_key: 'gpl',
+      relative_urls: false,
+      plugins: 'image link advlist',  // 添加 fontselect
+      toolbar: 'alignleft aligncenter alignright | image link',
         setup: function (editor) {
         editor1 = editor; // 将编辑器实例赋值给 editor1
         },
