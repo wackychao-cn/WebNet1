@@ -12,21 +12,21 @@
 
     <div class='layui-form'>
         <div class='layui-form-item'> 
-            <label class='layui-form-label'>Name</label> 
+            <label class='layui-form-label'>值班领导</label> 
             <div class='layui-input-block'> 
                 @Html.TextBoxFor(a => a.Name, new { @class = "layui-input",lay_verify = "required" }) 
             </div> 
             <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
         </div> 
         <div class='layui-form-item'> 
-            <label class='layui-form-label'>Name1</label> 
+            <label class='layui-form-label'>值班主管</label> 
             <div class='layui-input-block'> 
                 @Html.TextBoxFor(a => a.Name1, new { @class = "layui-input",lay_verify = "required" }) 
             </div> 
             <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
         </div> 
         <div class='layui-form-item'> 
-            <label class='layui-form-label'>DutyTime</label> 
+            <label class='layui-form-label'>值班日期</label> 
             <div class='layui-input-block'> 
                 @Html.TextBoxFor(a => a.DutyTime, new { @class = "layui-input",lay_verify = "required" }) 
             </div> 
@@ -49,67 +49,11 @@
     </div>
 
     </form>
-<!-- <script type="text/javascript" src="//unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
-<link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
-<link rel="stylesheet" href="/kindeditor/plugins/code/prettify.css" />
-<script src="/kindeditor/kindeditor-all-min.js"></script>
-<script charset="utf-8" src="/kindeditor/lang/zh-CN.js"></script>
-<script charset="utf-8" src="/kindeditor/plugins/code/prettify.js"></script> -->
+
 <script>
 
 var pop_index;
     var editor1;
- /*   KindEditor.ready(function (K) {
-          editor1 = K.create('#body', {
-            cssPath: '/kindeditor/plugins/code/prettify.css',
-            uploadJson: '/Home/KE_Upload',
-            afterCreate: function () {
-                var self = this;
-                K.ctrl(document, 13, function () {
-                    self.sync();
-                    K('form[name=form1]')[0].submit();
-                });
-                K.ctrl(self.edit.doc, 13, function () {
-                    self.sync();
-                    K('form[name=form1]')[0].submit();
-                });
-            }
-        });
-        prettyPrint();
-    });*/
-
-//const E = window.wangEditor
-   // const editor = new E('#div1')  用这个编辑器的话记得改id=body的文本框为div
-  //  // 或者 const editor = new E( document.getElementById('div1') )
-//// 配置 server 接口地址
-  //  editor.config.uploadImgServer = '/home/WE_Upload'
-   // 默认情况下，显示所有菜单
-    /* editor.config.menus = [
-        'head',
-        'bold',
-        'fontSize',
-        'fontName',
-        'italic',
-        'underline',
-        'strikeThrough',
-        'indent',
-        'lineHeight',
-        'foreColor',
-        'backColor',
-        'link',
-        'list',
-        'justify',
-        'quote',
-        'emoticon',
-        'image',
-        'video',
-    //    'table',
-        'code',
-        'splitLine',
-        'undo',
-        'redo',
-    ]/*
-   // editor.create()
     
         /*加载layui编辑器*/
         layui.use(['form',  'layer','laydate','upload'], function () {
