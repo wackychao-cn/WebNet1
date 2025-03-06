@@ -146,9 +146,10 @@ namespace WebNet.Web.Controllers
                 extname = extname.Replace("\"", "");
 
                 #region 判断后缀
-                if (!extname.ToLower().Contains("pdf"))
+                var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" }; // 示例白名单
+                if (!allowedExtensions.Contains(extname.ToLower()))
                 {
-                    return Json(new { code = 1, msg = "只允许上传pdf格式的文档." });
+                    return Json(new { code = 1, msg = "不支持的文件类型" });
                 }
                 #endregion
 

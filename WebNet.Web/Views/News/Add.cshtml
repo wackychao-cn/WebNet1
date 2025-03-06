@@ -107,18 +107,13 @@
         editor1 = editor; // 将编辑器实例赋值给 editor1
         },
         images_upload_url: '/Home/ImgUpload',
-             file_picker_callback: function(callback, value, meta) {
-             //指定pdf
-            var filetype='.pdf';
-            //后端接收上传文件的地址
-             var upurl='/Home/KE_Upload';
-             //模拟出一个input用于添加本地文件
-            var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', filetype);
-            input.click();
-            input.onchange = function() {
-                var file = this.files[0];
+         file_picker_callback: function(callback, value, meta) {
+        var upurl = '/Home/KE_Upload';
+        var input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.click();
+        input.onchange = function() {
+            var file = this.files[0];
 
                 var xhr, formData;
                 console.log(file.name);
