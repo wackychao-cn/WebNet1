@@ -112,7 +112,7 @@
         .a5_youce {
         font-family: "微软雅黑";
 
-        font-size: 18px;
+        font-size: 20px;
 
         color: #C3000B;
 
@@ -166,6 +166,9 @@
 
         }
 
+        .TabbedPanelsTab {
+            background-color: red;
+        }
         body {
 
         margin: 0px;
@@ -374,6 +377,7 @@
                                                             <a href="http://10.24.7.47:8010/Account/SignIn#" target="_blank">时间管理系统</a>
                                                             <a href="http://10.24.206.172:6888/ierp/" target="_blank">苍穹云平台</a>
                                                             <a href="http://mesty.zelc.crrc.cc/uma-unimax-web/login.action" target="_blank" rel="noreferrer">MES系统</a>
+                                                            <a href="http://10.24.7.136:8888/qms2/login" target="_blank" rel="noreferrer">QMS系统</a>
                                                             <a href="http://10.24.207.17:8801/login?redirect=/dashboard/analysis" target="_blank">受电弓智能拧紧系统</a>
                                                             <a href="http://10.29.54.129/Account/Logins?ReturnUrl=%2f" target="_blank">受电弓装配系统</a>
                                                             <a href="https://www.crrcgo.cc/#/homePage" target="_blank">中车购2.0</a>
@@ -569,8 +573,8 @@ layui.use(function(){
                                                 <div class="TabbedPanelsContentGroup">
                                                     @foreach (var item in importwork)
                                                     {
-                                                        List<WebNet.Model.News> list2 = new WebNet.DAL.NewsDAL().GetBottomList(5, "[Caname] like '"+item.Caname+"'");
-                                                        <div class="TabbedPanelsContent">
+                                                        List<WebNet.Model.News> list2 = new WebNet.DAL.NewsDAL().GetBottomList(5, "[Caname] like '"+item.Caname+"'");  
+                                                            <div class="TabbedPanelsContent">
                                                             @foreach (var item2 in list2)
                                                             {
                                                                 string conr = "/NewsPage/Details/" + item2.Id.ToString();
@@ -583,7 +587,7 @@ layui.use(function(){
 
                                                                         <td width="100"><a href=@conr target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@item2.Title</div></a></td>
 
-                                                                        <td width="40"><div  align="right" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
+                                                                        <td width="40"><div  align="right" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime.ToShortDateString()</div></td>
                                                                         
                                                                     </tr>
                                                                    
@@ -957,7 +961,7 @@ layui.use(function(){
 
                                                                                               <td width="60%"><a href=@conr  target="_blank"><div align="left" class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.Title</div></a></td>
 
-                                                                                              <td width="33%"><div align="right"  class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime</div></td>
+                                                                                              <td width="33%"><div align="right"  class="Link_cf" style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@item2.CreateTime.ToShortDateString()</div></td>
 
                                                                                            </tr>
 
@@ -998,7 +1002,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                                            <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-friends" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                                            <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-friends" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1020,7 +1024,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-chart-screen" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                      <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-chart-screen" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1042,7 +1046,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                         <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-util" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                         <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-util" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1064,7 +1068,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                                                            <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-component" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                          <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-component" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1086,7 +1090,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#37BD9C" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-file-b" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                           <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-file-b" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
@@ -1108,7 +1112,7 @@ layui.use(function(){
                                         }
                                         link = "/NewsPage/Index?txt=" + cons;
                                     }
-                      <td height="50" align="center" bgcolor="#8DBE51" class="td_bgl"><a href=@link class="a5_youce" ><i class="layui-icon layui-icon-read" style=" font-size: 30px; color: white;"></i>@cons</a></td>
+                         <td height="50" align="center" bgcolor="#F4F2F5" class="td_bgl"><a href=@link class="a5_youce"><i class="layui-icon layui-icon-read" style=" font-size: 30px; color: RED;"></i>@cons</a></td>
 
                     </tr>
 
