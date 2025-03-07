@@ -15,7 +15,8 @@ namespace WebNet.Web.Controllers
         public DutyController(DAL.Interface.IDuty dal) {
             this.dal = dal;
         }
-        [Authorize]
+
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View();
@@ -82,7 +83,7 @@ namespace WebNet.Web.Controllers
             List<Model.Duty> list = dal.GetList("*", order, ordertype, pagesize, pageindex, GetCond(key, start, end, cabh));
             return Json(list);
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Add(int? id) {
             Model.Duty n = new Model.Duty();
             if (id != null)
@@ -91,7 +92,7 @@ namespace WebNet.Web.Controllers
             }
             return View(n);
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [AutoValidateAntiforgeryToken]
         [HttpPost] 
         public ActionResult Add(Model.Duty m) {
@@ -114,7 +115,7 @@ try
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Daoru(int? id)
         {
             Model.Duty n = new Model.Duty();
@@ -124,7 +125,7 @@ try
             }
             return View(n);
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> FileSave()
         {
@@ -158,7 +159,7 @@ try
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(string ids) {
  try
             {

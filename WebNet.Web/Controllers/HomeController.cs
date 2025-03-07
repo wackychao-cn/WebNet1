@@ -146,18 +146,20 @@ namespace WebNet.Web.Controllers
                 extname = extname.Replace("\"", "");
 
                 #region 判断后缀
-                var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" }; // 示例白名单
+                var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" };
+                var videoExtensions = new[] { ".mp4", ".avi", ".mov" }; // 单独定义视频类型
                 if (!allowedExtensions.Contains(extname.ToLower()))
                 {
                     return Json(new { code = 1, msg = "不支持的文件类型" });
                 }
                 #endregion
 
-                #region 判断大小
-                long mb = imgFile.Length / 1024 / 1024; // MB
-                if (mb > 20)
+                #region 动态判断大小
+                long maxAllowedMB = videoExtensions.Contains(extname.ToLower()) ? 300 : 20; // 视频类型 300MB，其他 20MB
+                long fileSizeMB = imgFile.Length / 1024 / 1024;
+                if (fileSizeMB > maxAllowedMB)
                 {
-                    return Json(new { code = 1, msg = "只允许上传小于 20MB 的文件." });
+                    return Json(new { code = 1, msg = $"只允许上传小于 {maxAllowedMB}MB 的文件" });
                 }
                 #endregion
 

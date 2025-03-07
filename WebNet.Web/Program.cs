@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WebNet.Web.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace WebNet.Web;
 
@@ -48,7 +49,11 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
     o.AccessDeniedPath = new PathString("/Home/Index");
 
 });
-      
+        //文件上传大小限制300MB
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 300 * 1024 * 1024; // 300MB
+        });
         builder.Services.Configure<CookiePolicyOptions>(options =>
               {
                   // This lambda determines whether user consent for non-essential cookies is needed for a given request.

@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 
 namespace WebNet.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class ImgconController : Controller
     {
         public IActionResult Index()

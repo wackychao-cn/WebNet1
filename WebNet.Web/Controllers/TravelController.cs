@@ -15,7 +15,7 @@ namespace WebNet.Web.Controllers
         public TravelController(DAL.Interface.ITravel dal) {
             this.dal = dal;
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View();
@@ -149,7 +149,7 @@ EndTime = item.EndTime,
             List<Model.Travel> list = dal.GetList("*", "id", "desc", pagesize, pageindex, GetCondbyDate(key, start, end, cabh));
             return Json(list);
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Add(int? id) {
             Model.Travel n = new Model.Travel();
             if (id != null)
@@ -158,7 +158,7 @@ EndTime = item.EndTime,
             }
             return View(n);
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [AutoValidateAntiforgeryToken]
         [HttpPost] 
         public ActionResult Add(Model.Travel m) {
@@ -195,7 +195,7 @@ try
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(string ids) {
  try
             {
