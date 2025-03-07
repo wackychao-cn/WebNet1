@@ -112,7 +112,9 @@ namespace WebNet.Web.Controllers
                 }
                 filename = wuli_path + filename1;
                 size += imgFile.Length;
-                using (FileStream fs = System.IO.File.Create(filename))
+           using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write, 
+               FileShare.None, bufferSize: 81920, // 使用更大的缓冲区
+               FileOptions.SequentialScan)) // 优化大文件写入
                 {
                     imgFile.CopyTo(fs);
                     fs.Flush();
@@ -123,7 +125,7 @@ namespace WebNet.Web.Controllers
             return Json(new { code = 1, msg = "上传失败" });
         }
 
-
+        [RequestSizeLimit(300 * 1024 * 1024)] // 单独设置此接口限制
         /// <summary>
         /// kindeditor在线编辑器的上传
         /// </summary>
@@ -131,60 +133,71 @@ namespace WebNet.Web.Controllers
         public IActionResult KE_Upload()
         {
 
-
-            var imgFile = Request.Form.Files[0];
-            if (imgFile != null && !string.IsNullOrEmpty(imgFile.FileName))
+            try
             {
-                long size = 0;
-                string tempname = "";
-                var filename = System.Net.Http.Headers.ContentDispositionHeaderValue
-                                .Parse(imgFile.ContentDisposition)
-                                .FileName
-                                .Trim();
-                var extname = filename.Substring(filename.LastIndexOf('.'), filename.Length - filename.LastIndexOf('.')); //扩展名，如.jpg
-
-                extname = extname.Replace("\"", "");
-
-                #region 判断后缀
-                var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" };
-                var videoExtensions = new[] { ".mp4", ".avi", ".mov" }; // 单独定义视频类型
-                if (!allowedExtensions.Contains(extname.ToLower()))
+                if (Request.Form.Files.Count == 0)
+                    return Json(new { code = 1, msg = "未收到文件" });
+                var imgFile = Request.Form.Files[0];
+                if (imgFile != null && !string.IsNullOrEmpty(imgFile.FileName))
                 {
-                    return Json(new { code = 1, msg = "不支持的文件类型" });
-                }
-                #endregion
+                    long size = 0;
+                    string tempname = "";
+                    var filename = System.Net.Http.Headers.ContentDispositionHeaderValue
+                                    .Parse(imgFile.ContentDisposition)
+                                    .FileName
+                                    .Trim();
+                    var extname = filename.Substring(filename.LastIndexOf('.'), filename.Length - filename.LastIndexOf('.')); //扩展名，如.jpg
 
-                #region 动态判断大小
-                long maxAllowedMB = videoExtensions.Contains(extname.ToLower()) ? 300 : 20; // 视频类型 300MB，其他 20MB
-                long fileSizeMB = imgFile.Length / 1024 / 1024;
-                if (fileSizeMB > maxAllowedMB)
-                {
-                    return Json(new { code = 1, msg = $"只允许上传小于 {maxAllowedMB}MB 的文件" });
-                }
-                #endregion
+                    extname = extname.Replace("\"", "");
 
-                var filename1 = System.Guid.NewGuid().ToString().Substring(0, 6) + extname;
-                tempname = filename1;
-                var path = hostingEnv.WebRootPath; //网站静态文件目录  wwwroot
-                string dir = DateTime.Now.ToString("yyyyMMdd");
-                //完整物理路径
-                string wuli_path = path + $"{Path.DirectorySeparatorChar}upload{Path.DirectorySeparatorChar}{dir}{Path.DirectorySeparatorChar}";
-                if (!System.IO.Directory.Exists(wuli_path))
-                {
-                    System.IO.Directory.CreateDirectory(wuli_path);
+                    #region 判断后缀
+                    var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" };
+                    var videoExtensions = new[] { ".mp4", ".avi", ".mov" }; // 单独定义视频类型
+                    if (!allowedExtensions.Contains(extname.ToLower()))
+                    {
+                        return Json(new { code = 1, msg = "不支持的文件类型" });
+                    }
+                    #endregion
+
+                    #region 动态判断大小
+                    long maxAllowedMB = videoExtensions.Contains(extname.ToLower()) ? 300 : 100; // 视频类型 300MB，其他 100MB
+                    long fileSizeMB = imgFile.Length / 1024 / 1024;
+                    if (fileSizeMB > maxAllowedMB)
+                    {
+                        return Json(new { code = 1, msg = $"只允许上传小于 {maxAllowedMB}MB 的文件" });
+                    }
+                    #endregion
+
+                    var filename1 = System.Guid.NewGuid().ToString().Substring(0, 6) + extname;
+                    tempname = filename1;
+                    var path = hostingEnv.WebRootPath; //网站静态文件目录  wwwroot
+                    string dir = DateTime.Now.ToString("yyyyMMdd");
+                    //完整物理路径
+                    string wuli_path = path + $"{Path.DirectorySeparatorChar}upload{Path.DirectorySeparatorChar}{dir}{Path.DirectorySeparatorChar}";
+                    if (!System.IO.Directory.Exists(wuli_path))
+                    {
+                        System.IO.Directory.CreateDirectory(wuli_path);
+                    }
+                    filename = wuli_path + filename1;
+                    size += imgFile.Length;
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        imgFile.CopyTo(fs);
+                        fs.Flush();
+                    }
+                    // 返回符合 TinyMCE 期望的 JSON 格式
+                    return Json(new { location = $"/upload/{dir}/{filename1}" });
                 }
-                filename = wuli_path + filename1;
-                size += imgFile.Length;
-                using (FileStream fs = System.IO.File.Create(filename))
-                {
-                    imgFile.CopyTo(fs);
-                    fs.Flush();
-                }
-                // 返回符合 TinyMCE 期望的 JSON 格式
-                return Json(new { location = $"/upload/{dir}/{filename1}" });
+                return Json(new { code = 1, msg = "上传失败" });
             }
-            return Json(new { code = 1, msg = "上传失败" });
-
+            catch (IOException ex) when (ex.Message.Contains("磁盘空间不足"))
+            {
+                return Json(new { code = 1, msg = "服务器存储空间不足" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 1, msg = $"上传失败：{ex.Message}" });
+            }
         }
 
         private string showError(string message)

@@ -50,9 +50,19 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
 
 });
         //文件上传大小限制300MB
-        builder.Services.Configure<FormOptions>(options =>
-        {
-            options.MultipartBodyLengthLimit = 300 * 1024 * 1024; // 300MB
+        // 在 ConfigureServices 中添加
+        builder.Services.Configure<FormOptions>(options => {
+            options.MultipartBodyLengthLimit = 300L * 1024 * 1024 * 1024; // 300GB（需大于实际需求）
+            options.MultipartHeadersCountLimit = 1000;  // 适当增加头部限制
+            options.ValueLengthLimit = int.MaxValue;    // 取消单个值长度限制
+            options.MemoryBufferThreshold = Int32.MaxValue; // 使用最大内存缓冲区
+        });
+
+        // 添加 Kestrel 服务器配置（如果是自托管）
+        builder.WebHost.ConfigureKestrel(serverOptions => {
+            serverOptions.Limits.MaxRequestBodySize = 300L * 1024 * 1024 * 1024; // 300GB
+            serverOptions.Limits.MaxRequestBufferSize = 300L * 1024 * 1024 * 1024;
+            serverOptions.Limits.MaxRequestLineSize = 16 * 1024; // 16KB
         });
         builder.Services.Configure<CookiePolicyOptions>(options =>
               {
