@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
     List<WebNet.Model.Category> List = new WebNet.DAL.CategoryDAL().GetList("");
-    var top = List.Where(a => a.Pbh == "0");
+    var top = List.Where(a => a.Pbh == "0").OrderBy(a => a.Sequence); // 按 Sequence 升序排列;
 }
 <!DOCTYPE html>
 <html>

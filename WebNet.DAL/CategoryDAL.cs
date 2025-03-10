@@ -20,9 +20,9 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into [Category](");
-            strSql.Append("[CreateTime], [Caname], [Bh], [Pbh]  )");
+            strSql.Append("[CreateTime], [Caname], [Bh], [Pbh], [Sequence]  )");
             strSql.Append(" values (");
-            strSql.Append("@CreateTime, @Caname, @Bh, @Pbh  )");
+            strSql.Append("@CreateTime, @Caname, @Bh, @Pbh, @Sequence  )");
             strSql.Append(";select @@IDENTITY");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -31,6 +31,7 @@ namespace WebNet.DAL
             h.AddParameter("@Caname", model.Caname);
             h.AddParameter("@Bh", model.Bh);
             h.AddParameter("@Pbh", model.Pbh);
+            h.AddParameter("@Sequence", model.Sequence);
 
             int result;
             string obj = h.ExecuteScalar();
@@ -48,7 +49,7 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update [Category] set ");
-            strSql.Append("[CreateTime]=@CreateTime, [Caname]=@Caname, [Bh]=@Bh, [Pbh]=@Pbh  ");
+            strSql.Append("[CreateTime]=@CreateTime, [Caname]=@Caname, [Bh]=@Bh, [Pbh]=@Pbh ,[Sequence]=@Sequence ");
             strSql.Append(" where Id=@Id ");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -57,6 +58,7 @@ namespace WebNet.DAL
             h.AddParameter("@Caname", model.Caname);
             h.AddParameter("@Bh", model.Bh);
             h.AddParameter("@Pbh", model.Pbh);
+            h.AddParameter("@Sequence", model.Sequence);
 
             return h.ExecuteNonQuery();
         }
@@ -357,7 +359,11 @@ namespace WebNet.DAL
             {
                 model.Pbh = ojb.ToString();
             }
-
+            ojb = dataReader["Sequence"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.Sequence = (int)ojb;
+            }
             return model;
         }
 
@@ -411,7 +417,7 @@ namespace WebNet.DAL
             strSql.Append(" FROM [Category] ");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere);
+                strSql.Append(" where " + strWhere + " ORDER BY [Sequence]");
             }
             List<WebNet.Model.Category> list = new List<WebNet.Model.Category>();
             MSSQLHelper h = new MSSQLHelper();
@@ -443,11 +449,11 @@ namespace WebNet.DAL
             strSql.Append(" FROM [Category]");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere+" ORDER BY Id DESC");
+                strSql.Append(" where " + strWhere+ " ORDER BY [Sequence] DESC");
             }
             else
             {
-                strSql.Append(" ORDER BY Id DESC");
+                strSql.Append(" ORDER BY Sequence DESC");
             }
             List<WebNet.Model.Category> list = new List<WebNet.Model.Category>();
             MSSQLHelper h = new MSSQLHelper();
