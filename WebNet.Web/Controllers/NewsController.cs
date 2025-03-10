@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -213,46 +214,96 @@ namespace WebNet.Web.Controllers
         }
         [Authorize]
         [AutoValidateAntiforgeryToken]
-        [HttpPost] 
-        public ActionResult Add(Model.News n) {
-            CategoryDAL categoryDAL=new CategoryDAL();
-        try
+        [HttpPost]
+        public ActionResult Add(Model.News n)
+        {
+            var currentUser = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (string.IsNullOrEmpty(currentUser))
             {
-                Model.News m=n;
+                return Json(new { code = 1, msg = "用户未登录！" });
+            }
+
+            try
+            {
+                Model.News m = n;
+                CategoryDAL categoryDAL = new CategoryDAL();
                 m.Bh = categoryDAL.GetModelByCond("[Caname] like '" + m.Caname + "'").Pbh;
-            if (m.Id==0)
-            {
-                dal.Add(m);
-                return Json(new { code=0,msg="新增成功！"});
+
+                if (m.Id == 0)
+                {
+                    m.Creater = currentUser;
+                    dal.Add(m);
+                    return Json(new { code = 0, msg = "新增成功！" });
+                }
+                else
+                {
+                    var originalNews = dal.GetModel(m.Id);
+                    if (originalNews == null)
+                    {
+                        return Json(new { code = 1, msg = "记录不存在！" });
+                    }
+
+                    // 新增角色校验逻辑
+                    bool isAdmin = User.IsInRole("admin"); // 关键角色判断[2,6](@ref)
+                    if (isAdmin || originalNews.Creater == currentUser)
+                    {
+                        // 管理员编辑时保留原始创建者信息
+                        m.Creater = isAdmin ? originalNews.Creater : currentUser;
+                        dal.Update(m);
+                        return Json(new { code = 0, msg = "编辑成功！" });
+                    }
+                    else
+                    {
+                        return Json(new { code = 1, msg = "无权限编辑！" });
+                    }
+                }
             }
-            else
-            {
-                dal.Update(m);
-                return Json(new { code = 0, msg = "编辑成功！" });
-            }
-               }
             catch (Exception ex)
             {
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
         [Authorize]
-        public ActionResult Delete(string ids) {
- try
+        public ActionResult Delete(string ids)
+        {
+            try
             {
-            int success = 0;
-            string[] ss = ids.Split(','); 
-            foreach (var item in ss)
-            {
-                int x;
-                if (int.TryParse(item, out x))
+                // 1. 获取当前登录用户
+                var currentUser = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (string.IsNullOrEmpty(currentUser))
                 {
+                    return Json(new { code = 1, msg = "用户未登录！" });
+                }
+
+                // 2. 管理员角色校验（需确保角色名大小写一致）
+                bool isAdmin = User.IsInRole("admin");
+
+                int success = 0;
+                string[] ss = ids.Split(',');
+                foreach (var item in ss)
+                {
+                    // 3. 验证ID有效性
+                    if (!int.TryParse(item, out int x)) continue;
+
+                    // 4. 获取原始记录
+                    var originalNews = dal.GetModel(x);
+                    if (originalNews == null)
+                    {
+                        return Json(new { code = 1, msg = $"ID {x} 记录不存在！" });
+                    }
+
+                    // 5. 权限校验逻辑
+                    if (!isAdmin && originalNews.Creater != currentUser)
+                    {
+                        return Json(new { code = 1, msg = $"无权限删除 ID {x} 的条目！" });
+                    }
+
+                    // 6. 执行删除
                     dal.Delete(x);
                     success++;
                 }
+                return Json(new { code = 0, msg = "成功删除" + success + "条记录！" });
             }
-            return Json(new { code = 0, msg = "成功删除" + success + "条记录！" }) ;
- }
             catch (Exception ex)
             {
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });

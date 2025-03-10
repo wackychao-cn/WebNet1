@@ -69,7 +69,11 @@
 <th>创建时间
 <span class="layui-icon layui-icon-up" title="CreateTime asc"></span> 
 <span class="layui-icon layui-icon-down" title="CreateTime desc"></span> 
-</th> 
+</th>
+<th>上传者
+<span class="layui-icon layui-icon-up" title="Creater asc"></span>
+<span class="layui-icon layui-icon-down" title="Creater desc"></span>
+</th>
 <th>分类名称
 <span class="layui-icon layui-icon-up" title="Caname asc"></span> 
 <span class="layui-icon layui-icon-down" title="Caname desc"></span> 
@@ -187,8 +191,9 @@ layer.close(pop_index);
                     html += '        <a href="javascript:void(0);" onclick="del(' + item.Id + ')"><i class="layui-icon">&#x1006;</i> 删除</a>';
                     html += '    </td>';
 					html += '    <td>' + item.Id + '</td>'; 
-html += '    <td>' + item.CreateTime + '</td>'; 
-html += '    <td>' + item.Caname + '</td>';
+html += '    <td>' + item.CreateTime + '</td>';
+    html += '    <td>' + item.Creater + '</td>';
+    html += '    <td>' + item.Caname + '</td>';
         moren = item.Caname;
 // html += '    <td>' + item.Bh + '</td>'; 
 html += '    <td>' + item.Title + '</td>'; 

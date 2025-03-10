@@ -21,9 +21,9 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into [News](");
-            strSql.Append("[CreateTime], [Caname], [Bh], [Title], [Body]  )");
+            strSql.Append("[CreateTime], [Caname], [Bh], [Title], [Body], [Creater]  )");
             strSql.Append(" values (");
-            strSql.Append("@CreateTime, @Caname, @Bh, @Title, @Body  )");
+            strSql.Append("@CreateTime, @Caname, @Bh, @Title, @Body, @Creater  )");
             strSql.Append(";select @@IDENTITY");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -33,6 +33,7 @@ namespace WebNet.DAL
             h.AddParameter("@Bh", model.Bh);
             h.AddParameter("@Title", model.Title);
             h.AddParameter("@Body", model.Body);
+            h.AddParameter("@Creater", model.Creater);
 
             int result;
             string obj = h.ExecuteScalar();
@@ -50,7 +51,7 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update [News] set ");
-            strSql.Append("[CreateTime]=@CreateTime, [Caname]=@Caname, [Bh]=@Bh, [Title]=@Title, [Body]=@Body  ");
+            strSql.Append("[CreateTime]=@CreateTime, [Caname]=@Caname, [Bh]=@Bh, [Title]=@Title, [Body]=@Body, [Creater]=@Creater   ");
             strSql.Append(" where Id=@Id ");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -60,6 +61,7 @@ namespace WebNet.DAL
             h.AddParameter("@Bh", model.Bh);
             h.AddParameter("@Title", model.Title);
             h.AddParameter("@Body", model.Body);
+            h.AddParameter("@Creater", model.Creater);
 
             return h.ExecuteNonQuery();
         }
@@ -365,7 +367,11 @@ namespace WebNet.DAL
             {
                 model.Body = ojb.ToString();
             }
-
+            ojb = dataReader["Creater"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.Creater = ojb.ToString();
+            }
             return model;
         }
 

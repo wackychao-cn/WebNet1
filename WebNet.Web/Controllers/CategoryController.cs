@@ -156,7 +156,7 @@ try
         }
 
         public ActionResult Delete(string ids) {
- try
+            try
             {
             int success = 0;
             string[] ss = ids.Split(','); 
@@ -170,7 +170,7 @@ try
                 }
             }
             return Json(new { code = 0, msg = "成功删除" + success + "条记录！" }) ;
- }
+            }
             catch (Exception ex)
             {
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });

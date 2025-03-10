@@ -66,5 +66,15 @@ namespace WebNet.Model
 			set{ _Body=value;}
 			get{return _Body;}
 		}
-	}
+        private string _Creater;
+        /// <summary> 
+        /// 上传者 
+        /// </summary> 
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Creater
+        {
+            set { _Creater = value; }
+            get { return _Creater; }
+        }
+    }
 }
