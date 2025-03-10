@@ -127,11 +127,17 @@ namespace WebNet.Web.Controllers
 
                         // 将文件路径转换为 href 模板形式
                         string hrefPath = $"/upload/{searchKey}/{DateTime.Now.ToString("yyyyMMdd")}/{fileName}";
-
+                        // 1. 获取当前登录用户
+                        var currentUser = User.FindFirst(ClaimTypes.Name)?.Value;
+                        if (string.IsNullOrEmpty(currentUser))
+                        {
+                            return Json(new { code = 1, msg = "用户未登录！" });
+                        }
                         // 创建 News 对象
                         var news = new Model.News
                         {
                             Caname = searchKey,
+                            Creater = currentUser,
                             Title = fileName,
                             Body = $"href=\"{hrefPath}\""
                         };
