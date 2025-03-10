@@ -55,7 +55,11 @@
                 <th>主键
 <span class="layui-icon layui-icon-up" title="Id asc"></span> 
 <span class="layui-icon layui-icon-down" title="Id desc"></span> 
-</th> 
+</th>
+<th>序号
+<span class="layui-icon layui-icon-up" title="Sequence asc"></span>
+<span class="layui-icon layui-icon-down" title="Sequence desc"></span>
+</th>
 <th>创建时间
 <span class="layui-icon layui-icon-up" title="CreateTime asc"></span> 
 <span class="layui-icon layui-icon-down" title="CreateTime desc"></span> 
@@ -113,7 +117,7 @@ var pop_index;
             elem: '#search_end' 
         }); 
     });
-
+           var $ = layui.jquery;
     $(".layui-table .layui-icon").click(function () {
         $('.layui-icon-active').removeClass("layui-icon-active");
         $(this).addClass("layui-icon-active");
@@ -155,8 +159,9 @@ layer.close(pop_index);
                     html += '        <a href="/Category/Add/' + item.Id + '"><i class="layui-icon">&#xe642;</i> 编辑</a>';
                     html += '        <a href="javascript:void(0);" onclick="del(' + item.Id + ')"><i class="layui-icon">&#x1006;</i> 删除</a>';
                     html += '    </td>';
-					html += '    <td>' + item.Id + '</td>'; 
-html += '    <td>' + item.CreateTime + '</td>'; 
+					html += '    <td>' + item.Id + '</td>';
+                    html += '    <td>' + item.Sequence + '</td>';
+    html += '    <td>' + item.CreateTime + '</td>'; 
 html += '    <td>' + item.Caname + '</td>'; 
 html += '    <td>' + item.Bh + '</td>'; 
 html += '    <td>' + item.Pbh + '</td>'; 

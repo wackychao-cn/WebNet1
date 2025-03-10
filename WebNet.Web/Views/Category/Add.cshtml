@@ -19,7 +19,14 @@
                 @Html.TextBoxFor(a => a.Caname, new { @class = "layui-input",lay_verify = "required" }) 
             </div> 
             <div class='layui-form-mid layui-word-aux'></div> 
-        </div> 
+        </div>
+        <div class='layui-form-item'>
+            <label class='layui-form-label'>序号</label>
+            <div class='layui-input-block'>
+                @Html.TextBoxFor(a => a.Sequence, new { @class = "layui-input", lay_verify = "required" })
+            </div>
+            <div class='layui-form-mid layui-word-aux'></div>
+        </div>
         <div class='layui-form-item'> 
             <label class='layui-form-label'>编号</label> 
             <div class='layui-input-block'> 

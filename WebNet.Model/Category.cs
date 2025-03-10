@@ -56,5 +56,14 @@ namespace WebNet.Model
 			set{ _Pbh=value;}
 			get{return _Pbh;}
 		}
-	}
+        private int _Sequence;
+        /// <summary> 
+        /// 序号 
+        /// </summary> 
+        public int Sequence
+        {
+            set { _Sequence = value; }
+            get { return _Sequence; }
+        }
+    }
 }
