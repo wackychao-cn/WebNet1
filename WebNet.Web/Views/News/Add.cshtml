@@ -49,8 +49,11 @@
             </div> 
             <div class='layui-form-mid layui-word-aux'><!--辅助文字--></div> 
         </div> 
-<div class='layui-form-item'> 
-            <label class='layui-form-label' name="body" >正文（注意如果是网页链接或者pdf文件，则直接传文件或者直接粘贴链接，不要出现其他文本和其他内容）</label>
+        <div class='layui-form-item'>
+            <label class='layui-form-label' style="width:100%">注：1、Word粘贴自动保留字体、字号、边框，EXCEL默认丢失边框字体、字号，需手动调整。2、注意如果是网页链接或者pdf文件，则直接传文件或者直接粘贴链接，不要出现其他文本和其他内容</label>
+        </div>
+        <div class='layui-form-item'> 
+            <label class='layui-form-label' name="body" >正文</label>
             <div class="layui-input-block" id="bodyid">
                 @Html.TextAreaFor(a => a.Body, new { @class = "layui-textarea body", style = "height:600px" })
             </div> 
