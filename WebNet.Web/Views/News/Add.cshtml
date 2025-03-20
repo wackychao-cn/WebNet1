@@ -141,56 +141,7 @@
                 xhr.send(formData);
                 };
              },
-                 images_upload_handler: function (blobInfo, progress) {
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-
-                // 配置上传进度监控
-                xhr.upload.onprogress = function (e) {
-                    progress(e.loaded / e.total * 100);
-                };
-
-                // 优化大文件上传配置
-                xhr.timeout = 3600000; // 1小时超时
-                xhr.open('POST', '/Home/KE_Upload');
-
-                // 使用分片上传逻辑
-                const chunkSize = 10 * 1024 * 1024; // 10MB分片
-                const file = blobInfo.blob();
-                let offset = 0;
-
-                function uploadNextChunk() {
-                    const chunk = file.slice(offset, offset + chunkSize);
-                    const formData = new FormData();
-                    formData.append('file', chunk);
-                    formData.append('chunkOffset', offset);
-                    formData.append('totalSize', file.size);
-                    formData.append('fileName', blobInfo.filename());
-
-                    xhr.send(formData);
-                }
-
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        const result = JSON.parse(xhr.responseText);
-                        if (result.code === 0) {
-                            offset += chunkSize;
-                            if (offset < file.size) {
-                                uploadNextChunk();
-                            } else {
-                                resolve(result.location);
-                            }
-                        } else {
-                            reject(result.msg);
-                        }
-                    } else {
-                        reject('HTTP Error: ' + xhr.status);
-                    }
-                };
-
-                uploadNextChunk();
-            });
-        }
+     
     });
 
         /*加载layui编辑器*/
