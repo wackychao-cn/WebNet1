@@ -151,7 +151,7 @@ namespace WebNet.Web.Controllers
                     extname = extname.Replace("\"", "");
 
                     #region 判断后缀
-                    var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx" };
+                    var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".pdf", ".docx",".ofd" };
                     var videoExtensions = new[] { ".mp4", ".avi", ".mov" }; // 单独定义视频类型
                     if (!allowedExtensions.Contains(extname.ToLower()))
                     {
