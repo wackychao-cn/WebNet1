@@ -227,13 +227,30 @@
 
                             <td width="171"><a href="http://10.24.204.65:8080/shr/home.do" target="_blank" class="a_bt">s-HR系统</a></td>
 
-                            <td width="171"><a href="http://10.24.205.122:8080" target="_blank" class="a_bt">会议室预定</a></td>
                             <td>
-                                <table width="513" border="0" align="left" cellpadding="0" cellspacing="0">
+                                <table width="684" border="0" align="left" cellpadding="0" cellspacing="0">
 
                                     <tr align="center">
 
                                         <td width="171"><a href="http://10.24.30.247/Citrix/NXDWeb" target="_blank" class="a_bt">虚拟桌面</a></td>
+                                        <td width="171">
+                                            <div class="dropdown">
+                                                <a href="javascript:void(0);" target="_blank" class="a_bt">AI专栏&nbsp;&nbsp;</a>
+                                                <div class="dropdown-content">
+                                                    <a href="http://deepseek.crrcgc.cc/" target="_blank">中车Deepseek</a>
+                                                    <a href="http://ds.crrczelc.com.cn:3001/chat/GxLiyPWyjcgMnrtu" target="_blank">株机Deepseek-R1</a>
+                                                    @{
+                                                        string AIurl = "javascript:void(0)";
+                                                        if ((new WebNet.DAL.CategoryDAL().GetModelByCond("[Caname] like 'AI资料'")) != null)
+                                                        {
+                                                            AIurl = "/NewsPage/Index?txt=AI资料";
+                                                            <a href="@AIurl" target="_blank">AI资料</a>
+                                                        }
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </td>
 
                                         <td width="171">
                                             <div class="dropdown">

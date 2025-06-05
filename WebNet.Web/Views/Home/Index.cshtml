@@ -343,14 +343,14 @@
                     <tr>
 
 
-                        <td width="100" height="60" align="center" bgcolor="#C3000B"><a href="http://web.crrczelc.cc/" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司主页</a></td>
+                        <td width="100" height="60" align="center" bgcolor="#C3000B"><a href="http://web.crrczelc.cc/" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司主页</a></td>
 
                         <td height="60"  align="center" bgcolor="#C3000B"><table width="1201" border="0" cellpadding="0" cellspacing="0" >
 
                                 <tr align="center" class="a_bt">
-                                    <td width="171" height="60">
+                                    <td width="90" height="60">
                                         <div class="dropdown" align="center">
-                                            <a href="javascript:void(0);" target="_blank" class="a_bt">OA</a>
+                                            <a href="javascript:void(0);" target="_blank" class="a_bt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OA</a>
                                             
                                                 <div class="dropdown-content">
                                                    <a href="http://coa.crrcgc.cc/main/portal" target="_blank">信创OA</a>
@@ -361,19 +361,36 @@
                                         
                                       </td>
                                    
-                                    <td width="171" align="center"><a href="http://10.24.204.241/index.action" target="_blank" class="a_bt">财务共享</a></td>
+                                    <td width="150" align="center"><a href="http://10.24.204.241/index.action" target="_blank" class="a_bt">财务共享</a></td>
 
-                                    <td width="171"><a href="http://10.24.204.65:8080/shr/home.do" target="_blank" class="a_bt">s-HR系统</a></td>
+                                    <td width="150"><a href="http://10.24.204.65:8080/shr/home.do" target="_blank" class="a_bt">s-HR系统</a></td>
 
-                                    <td width="171"><a href="http://10.24.205.122:8080" target="_blank" class="a_bt">会议室预定</a></td>
+                                    <td width="150"><a href="http://10.24.205.122:8080" target="_blank" class="a_bt">会议室预定</a></td>
 
-                                    <td><table width="513" border="0" align="left" cellpadding="0" cellspacing="0">
+                                    <td><table width="660" border="0" align="left" cellpadding="0" cellspacing="0">
 
                                             <tr align="center">
 
-                                                <td width="171"><a href="http://10.24.30.247/Citrix/NXDWeb" target="_blank" class="a_bt">虚拟桌面</a></td>
-
-                                                <td width="171">
+                                                <td width="165"><a href="http://10.24.30.247/Citrix/NXDWeb" target="_blank" class="a_bt">虚拟桌面</a></td>
+                                                <td width="165">
+                                                    <div class="dropdown">
+                                                        <a href="javascript:void(0);" target="_blank" class="a_bt">AI专栏&nbsp;&nbsp;</a>
+                                                        <div class="dropdown-content">
+                                                            <a href="http://deepseek.crrcgc.cc/" target="_blank">中车Deepseek</a>
+                                                            <a href="http://ds.crrczelc.com.cn:3001/chat/GxLiyPWyjcgMnrtu" target="_blank">株机Deepseek-R1</a>
+                                                            @{
+                                                                string AIurl = "javascript:void(0)";
+                                                                if ((new WebNet.DAL.CategoryDAL().GetModelByCond("[Caname] like 'AI资料'")) != null)
+                                                                {
+                                                                    AIurl = "/NewsPage/Index?txt=AI资料";
+                                                                    <a href="@AIurl" target="_blank">AI资料</a>
+                                                                }
+                                                                
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td width="165">
                                                     <div class="dropdown">
                                                         <a href="javascript:void(0);"  target="_blank" class="a_bt">数字化业务平台</a>
                                                         <div class="dropdown-content">
@@ -397,8 +414,6 @@
                                                             <a href="http://10.24.108.132:18080/smartbi/vision/login.jsp?surl=index.jsp rel="noreferrer"" target="_blank">SmartBI</a>
                                                             <a href="http://10.24.108.132:18080/smartbi/vision/share.jsp?resid=b1101822c216c8ca3d7e5741fb19a08e" target="_blank">中车株机质量NCR</a>
                                                             <a href="http://cnki.crrcgc.cc/kns55/" target="_blank">中国知网</a>
-                                                            <a href="http://deepseek.crrcgc.cc/" target="_blank">中车Deepseek</a>
-                                                            <a href="http://ds.crrczelc.com.cn:3001/chat/GxLiyPWyjcgMnrtu" target="_blank">株机Deepseek-R1</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -408,7 +423,7 @@
                                                     {
                                                         url = "/NewsPage/Index?txt=规章制度";
                                                     }
-                                     <td width="171"><a href="@url" target="_blank" class="a_bt">制度与体系文件</a></td>
+                                     <td width="165"><a href="@url" target="_blank" class="a_bt">制度与体系文件</a></td>
                                      }
 
                                             </tr>
