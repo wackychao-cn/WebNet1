@@ -467,6 +467,75 @@ layui.use(function(){
   });
 });
 </script>
+                <!-- 扫码专用动态图片框 -->
+                <div id="scanBox" class="scan-box" style="position: fixed; z-index: 9999;">
+                    <div class="scan-frame" style="width: 180px; height: 180px; border-radius: 8px; padding: 10px; background: #fff; box-shadow: 0 0 15px rgba(195,0,11,0.5);">
+                        <!-- 替换为你的二维码图片 -->
+                        <img src="~/pic/作风反馈二维码.png"  alt="扫码专用二维码" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                </div>
+
+                <script>
+                    // 等待页面加载完成
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const scanBox = document.getElementById('scanBox');
+                        const boxWidth = 200;  // 扫码框总宽度（含边框和内边距）
+                        const boxHeight = 220; // 扫码框总高度（含边框和内边距）
+
+                        // 初始位置
+                        let x = 350;
+                        let y = 250;
+
+                        // 移动速度 (x和y方向同时移动)
+                        let dx = 0.3;  // x方向速度
+                        let dy = 0.2;  // y方向速度
+
+                        // 动画函数
+                        function animate() {
+                            // 获取浏览器可视区域尺寸
+                            const windowWidth = window.innerWidth;
+                            const windowHeight = window.innerHeight;
+
+                            // 更新位置
+                            x += dx;
+                            y += dy;
+
+                            // 检测边界碰撞并反弹
+                            // 左右边界
+                            if (x <= 0 || x >= windowWidth - boxWidth) {
+                                dx = -dx; // 反向x方向
+                                // 确保不会超出边界
+                                x = x <= 0 ? 0 : windowWidth - boxWidth;
+                            }
+
+                            // 上下边界
+                            if (y <= 0 || y >= windowHeight - boxHeight) {
+                                dy = -dy; // 反向y方向
+                                // 确保不会超出边界
+                                y = y <= 0 ? 0 : windowHeight - boxHeight;
+                            }
+
+                            // 应用位置
+                            scanBox.style.left = x + 'px';
+                            scanBox.style.top = y + 'px';
+
+                            // 继续动画
+                            requestAnimationFrame(animate);
+                        }
+
+                        // 开始动画
+                        animate();
+
+                        // 窗口大小改变时重新计算
+                        window.addEventListener('resize', function() {
+                            // 确保元素在窗口内
+                            const windowWidth = window.innerWidth;
+                            const windowHeight = window.innerHeight;
+                            x = Math.min(x, windowWidth - boxWidth);
+                            y = Math.min(y, windowHeight - boxHeight);
+                        });
+                    });
+                </script>
             </td>
 
         </tr>
