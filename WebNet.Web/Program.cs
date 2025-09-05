@@ -33,7 +33,7 @@ builder.Services.AddSingleton(DAL.DataAccess.CreateCategoryDAL(db));
 builder.Services.AddSingleton(DAL.DataAccess.CreateNewsDAL(db));
         builder.Services.AddSingleton(DAL.DataAccess.CreateTravelDAL(db));
         builder.Services.AddSingleton(DAL.DataAccess.CreateDutyDAL(db));
-
+        builder.Services.AddSingleton(DAL.DataAccess.CreateZaiduanDAL(db));
         //验证登录
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>

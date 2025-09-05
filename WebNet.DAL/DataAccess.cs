@@ -59,6 +59,16 @@ namespace WebNet.DAL
             }
             return dal;
         }
-
+        public static Interface.IZaiduan CreateZaiduanDAL(string db)
+        {
+            Interface.IZaiduan dal = null;
+            switch (db.ToLower())
+            {
+                case "sqlserver":
+                    dal = new ZaiduanDAL();
+                    break;
+            }
+            return dal;
+        }
     }
 }
