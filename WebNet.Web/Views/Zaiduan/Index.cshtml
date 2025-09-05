@@ -1,0 +1,332 @@
+﻿@{
+    ViewBag.Title = "Zaiduan";
+    Layout = "_Layout";
+}
+<style>
+    .layui-form select {
+        display: block;
+        border: 1px solid #d2d2d2;
+        height: 38px;
+    }
+</style>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">值班管理</li>
+    </ul>
+</div>
+<div style="padding:10px;">
+    <div class="layui-form">
+        <a class="layui-btn layui-btn-primary" href="javascript:location.reload();">
+            <i class="layui-icon">&#xe669;</i> 刷新
+        </a>
+        <a class="layui-btn" href="/Zaiduan/Add">
+            <i class="layui-icon">&#xe608;</i> 手工添加
+        </a>
+        <button class="layui-btn" id="importButton">
+            <i class="layui-icon"></i> 批量导入
+        </button>
+        <div class="layui-input-inline">
+            <input type="text" id="search_key" class="layui-input" placeholder="标题关键字" />
+        </div>
+        <div class="layui-input-inline">
+            发布时间：
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" id="search_start" class="layui-input" placeholder="开始时间" autocomplete="off" />
+        </div>
+        <div class="layui-input-inline">
+            ~
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" id="search_end" class="layui-input" placeholder="结束时间" autocomplete="off" />
+        </div>
+        <div class="layui-input-inline">
+            <select id="search_cabh" lay-ignore>
+                <option value="Name">--姓名--</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn layui-btn-normal" type="button" onclick="search()"><i class="layui-icon">&#xe615;</i> 查询</button>
+        </div>
+        @Html.Hidden("order", "Id")
+        @Html.Hidden("ordertype", "desc")
+    </div>
+    <table class="layui-table" lay-size="sm">
+        <thead>
+            <tr>
+                <th>管理</th>
+                <th>
+                    主键
+                    <span class="layui-icon layui-icon-up" title="Id asc"></span>
+                    <span class="layui-icon layui-icon-down" title="Id desc"></span>
+                </th>
+                <th>
+                    创建时间
+                    <span class="layui-icon layui-icon-up" title="CreateTime asc"></span>
+                    <span class="layui-icon layui-icon-down" title="CreateTime desc"></span>
+                </th>
+                <th>
+                    姓名
+                    <span class="layui-icon layui-icon-up" title="Name asc"></span>
+                    <span class="layui-icon layui-icon-down" title="Name desc"></span>
+                </th>
+                <th>
+                    工号
+                    <span class="layui-icon layui-icon-up" title="Number asc"></span>
+                    <span class="layui-icon layui-icon-down" title="Number desc"></span>
+                </th>
+                <th>
+                    地区
+                    <span class="layui-icon layui-icon-up" title="Area asc"></span>
+                    <span class="layui-icon layui-icon-down" title="Area desc"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    <div>
+        <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;">
+            当前共<span id="totalcount"></span>条记录，每页<span id="pagesize"></span>条，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
+        </div>
+        <div id="pages">
+        </div>
+    </div>
+</div>
+<style>
+    .layui-icon {
+        color: #dcdcdc;
+    }
+
+    .layui-icon-active {
+        color: black;
+    }
+</style>
+<script>
+    var pop_index;
+            var pagesize = 10; //页大小
+            document.getElementById('pagesize').innerHTML = pagesize;
+
+                 search();
+        /*日期选择控件设置*/
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#search_start' //指定元素
+            });
+            laydate.render({
+                elem: '#search_end' //指定元素
+            });
+        });
+       //排序图标点击
+             var $ = layui.jquery;
+            $(".layui-table .layui-icon").click(function () {
+            $('.layui-icon-active').removeClass("layui-icon-active");
+            $(this).addClass("layui-icon-active");
+            var title = $(this).attr('title');
+            var order = title.split(' ')[0];
+            var ordertype = title.split(' ')[1];
+            $('#order').val(order);
+            $('#ordertype').val(ordertype);
+            search();
+        })
+
+
+
+
+        /*加载第X页数据*/
+        function load_blog_data(pageindex) {
+          //  console.log("加载第" + pageindex + "页");
+
+
+            layui.use('layer', function () {
+                var $ = layui.jquery, layer = layui.layer;
+
+                $('#pageindex').text(pageindex);
+
+
+                var postdata = getcond();
+
+                var url = "/Zaiduan/List?pageindex=" + pageindex + "&pagesize=" + pagesize;
+                pop_index = layer.load(0, {
+                    shade: [0.3, '#000'] //0.1透明度的白色背景
+                });
+                $.post(url,postdata, function (json) {
+    layer.close(pop_index);
+                    var html = '';
+                    $.each(json, function (i, item) {
+                       // console.log("第" + i + "个元素：");
+                      //  console.log(blog);
+                        html += '<tr>';
+                                html += '    <td>';
+                        html += '        <a href="/Zaiduan/Add/' + item.Id + '"><i class="layui-icon">&#xe642;</i> 编辑</a>';
+                        html += '        <a href="javascript:void(0);" onclick="del(' + item.Id + ')"><i class="layui-icon">&#x1006;</i> 删除</a>';
+                        html += '    </td>';
+                        html += '    <td>' + item.Id + '</td>';
+    html += '    <td>' + item.CreateTime + '</td>';
+    html += '    <td>' + item.Name + '</td>';
+    html += '    <td>' + item.Number + '</td>';
+    html += '    <td>' + item.Area + '</td>';
+
+
+                        html += '</tr>';
+
+                    })
+
+                    $('#tbody').html(html);
+
+                }, 'json');
+            })
+
+
+        }
+
+        /*拼接条件返回postdata*/
+        function getcond() {
+
+            var key = document.getElementById("search_key").value;
+            var start = document.getElementById('search_start').value;
+            var end = document.getElementById('search_end').value;
+            var cabh = document.getElementById('search_cabh').value;
+             var order = $('#order').val();
+            var ordertype = $('#ordertype').val();
+            var postdata = { key: key, start: start, end: end, cabh: cabh, order: order, ordertype: ordertype };
+            return postdata;
+        }
+
+        /*查询*/
+        function search() {
+
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+
+                var postdata = getcond();
+
+                var url = "/Zaiduan/GetTotalCount?t=" + new Date().valueOf();
+                $.post(url,postdata, function (count) {
+
+                    var pagecount = (count % pagesize == 0 ? count / pagesize : Math.ceil(count / pagesize)); //总页数
+                   // console.log("总记录数：" + count + "，总页数：" + pagecount);
+                    $('#totalcount').text(count);
+                    $('#pagecount').text(pagecount);
+            $('#pagesize').text(pagesize);
+                    laypage.render({
+                        elem: 'pages',
+                        count: count, //得到总页数
+            limit: pagesize,
+                        jump: function (obj) {
+                            var pageindex = obj.curr;
+                            //layer.alert("点击了第" + pageindex + "页。");
+                            //读取后台数据数据返回JSON后拼接HTML
+                            load_blog_data(pageindex);
+                        }
+                    });
+
+                });
+
+            });
+
+        }
+
+
+        /*删除*/
+        function del(id) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+
+                layer.confirm('是否确认删除？', function () {
+
+                    var url = "/Zaiduan/Delete?ids=" + id;
+                    pop_index = layer.load(0, {
+                    shade: [0.3, '#000'] //0.1透明度的白色背景
+                });
+                    $.post(url, function (data) {
+                    layer.close(pop_index);
+                        if (data.code == 0) {
+                            layer.msg(data.msg, function () { location.reload(); });
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    })
+
+                })
+
+
+
+            })
+
+
+        }
+             layui.use(['layer', 'jquery', 'upload'], function(){
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                var upload = layui.upload;
+
+                // 绑定按钮点击事件
+                $('#importButton').on('click', function(){
+
+                        // 创建弹出层
+                        layer.open({
+                            type: 1,
+                            title: '批量导入',
+                            area: ['600px', '400px'], // 设置弹出层大小
+                            content: `
+                                <div class="upload-container" style="padding: 20px;">
+                                    <button type="button" class="layui-btn" id="downloadTemplate">
+                                        <i class="layui-icon">&#xe67c;</i>导入模板下载
+                                    </button><br />
+                                    <i>1、可能存在部分数据能够正常导入，部分数据不能导入的情况，请检查导入前后数据条数变化是否与导入条数相符。</i><br />
+                                    <i>如不相符，请根据创建日期进行定向筛选并删除条目，然后重新修改源文件csv后再次尝试</i><br />
+                                    <i>2、在导入前确保将文本中的英文逗号','替换为中文逗号'，'</i><br />
+                                    <i>3、仅支持逗号分隔的CSV文件，大小限制为20M</i><br />
+                                    <button type="button" class="layui-btn" id="LAY-upload-csv">
+                                        <i class="layui-icon">&#xe67c;</i>选择文件
+                                    </button>
+                                </div>
+                            `,
+                            success: function(layero, index){
+                                // 初始化下载模板按钮事件
+                                $('#downloadTemplate').on('click', function(){
+                                    window.location.href = '/upload/Zaiduan/template.csv';
+                                });
+
+                                // 初始化上传组件
+                                var uploadInst = upload.render({
+                                    elem: '#LAY-upload-csv', // 绑定元素
+                                    url: '@Url.Action("FileSave")', // 上传接口
+                                    accept: 'file', // 允许上传的文件类型
+                                    size: 20*1024*1024, // 最大允许上传的文件大小（单位：字节）
+                                    before: function(obj){ // obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                                        this.data = {
+                                            fileExt: 'csv',
+                                            fileSize: this.size,
+                                            fileAccept: '.csv'
+                                        };
+                                    },
+                                    exts: 'csv',
+                                    done: function(res){
+                                        if(res.code === 0){
+                                                layer.msg("上传完成：" + res.msg+ "，导入行数：" + res.rowsImported, {icon: 6}, function() {
+                                                layer.closeAll();
+                                                search();
+                                            });
+                                        } else {
+                                            layer.msg("上传失败：" + res.msg, {icon: 5}, function() {
+                                                layer.closeAll();
+                                                search();
+                                            });
+                                        }
+                                    },
+                                    error: function(){
+                                        layer.msg("上传过程中发生错误。", {icon: 5}, function() {
+                                            layer.closeAll();
+                                            search();
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                });
+            });
+</script>

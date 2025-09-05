@@ -54,7 +54,8 @@
   <ItemGroup>
     <Folder Include="LoginCheck\" />
     <Folder Include="wwwroot\pic\lunbo\" />
-    <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\upload\duty\" />
+    <Folder Include="wwwroot\upload\Zaiduan\" />
   </ItemGroup>
 
 </Project>
