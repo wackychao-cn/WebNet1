@@ -34,6 +34,9 @@
     <thead style="background-color:darkgray">
         <tr>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
+                序号
+            </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
                 姓名
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
@@ -66,7 +69,7 @@
 </style>
 <script>
     var pop_index;
-            var pagesize = 40; //页大小
+            var pagesize = 80; //页大小
             document.getElementById('pagesize').innerHTML = pagesize;
 
                  search();
@@ -98,6 +101,7 @@
                        // console.log("第" + i + "个元素：");
                       //  console.log(blog);
                         html += '<tr>';
+    html += '    <td style="font-size: 18px;text-align:center">' + item.Id + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Number + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Area + '</td>';
