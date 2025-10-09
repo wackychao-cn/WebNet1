@@ -17,7 +17,6 @@ namespace WebNet.Web.Controllers
             this.dal = dal;
         }
 
-        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View();
@@ -82,10 +81,9 @@ namespace WebNet.Web.Controllers
         /// <returns></returns>
         public ActionResult List(int pageindex, int pagesize, string key, string order, string ordertype, string start, string end, string cabh)
         {
-            List<Model.Zaiduan> list = dal.GetList("*", order, ordertype, pagesize, pageindex, GetCond(key, start, end, cabh));
+            List<Model.Zaiduan> list = dal.GetList("*", "id", "asc", pagesize, pageindex, GetCond(key, start, end, cabh));
             return Json(list);
         }
-        [Authorize(Roles = "admin")]
         public ActionResult Add(int? id)
         {
             Model.Zaiduan n = new Model.Zaiduan();
@@ -95,7 +93,6 @@ namespace WebNet.Web.Controllers
             }
             return View(n);
         }
-        [Authorize(Roles = "admin")]
         [AutoValidateAntiforgeryToken]
         [HttpPost]
         public ActionResult Add(Model.Zaiduan m)
@@ -119,7 +116,6 @@ namespace WebNet.Web.Controllers
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
-        [Authorize(Roles = "admin")]
         public ActionResult Daoru(int? id)
         {
             Model.Zaiduan n = new Model.Zaiduan();
@@ -129,7 +125,6 @@ namespace WebNet.Web.Controllers
             }
             return View(n);
         }
-        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> FileSave()
         {
@@ -163,7 +158,6 @@ namespace WebNet.Web.Controllers
                 return Json(new { code = 1, msg = $"出错：{ex.Message}" });
             }
         }
-        [Authorize(Roles = "admin")]
         public ActionResult Delete(string ids)
         {
             try

@@ -20,9 +20,9 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into [Zaiduan](");
-            strSql.Append("[CreateTime], [Name], [Number], [Area]  )");
+            strSql.Append("[CreateTime], [Name], [Number], [Mission], [Area]  )");
             strSql.Append(" values (");
-            strSql.Append("@CreateTime, @Name, @Number, @Area  )");
+            strSql.Append("@CreateTime, @Name, @Number,  @Mission,@Area  )");
             strSql.Append(";select @@IDENTITY");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -30,6 +30,7 @@ namespace WebNet.DAL
             h.AddParameter("@CreateTime", model.CreateTime);
             h.AddParameter("@Name", model.Name);
             h.AddParameter("@Number", model.Number);
+            h.AddParameter("@Mission", model.Mission);
             h.AddParameter("@Area", model.Area);
 
             int result;
@@ -48,7 +49,7 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update [Zaiduan] set ");
-            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [Number]=@Number, [Area]=@Area  ");
+            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [Number]=@Number, [Mission]=@Mission, [Area]=@Area  ");
             strSql.Append(" where Id=@Id ");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -56,6 +57,7 @@ namespace WebNet.DAL
             h.AddParameter("@CreateTime", model.CreateTime);
             h.AddParameter("@Name", model.Name);
             h.AddParameter("@Number", model.Number);
+            h.AddParameter("@Mission", model.Mission);
             h.AddParameter("@Area", model.Area);
 
             return h.ExecuteNonQuery();
@@ -353,6 +355,11 @@ namespace WebNet.DAL
             if (ojb != null && ojb != DBNull.Value)
             {
                 model.Number = ojb.ToString();
+            }
+            ojb = dataReader["Mission"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.Mission = ojb.ToString();
             }
             ojb = dataReader["Area"];
             if (ojb != null && ojb != DBNull.Value)

@@ -43,6 +43,9 @@
                 工号
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
+                工作任务
+            </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
                 地区
             </th>
 
@@ -55,7 +58,7 @@
     <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;" hidden="hidden">
         当前共<span id="totalcount"></span>条记录，每页<span id="pagesize"></span>条，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
     </div>
-    <div id="pages" hidden="hidden">
+    <div id="pages" >
     </div>
 </div>
 <style>
@@ -69,7 +72,7 @@
 </style>
 <script>
     var pop_index;
-            var pagesize = 80; //页大小
+            var pagesize = 20; //页大小
             document.getElementById('pagesize').innerHTML = pagesize;
 
                  search();
@@ -104,6 +107,7 @@
     html += '    <td style="font-size: 18px;text-align:center">' + item.Id + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Number + '</td>';
+    html += '    <td style="font-size: 18px;text-align:center">' + item.Mission + '</td>';
     html += '    <td style="font-size: 18px;text-align:center">' + item.Area + '</td>';
                         html += '</tr>';
 
