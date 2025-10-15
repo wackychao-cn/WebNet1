@@ -46,6 +46,15 @@ namespace WebNet.Model
             set { _Number = value; }
             get { return _Number; }
         }
+        private string _Mission;
+        /// <summary> 
+        /// ZaiduanTime 
+        /// </summary> 
+        public string Mission
+        {
+            set { _Mission = value; }
+            get { return _Mission; }
+        }
         private string _Area;
         /// <summary> 
         /// ZaiduanTime 

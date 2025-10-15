@@ -34,13 +34,19 @@
     <thead style="background-color:darkgray">
         <tr>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
+                序号
+            </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
                 姓名
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
                 工号
             </th>
             <th style="font-size: 18px;font-weight: bold;text-align:center">
-                地区
+                工作任务
+            </th>
+            <th style="font-size: 18px;font-weight: bold;text-align:center">
+                驻点
             </th>
 
         </tr>
@@ -52,7 +58,7 @@
     <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;" hidden="hidden">
         当前共<span id="totalcount"></span>条记录，每页<span id="pagesize"></span>条，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
     </div>
-    <div id="pages" hidden="hidden">
+    <div id="pages" >
     </div>
 </div>
 <style>
@@ -66,99 +72,81 @@
 </style>
 <script>
     var pop_index;
-            var pagesize = 40; //页大小
-            document.getElementById('pagesize').innerHTML = pagesize;
+    var pagesize = 20; //页大小
+    document.getElementById('pagesize').innerHTML = pagesize;
 
-                 search();
+    search();
 
+    /*加载第X页数据*/
+    function load_blog_data(pageindex) {
+        layui.use('layer', function () {
+            var $ = layui.jquery, layer = layui.layer;
 
-
-
-        /*加载第X页数据*/
-        function load_blog_data(pageindex) {
-          //  console.log("加载第" + pageindex + "页");
-
-
-            layui.use('layer', function () {
-                var $ = layui.jquery, layer = layui.layer;
-
-                $('#pageindex').text(pageindex);
-
-
-                var postdata = getcond();
-
-                var url = "/Zaiduan/List?pageindex=" + pageindex + "&pagesize=" + pagesize;
-                pop_index = layer.load(0, {
-                    shade: [0.3, '#000'] //0.1透明度的白色背景
-                });
-                $.post(url,postdata, function (json) {
-    layer.close(pop_index);
-                    var html = '';
-                    $.each(json, function (i, item) {
-                       // console.log("第" + i + "个元素：");
-                      //  console.log(blog);
-                        html += '<tr>';
-    html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
-    html += '    <td style="font-size: 18px;text-align:center">' + item.Number + '</td>';
-    html += '    <td style="font-size: 18px;text-align:center">' + item.Area + '</td>';
-                        html += '</tr>';
-
-                    })
-
-                    $('#tbody').html(html);
-
-                }, 'json');
-            })
-
-
-        }
-
-        /*拼接条件返回postdata*/
-        function getcond() {
-
-            var key = null;
-            var start = null;
-            var end = null;
-            var cabh = null;
-             var order = $('#order').val();
-            var ordertype = $('#ordertype').val();
-            var postdata = { key: key, start: start, end: end, cabh: cabh, order: order, ordertype: ordertype };
-            return postdata;
-        }
-
-        /*查询*/
-        function search() {
-
-            layui.use(['laypage', 'layer'], function () {
-                var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
-
-                var postdata = getcond();
-
-                var url = "/Zaiduan/GetTotalCount?t=" + new Date().valueOf();
-                $.post(url,postdata, function (count) {
-
-                    var pagecount = (count % pagesize == 0 ? count / pagesize : Math.ceil(count / pagesize)); //总页数
-                   // console.log("总记录数：" + count + "，总页数：" + pagecount);
-                    $('#totalcount').text(count);
-                    $('#pagecount').text(pagecount);
-            $('#pagesize').text(pagesize);
-                    laypage.render({
-                        elem: 'pages',
-                        count: count, //得到总页数
-            limit: pagesize,
-                        jump: function (obj) {
-                            var pageindex = obj.curr;
-                            //layer.alert("点击了第" + pageindex + "页。");
-                            //读取后台数据数据返回JSON后拼接HTML
-                            load_blog_data(pageindex);
-                        }
-                    });
-
-                });
-
+            $('#pageindex').text(pageindex);
+            var postdata = getcond();
+            var url = "/Zaiduan/List?pageindex=" + pageindex + "&pagesize=" + pagesize;
+            
+            pop_index = layer.load(0, {
+                shade: [0.3, '#000'] //0.1透明度的白色背景
             });
+            
+            $.post(url, postdata, function (json) {
+                layer.close(pop_index);
+                var html = '';
+                // 计算序号：(当前页-1)*每页条数 + 索引值 + 1
+                var startNum = (pageindex - 1) * pagesize;
+                
+                $.each(json, function (i, item) {
+                    var sequenceNum = startNum + i + 1; // 生成当前页的序号
+                    html += '<tr>';
+                    html += '    <td style="font-size: 18px;text-align:center">' + sequenceNum + '</td>'; // 使用计算出的序号
+                    html += '    <td style="font-size: 18px;text-align:center">' + item.Name + '</td>';
+                    html += '    <td style="font-size: 18px;text-align:center">' + item.Number + '</td>';
+                    html += '    <td style="font-size: 18px;text-align:center">' + item.Mission + '</td>';
+                    html += '    <td style="font-size: 18px;text-align:center">' + item.Area + '</td>';
+                    html += '</tr>';
+                })
 
-        }
+                $('#tbody').html(html);
+            }, 'json');
+        })
+    }
 
+    /*拼接条件返回postdata*/
+    function getcond() {
+        var key = null;
+        var start = null;
+        var end = null;
+        var cabh = null;
+        var order = $('#order').val();
+        var ordertype = $('#ordertype').val();
+        var postdata = { key: key, start: start, end: end, cabh: cabh, order: order, ordertype: ordertype };
+        return postdata;
+    }
 
+    /*查询*/
+    function search() {
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+            var postdata = getcond();
+            var url = "/Zaiduan/GetTotalCount?t=" + new Date().valueOf();
+            
+            $.post(url, postdata, function (count) {
+                var pagecount = (count % pagesize == 0 ? count / pagesize : Math.ceil(count / pagesize));
+                $('#totalcount').text(count);
+                $('#pagecount').text(pagecount);
+                $('#pagesize').text(pagesize);
+                
+                laypage.render({
+                    elem: 'pages',
+                    count: count,
+                    limit: pagesize,
+                    jump: function (obj) {
+                        var pageindex = obj.curr;
+                        load_blog_data(pageindex);
+                    }
+                });
+            });
+        });
+    }
 </script>
