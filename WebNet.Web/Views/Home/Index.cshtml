@@ -72,12 +72,13 @@
         display: inline-block;
         }
 
+        
         /* 下拉菜单内容（默认隐藏） */
         .dropdown-content {
         display: none;
         position: absolute;
         background-color: #f9f9f9;
-        min-width: 160px;
+        min-width: 170px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
         }
@@ -101,6 +102,42 @@
         background-color: #f1f1f1;
         }
 
+        .dropup {
+            position: relative; /* 添加定位 */
+            display: inline-block;
+        }
+
+        /* 下拉菜单内容（默认隐藏） */
+        .dropup-content {
+            display: none;
+            position: absolute;
+            bottom: 100%; /* 在父元素上方 */
+            left: 0; /* 添加水平定位 */
+            background-color: #f9f9f9;
+            min-width: 170px;
+            box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); /* 向上的阴影 */
+            z-index: 1;
+            margin-bottom: 5px; /* 添加与触发元素的间距 */
+        }
+
+            /* 下拉菜单中的链接 */
+            .dropup-content a {
+                font-size: 14px; /* 修改字体大小 */
+                color: black;
+                padding: 4px 8px; /* 修改单元格高度 */
+                text-decoration: none;
+                display: block;
+            }
+
+        /* 鼠标悬停时显示下拉菜单 */
+        .dropup:hover .dropup-content {
+            display: block;
+        }
+
+        /* 鼠标悬停时改变下拉菜单链接的背景颜色 */
+        .dropup-content a:hover {
+            background-color: #f1f1f1;
+        }
         .a4_youce {
         font-family: "微软雅黑";
 
@@ -218,6 +255,16 @@
         white-space: nowrap; /* 防止换行 */
         overflow: hidden; /* 隐藏超出部分 */
 
+        }
+        .a_bty{
+            font-family: "微软雅黑";
+            font-weight: bold;
+            font-size: 18px;
+            color: #FFF;
+            text-align: center;
+            background-color: #343434;
+            white-space: nowrap; /* 防止换行 */
+            overflow: hidden; /* 隐藏超出部分 */
         }
         .a_btd {
 
@@ -1243,10 +1290,16 @@ layui.use(function(){
 
   <tr>
 
-    <td height="41" colspan="3" bgcolor="#F4F2F5">&nbsp;</td>
+
+      <td height="41" colspan="3"bgcolor="#f4f2f5">&nbsp; </td>
+        
+
+    
+        
 
   </tr>
-
+   
+ 
   
 
 </table>
@@ -1255,8 +1308,23 @@ layui.use(function(){
         
 
             <tr>
+                <td height="87" align="left" bgcolor="#343434">
+                    <div class="dropup" width="130" align="center">
 
-                <td height="67" colspan="6" bgcolor="#343434"><img src="~/pic/image (38).png" alt="1" width="1400" height="67" /></td>
+                        <a href="javascript:void(0);" target="_blank" class="a_bty">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp友情链接&nbsp</a>
+                        <div class="dropup-content">
+                            <a href="http://10.24.5.13:88090" target="_blank">城轨制造中心</a>
+                            <a href="http://10.29.31.234/" target="_blank">机车制造中心</a>
+                            <a href="http://10.29.83.200:8181/#/login" target="_blank">天机阁</a>
+                            <a href="http://10.29.83.246:1020/login?redirect=%2Findex" target="_blank">车体事业部管理提升系统</a>
+                        </div>
+                    </div>
+                </td>
+                <td height="87" colspan="6" bgcolor="#343434"><img src="~/pic/image (38).png" alt="1" width="1270" height="67" />
+               
+                    
+                </td>
+                
 
             </tr>
 
