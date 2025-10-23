@@ -114,30 +114,35 @@
             bottom: 100%; /* 在父元素上方 */
             left: 0; /* 添加水平定位 */
             background-color: #f9f9f9;
-            min-width: 170px;
+            min-width: 180px;
             box-shadow: 0px -8px 16px 0px rgba(0,0,0,0.2); /* 向上的阴影 */
             z-index: 1;
-            margin-bottom: 5px; /* 添加与触发元素的间距 */
+            margin-top: 5px; /* 添加与触发元素的间距 */
+            opacity: 0;
+            transition: opacity 0.3s ease; /* 添加过渡效果 */
         }
 
             /* 下拉菜单中的链接 */
             .dropup-content a {
                 font-size: 14px; /* 修改字体大小 */
                 color: black;
-                padding: 4px 8px; /* 修改单元格高度 */
+                padding: 8px 12px; /* 修改单元格高度 */
                 text-decoration: none;
                 display: block;
+                transition: background-color 0.2s ease;
             }
 
         /* 鼠标悬停时显示下拉菜单 */
         .dropup:hover .dropup-content {
             display: block;
+            opacity: 1;
         }
 
         /* 鼠标悬停时改变下拉菜单链接的背景颜色 */
         .dropup-content a:hover {
             background-color: #f1f1f1;
         }
+
         .a4_youce {
         font-family: "微软雅黑";
 
@@ -1313,7 +1318,7 @@ layui.use(function(){
 
                         <a href="javascript:void(0);" target="_blank" class="a_bty">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp友情链接&nbsp</a>
                         <div class="dropup-content">
-                            <a href="http://10.24.5.13:88090" target="_blank">城轨制造中心</a>
+                            <a href="http://10.24.5.13:8090" target="_blank">城轨制造中心</a>
                             <a href="http://10.29.31.234/" target="_blank">机车制造中心</a>
                             <a href="http://10.29.83.200:8181/#/login" target="_blank">天机阁</a>
                             <a href="http://10.29.83.246:1020/login?redirect=%2Findex" target="_blank">车体事业部管理提升系统</a>
