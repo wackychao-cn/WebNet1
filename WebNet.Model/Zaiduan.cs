@@ -48,7 +48,7 @@ namespace WebNet.Model
         }
         private string _Mission;
         /// <summary> 
-        /// ZaiduanTime 
+        /// 任务 
         /// </summary> 
         public string Mission
         {
@@ -57,12 +57,21 @@ namespace WebNet.Model
         }
         private string _Area;
         /// <summary> 
-        /// ZaiduanTime 
+        /// 地点 
         /// </summary> 
         public string Area
         {
             set { _Area = value; }
             get { return _Area; }
+        }
+        private string _Sequnce;
+        /// <summary> 
+        /// 序号排序
+        /// </summary> 
+        public string Sequnce
+        {
+            set { _Sequnce = value; }
+            get { return _Sequnce; }
         }
     }
 }

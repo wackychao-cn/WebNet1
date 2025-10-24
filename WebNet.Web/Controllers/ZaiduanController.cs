@@ -81,7 +81,7 @@ namespace WebNet.Web.Controllers
         /// <returns></returns>
         public ActionResult List(int pageindex, int pagesize, string key, string order, string ordertype, string start, string end, string cabh)
         {
-            List<Model.Zaiduan> list = dal.GetList("*", "id", "asc", pagesize, pageindex, GetCond(key, start, end, cabh));
+            List<Model.Zaiduan> list = dal.GetList("*", "Sequnce", "asc", pagesize, pageindex, GetCond(key, start, end, cabh));
             return Json(list);
         }
         public ActionResult Add(int? id)
