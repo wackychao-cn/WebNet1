@@ -20,9 +20,9 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into [Zaiduan](");
-            strSql.Append("[CreateTime], [Name], [Number], [Mission], [Area]  )");
+            strSql.Append("[CreateTime], [Name], [Number], [Mission], [Area], [Sequnce]  )");
             strSql.Append(" values (");
-            strSql.Append("@CreateTime, @Name, @Number,  @Mission,@Area  )");
+            strSql.Append("@CreateTime, @Name, @Number,  @Mission,@Area,@Sequnce  )");
             strSql.Append(";select @@IDENTITY");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -32,7 +32,7 @@ namespace WebNet.DAL
             h.AddParameter("@Number", model.Number);
             h.AddParameter("@Mission", model.Mission);
             h.AddParameter("@Area", model.Area);
-
+            h.AddParameter("@Sequnce", model.Sequnce);
             int result;
             string obj = h.ExecuteScalar();
             if (!int.TryParse(obj, out result))
@@ -49,7 +49,7 @@ namespace WebNet.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update [Zaiduan] set ");
-            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [Number]=@Number, [Mission]=@Mission, [Area]=@Area  ");
+            strSql.Append("[CreateTime]=@CreateTime, [Name]=@Name, [Number]=@Number, [Mission]=@Mission, [Area]=@Area, [Sequnce]=@Sequnce  ");
             strSql.Append(" where Id=@Id ");
             MSSQLHelper h = new MSSQLHelper();
             h.CreateCommand(strSql.ToString());
@@ -59,7 +59,7 @@ namespace WebNet.DAL
             h.AddParameter("@Number", model.Number);
             h.AddParameter("@Mission", model.Mission);
             h.AddParameter("@Area", model.Area);
-
+            h.AddParameter("@Sequnce", model.Sequnce);
             return h.ExecuteNonQuery();
         }
 
@@ -366,7 +366,11 @@ namespace WebNet.DAL
             {
                 model.Area = ojb.ToString();
             }
-
+            ojb = dataReader["Sequnce"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.Sequnce = ojb.ToString();
+            }
             return model;
         }
 
