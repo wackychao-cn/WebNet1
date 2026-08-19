@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电气设备分公司节拍兑现率看板</title>
+    <!-- SheetJS 用于读取 Excel -->
+    <script src="../js/outjs/xlsx.full.min.js"></script>
+    <style>
+        /* ===== 全局重置 & 基础 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(145deg, #f0f4f8 0%, #e2e9f0 100%);
+            color: #1a2a3a;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        /* ===== 24列栅格容器 ===== */
+        .grid-24 {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 20px;
+            max-width: 1640px;
+            margin: 0 auto;
+        }
+
+        /* ===== 通用卡片 ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 24px rgba(0, 20, 40, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            padding: 24px 28px;
+            transition: box-shadow 0.25s ease, transform 0.2s;
+        }
+        .card:hover {
+            box-shadow: 0 12px 32px rgba(0, 20, 40, 0.12);
+        }
+
+        /* ===== 列宽工具 ===== */
+        .w-24 {
+            grid-column: span 24;
+        }
+
+        /* ===== 顶部标题 ===== */
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #2d8cf0;
+            margin-bottom: 6px;
+        }
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0a2a44;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #0a2a44 0%, #2d6ca0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-title .sub-info {
+            font-size: 14px;
+            color: #5a6a7a;
+            background: rgba(45, 140, 240, 0.08);
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(45, 140, 240, 0.15);
+        }
+        .header-title .sub-info span {
+            color: #2d6ca0;
+            font-weight: 600;
+        }
+
+        /* ===== 筛选器栏 ===== */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 28px;
+            align-items: center;
+            padding-top: 8px;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #3a4a5a;
+            white-space: nowrap;
+        }
+        .filter-group select {
+            min-width: 170px;
+            padding: 8px 14px;
+            border: 1px solid #d0d8e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #1a2a3a;
+            cursor: pointer;
+            transition: all 0.2s;
+            appearance: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .filter-group select:focus {
+            outline: none;
+            border-color: #2d8cf0;
+            box-shadow: 0 0 0 3px rgba(45, 140, 240, 0.15);
+        }
+        .filter-group select[multiple] {
+            min-height: 40px;
+            padding: 4px 10px;
+        }
+        .filter-group select option {
+            padding: 4px 8px;
+        }
+        .btn-query {
+            padding: 8px 28px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2d8cf0 0%, #1a6bc4 100%);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 12px rgba(45, 140, 240, 0.25);
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+        }
+        .btn-query:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 140, 240, 0.35);
+        }
+        .btn-query:active {
+            transform: translateY(0);
+        }
+
+        /* ===== 文件上传区 ===== */
+        .upload-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+        .upload-area .file-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: #f5f8fc;
+            border: 1px dashed #b0c4d8;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #3a5a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-area .file-label:hover {
+            border-color: #2d8cf0;
+            background: #eef4fc;
+        }
+        .upload-area .file-label input[type="file"] {
+            display: none;
+        }
+        .upload-status {
+            font-size: 13px;
+            font-weight: 500;
+            color: #d9534f; /* 错误信息红色 */
+        }
+        .upload-status.success {
+            display: none; /* 成功信息隐藏 */
+        }
+
+        /* ===== KPI 卡片网格（9个，每行3个） ===== */
+        .kpi-grid-9 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .kpi-card {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #e8eef4;
+            padding: 18px 16px;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(0, 20, 40, 0.08);
+        }
+        .kpi-card .kpi-icon {
+            font-size: 26px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .kpi-card .kpi-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #5a6a7a;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        .kpi-card .kpi-value {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0a2a44;
+        }
+        .kpi-card .kpi-value .unit {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7a8a9a;
+            margin-left: 2px;
+        }
+
+        /* 卡片颜色点缀 */
+        .kpi-card.kpi-blue .kpi-value { color: #2d8cf0; }
+        .kpi-card.kpi-green .kpi-value { color: #34b77a; }
+        .kpi-card.kpi-gold .kpi-value { color: #f5a623; }
+        .kpi-card.kpi-purple .kpi-value { color: #7b4c9e; }
+        .kpi-card.kpi-cyan .kpi-value { color: #16a8b0; }
+        .kpi-card.kpi-red .kpi-value { color: #e4574b; }
+        .kpi-card.kpi-teal .kpi-value { color: #2b9b7a; }
+        .kpi-card.kpi-orange .kpi-value { color: #e67e22; }
+        .kpi-card.kpi-pink .kpi-value { color: #d64a8a; }
+
+        /* ===== 表格 ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 6px;
+            border-radius: 12px;
+            border: 1px solid #e8eef4;
+        }
+        .table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 900px;
+        }
+        .table-wrapper thead {
+            background: #1a3048;
+            border-bottom: 2px solid #1a3048;
+        }
+        .table-wrapper thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            background: #1a3048;
+            z-index: 2;
+        }
+        .table-wrapper tbody tr {
+            border-bottom: 1px solid #edf2f7;
+            transition: background 0.15s;
+        }
+        .table-wrapper tbody tr:hover {
+            background: #f5f9ff;
+        }
+        .table-wrapper tbody td {
+            padding: 12px 16px;
+            color: #1a2a3a;
+            vertical-align: middle;
+        }
+        .table-wrapper .tag {
+            display: inline-block;
+            padding: 0 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 24px;
+            background: #eef2f6;
+            color: #2a4a6a;
+        }
+        .table-wrapper .tag-blue {
+            background: #e0ecff;
+            color: #2d6ca0;
+        }
+        .table-wrapper .tag-purple {
+            background: #ede6f7;
+            color: #7b4c9e;
+        }
+        .table-wrapper .text-right {
+            text-align: right;
+        }
+        .table-wrapper .num {
+            font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
+            font-weight: 500;
+        }
+
+        /* ===== 空状态 ===== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #b0c0d0;
+        }
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .empty-state .empty-text {
+            font-size: 16px;
+        }
+
+        /* ===== 表格底部 ===== */
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #e8eef4;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #5a6a7a;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .table-footer .count {
+            color: #0a2a44;
+            font-weight: 600;
+        }
+
+        /* ===== 分页控件 ===== */
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+        .pagination button {
+            padding: 6px 16px;
+            border: 1px solid #d0d8e0;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #1a2a3a;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .pagination button:hover:not(:disabled) {
+            border-color: #2d8cf0;
+            color: #2d8cf0;
+            background: #f0f7ff;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination .page-info {
+            padding: 0 6px;
+            color: #3a4a5a;
+            font-weight: 500;
+        }
+        .pagination .page-jump {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pagination .page-jump input {
+            width: 52px;
+            padding: 6px 8px;
+            border: 1px solid #d0d8e0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .pagination .page-jump input:focus {
+            outline: none;
+            border-color: #2d8cf0;
+        }
+        .pagination .page-jump button {
+            padding: 6px 14px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1200px) {
+            .kpi-grid-9 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .kpi-grid-9 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .header-title h1 {
+                font-size: 22px;
+            }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-group {
+                width: 100%;
+            }
+            .filter-group select {
+                flex: 1;
+                min-width: 0;
+            }
+            .upload-area {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .grid-24 {
+                gap: 16px;
+            }
+            .card {
+                padding: 18px;
+            }
+            .kpi-card .kpi-value {
+                font-size: 26px;
+            }
+            .pagination {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .kpi-grid-9 {
+                grid-template-columns: 1fr;
+            }
+            .header-title h1 {
+                font-size: 20px;
+            }
+            body {
+                padding: 12px;
+            }
+        }
+
+        /* ===== 滚动条美化 ===== */
+        .table-wrapper::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #e8eef4;
+            border-radius: 4px;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: #c0d0e0;
+            border-radius: 4px;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #a0b8c8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================== 主容器 ======================== -->
+    <div class="grid-24">
+
+        <!-- ===== 第一行：标题 + 上传 ===== -->
+        <div class="w-24 card">
+            <div class="header-title">
+                <h1>电气设备分公司节拍兑现率看板</h1>
+                <div class="sub-info">
+                    数据更新：<span id="updateTime">—</span>
+                </div>
+            </div>
+            <div style="margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between;">
+                <!-- 筛选器 -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label for="filterLine">🏭 产线名称</label>
+                        <select id="filterLine" multiple size="1" style="min-width:180px;">
+                            <option value="__all__" selected>全部产线</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterProject">📋 项目号</label>
+                        <select id="filterProject" multiple size="1" style="min-width:150px;">
+                            <option value="__all__" selected>全部项目</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterModel">📦 产品型号</label>
+                        <select id="filterModel" multiple size="1" style="min-width:150px;">
+                            <option value="__all__" selected>全部型号</option>
+                        </select>
+                    </div>
+                    <button class="btn-query" id="queryBtn">🔍 查询</button>
+                </div>
+                <!-- 上传 -->
+                <div class="upload-area">
+                    <label class="file-label" id="uploadLabel">
+                        📂 上传 Excel
+                        <input type="file" id="fileInput" accept=".xlsx,.xls">
+                    </label>
+                    <span class="upload-status" id="uploadStatus"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 第二行：9个汇总KPI卡片 ===== -->
+        <div class="w-24" style="grid-column: span 24;">
+            <div class="kpi-grid-9" id="kpiGrid">
+                <!-- 由 JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- ===== 第三行：数据详情表格（含分页） ===== -->
+        <div class="w-24 card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: #0a2a44; display: flex; align-items: center; gap: 10px;">
+                    📋 明细数据
+                    <span style="font-size: 14px; font-weight: 400; color: #5a6a7a; margin-left: 4px;" id="recordCount">(0 条)</span>
+                </h3>
+            </div>
+            <div class="table-wrapper" id="tableWrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">序号</th>
+                            <th>产线编码</th>
+                            <th>产线名称</th>
+                            <th>项目号</th>
+                            <th>产品型号</th>
+                            <th>图号</th>
+                            <th style="text-align:right;">计划数量</th>
+                            <th style="text-align:right;">完工数量</th>
+                            <th>计划开工时间</th>
+                            <th>计划完工时间</th>
+                            <th>实际开工时间</th>
+                            <th>实际完工时间</th>
+                            <th style="text-align:right;">实际制造周期</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- 由 JS 动态渲染 -->
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    <span>共 <span class="count" id="footerCount">0</span> 条记录</span>
+                    <div class="pagination" id="pagination">
+                        <button id="prevPage" disabled>上一页</button>
+                        <span class="page-info" id="pageInfo">1 / 1</span>
+                        <button id="nextPage" disabled>下一页</button>
+                        <div class="page-jump">
+                            跳至 <input type="number" id="jumpPage" min="1" value="1"> 页
+                            <button id="jumpBtn">GO</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // =================================================================
+            //  1. 模拟数据生成（包含汇总行，但表格只展示明细）
+            // =================================================================
+            const LINES = [
+                { code: 'CX041010302', name: '受电弓生产线' },
+                { code: 'CX041010301', name: '真空断路器BVAC.N99系列生产线' },
+            ];
+            const PROJECTS = ['A26AAD540027', 'A1801B170001'];
+            const MODELS = ['BVAC.N99D'];
+            const DRAWINGS = ['AQ01001445A'];
+
+            function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+            function pick(arr) { return arr[rand(0, arr.length - 1)]; }
+
+            function pad(n) { return String(n).padStart(2, '0'); }
+
+            function formatDate(d) {
+                return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+            }
+
+            function generateMockData() {
+                const data = [];
+                const startDate = new Date(2026, 0, 1);
+                const endDate = new Date(2026, 5, 30);
+
+                // 构造第一行（汇总行，包含所有汇总字段）
+                const planSum = 18;
+                const finishSum = 14;
+                const actualWorkHours = 7.5 * 2;
+                const actualFinishPC = finishSum;
+                const actualTimePerUnit = (actualWorkHours * 60) / actualFinishPC;
+                const standardTimePerUnit = 45;
+                const taktRate = actualTimePerUnit / standardTimePerUnit;
+                const unmetStations = 10;
+                const standardStations = 15;
+                const processRate = 1 - (unmetStations / standardStations);
+
+                // 汇总行（不显示在表格中）
+                const summaryRow = {
+                    line_code: 'CX041010302',
+                    line_name: '受电弓生产线',
+                    project_no: 'A26AAD540027',
+                    product_model: 'BVAC.N99D',
+                    drawing_no: 'AQ01001445A',
+                    plan_qty: 2,
+                    finish_qty: 2,
+                    plan_start_time: '2026-01-05',
+                    plan_end_time: '2026-01-12',
+                    actual_start_time: '2026-01-06',
+                    actual_end_time: '2026-01-14',
+                    actual_cycle_days: 8,
+                    // 汇总字段
+                    plan_sum_pc: planSum,
+                    finish_sum_pc: finishSum,
+                    actual_work_hours: actualWorkHours,
+                    actual_finish_pc: actualFinishPC,
+                    actual_time_per_unit: actualTimePerUnit,
+                    standard_time_per_unit: standardTimePerUnit,
+                    takt_rate: taktRate,
+                    unmet_stations: unmetStations,
+                    standard_stations: standardStations,
+                    process_rate: processRate,
+                };
+                // 存储汇总值供KPI使用
+                window._summary = summaryRow;
+
+                // 明细行（不包含汇总字段）
+                const details = [
+                    { plan: 1, finish: 1, ps: '2026-01-05', pe: '2026-01-12', as: '2026-01-06', ae: '2026-01-14', cycle: 8,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 2, finish: 2, ps: '2026-01-10', pe: '2026-01-18', as: '2026-01-11', ae: '2026-01-19', cycle: 8,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 3, finish: 3, ps: '2026-02-01', pe: '2026-02-10', as: '2026-02-02', ae: '2026-02-11', cycle: 9,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 2, finish: 1, ps: '2026-02-15', pe: '2026-02-22', as: '2026-02-16', ae: '2026-02-23', cycle: 7,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 1, finish: 1, ps: '2026-03-01', pe: '2026-03-08', as: '2026-03-02', ae: '2026-03-09', cycle: 7,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 2, finish: 2, ps: '2026-03-10', pe: '2026-03-17', as: '2026-03-11', ae: '2026-03-18', cycle: 7,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 0, finish: 0, ps: '2026-03-20', pe: '2026-03-27', as: '2026-03-21', ae: '2026-03-28', cycle: 7,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    { plan: 0, finish: 0, ps: '2026-04-01', pe: '2026-04-08', as: '2026-04-02', ae: '2026-04-09', cycle: 7,
+                        line: 'CX041010302', lineName: '受电弓生产线' },
+                    // 其他产线
+                    { plan: 2, finish: 2, ps: '2026-01-08', pe: '2026-01-15', as: '2026-01-09', ae: '2026-01-16', cycle: 7,
+                        line: 'CX041010301', lineName: '真空断路器BVAC.N99系列生产线' },
+                    { plan: 3, finish: 3, ps: '2026-02-01', pe: '2026-02-10', as: '2026-02-02', ae: '2026-02-11', cycle: 9,
+                        line: 'CX041010301', lineName: '真空断路器BVAC.N99系列生产线' },
+                ];
+
+                details.forEach(d => {
+                    data.push({
+                        line_code: d.line,
+                        line_name: d.lineName,
+                        project_no: pick(PROJECTS),
+                        product_model: 'BVAC.N99D',
+                        drawing_no: 'AQ01001445A',
+                        plan_qty: d.plan,
+                        finish_qty: d.finish,
+                        plan_start_time: d.ps,
+                        plan_end_time: d.pe,
+                        actual_start_time: d.as,
+                        actual_end_time: d.ae,
+                        actual_cycle_days: d.cycle,
+                    });
+                });
+
+                // 将汇总行单独存储，不放入data中
+                return { details: data, summary: summaryRow };
+            }
+
+            // =================================================================
+            //  2. 全局状态
+            // =================================================================
+            let detailData = []; // 明细数据
+            let summaryData = {}; // 汇总数据
+            let filteredData = [];
+            let currentPage = 1;
+            const pageSize = 30;
+            let isUsingMock = true;
+
+            // DOM 引用
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
+
+            const filterLine = $('#filterLine');
+            const filterProject = $('#filterProject');
+            const filterModel = $('#filterModel');
+            const queryBtn = $('#queryBtn');
+            const fileInput = $('#fileInput');
+            const uploadStatus = $('#uploadStatus');
+            const updateTime = $('#updateTime');
+            const kpiGrid = $('#kpiGrid');
+
+            const tableBody = $('#tableBody');
+            const footerCount = $('#footerCount');
+            const recordCount = $('#recordCount');
+            const prevPageBtn = $('#prevPage');
+            const nextPageBtn = $('#nextPage');
+            const pageInfo = $('#pageInfo');
+            const jumpPage = $('#jumpPage');
+            const jumpBtn = $('#jumpBtn');
+
+            // =================================================================
+            //  3. 工具函数
+            // =================================================================
+            function getSelectValues(select) {
+                const opts = select.options;
+                const vals = [];
+                for (let i = 0; i < opts.length; i++) {
+                    if (opts[i].selected && opts[i].value !== '__all__') {
+                        vals.push(opts[i].value);
+                    }
+                }
+                const hasAll = Array.from(opts).some(o => o.value === '__all__' && o.selected);
+                if (hasAll || vals.length === 0) return null;
+                return vals;
+            }
+
+            function populateSelect(select, values, labelKey) {
+                const first = select.querySelector('option[value="__all__"]');
+                select.innerHTML = '';
+                if (first) {
+                    select.appendChild(first);
+                } else {
+                    const allOpt = document.createElement('option');
+                    allOpt.value = '__all__';
+                    allOpt.textContent = '全部' + (labelKey || '');
+                    allOpt.selected = true;
+                    select.appendChild(allOpt);
+                }
+                const sorted = [...new Set(values)].filter(v => v && v !== '').sort();
+                sorted.forEach(v => {
+                    const opt = document.createElement('option');
+                    opt.value = v;
+                    opt.textContent = v;
+                    select.appendChild(opt);
+                });
+            }
+
+            function updateTimeStamp() {
+                const now = new Date();
+                const s = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) +
+                    ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+                updateTime.textContent = s;
+            }
+
+            // =================================================================
+            //  4. 核心渲染
+            // =================================================================
+            function renderKPI() {
+                // 定义9个字段的配置（增加图标）
+                const fields = [
+                    { key: 'plan_sum_pc', label: '产品计划完工数量', icon: '📊', color: 'blue', suffix: ' PC' },
+                    { key: 'actual_work_hours', label: '实际工作时长', icon: '⏱️', color: 'green', suffix: ' h' },
+                    { key: 'finish_sum_pc', label: '实际产品完工数量', icon: '✅', color: 'gold', suffix: ' PC' },
+                    { key: 'actual_time_per_unit', label: '单件实际完工时长', icon: '⏳', color: 'purple', suffix: ' min' },
+                    { key: 'standard_time_per_unit', label: '单件标准完工时长', icon: '📏', color: 'cyan', suffix: ' min' },
+                    { key: 'takt_rate', label: '产线节拍兑现率', icon: '🎯', color: 'red', suffix: '%', isPercent: true },
+                    { key: 'unmet_stations', label: '未达标工位数量', icon: '⚠️', color: 'teal', suffix: ' PC' },
+                    { key: 'standard_stations', label: '产线标准工位数量', icon: '🏗️', color: 'orange', suffix: ' PC' },
+                    { key: 'process_rate', label: '工序节拍兑换率', icon: '⚙️', color: 'pink', suffix: '%', isPercent: true },
+                ];
+
+                let html = '';
+                fields.forEach(f => {
+                    let value = summaryData[f.key];
+                    if (value === undefined || value === null || isNaN(value)) value = 0;
+                    let displayValue = value;
+                    if (f.isPercent) {
+                        displayValue = (value * 100).toFixed(2);
+                    } else if (typeof value === 'number' && Number.isInteger(value)) {
+                        displayValue = value.toLocaleString();
+                    } else if (typeof value === 'number') {
+                        displayValue = value.toFixed(2);
+                    } else {
+                        displayValue = value;
+                    }
+                    const suffix = f.suffix ? `<span class="unit">${f.suffix}</span>` : '';
+                    html += `
+                        <div class="kpi-card kpi-${f.color}">
+                            <span class="kpi-icon">${f.icon}</span>
+                            <div class="kpi-label">${f.label}</div>
+                            <div class="kpi-value">${displayValue}${suffix}</div>
+                        </div>
+                    `;
+                });
+                kpiGrid.innerHTML = html;
+            }
+
+            function renderTable() {
+                // 应用筛选
+                const lineVals = getSelectValues(filterLine);
+                const projVals = getSelectValues(filterProject);
+                const modelVals = getSelectValues(filterModel);
+
+                filteredData = detailData.filter(row => {
+                    if (lineVals && !lineVals.includes(row.line_name)) return false;
+                    if (projVals && !projVals.includes(row.project_no)) return false;
+                    if (modelVals && !modelVals.includes(row.product_model)) return false;
+                    return true;
+                });
+
+                // 总页数
+                const totalPages = Math.ceil(filteredData.length / pageSize) || 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                // 切片
+                const start = (currentPage - 1) * pageSize;
+                const end = Math.min(start + pageSize, filteredData.length);
+                const pageData = filteredData.slice(start, end);
+
+                // ---- 表格 ----
+                if (pageData.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="13" style="text-align:center; padding:40px 0; color:#b0c0d0;">
+                                <div style="font-size:42px; margin-bottom:10px;">📭</div>
+                                <div style="font-size:16px;">暂无数据，请调整筛选条件或上传数据</div>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    let html = '';
+                    pageData.forEach((row, index) => {
+                        const seq = start + index + 1;
+                        html += `
+                            <tr>
+                                <td class="text-right">${seq}</td>
+                                <td><span class="tag tag-blue">${row.line_code || ''}</span></td>
+                                <td>${row.line_name || ''}</td>
+                                <td><span class="tag tag-purple">${row.project_no || ''}</span></td>
+                                <td>${row.product_model || ''}</td>
+                                <td>${row.drawing_no || ''}</td>
+                                <td class="text-right num">${(row.plan_qty !== undefined && row.plan_qty !== null) ? row.plan_qty.toLocaleString() : ''}</td>
+                                <td class="text-right num">${(row.finish_qty !== undefined && row.finish_qty !== null) ? row.finish_qty.toLocaleString() : ''}</td>
+                                <td>${row.plan_start_time || ''}</td>
+                                <td>${row.plan_end_time || ''}</td>
+                                <td>${row.actual_start_time || ''}</td>
+                                <td>${row.actual_end_time || ''}</td>
+                                <td class="text-right num">${(row.actual_cycle_days !== undefined && row.actual_cycle_days !== null) ? row.actual_cycle_days : ''}</td>
+                            </tr>
+                        `;
+                    });
+                    tableBody.innerHTML = html;
+                }
+
+                // 更新计数
+                footerCount.textContent = filteredData.length;
+                recordCount.textContent = '(' + filteredData.length + ' 条)';
+
+                // 更新分页控件
+                pageInfo.textContent = `${currentPage} / ${totalPages}`;
+                prevPageBtn.disabled = (currentPage <= 1);
+                nextPageBtn.disabled = (currentPage >= totalPages);
+                jumpPage.min = 1;
+                jumpPage.max = totalPages;
+                jumpPage.value = currentPage;
+
+                // 更新筛选器的可选值（保持同步）
+                const savedLine = getSelectValues(filterLine);
+                const savedProj = getSelectValues(filterProject);
+                const savedModel = getSelectValues(filterModel);
+
+                populateSelect(filterLine, detailData.map(r => r.line_name).filter(Boolean), '产线');
+                populateSelect(filterProject, detailData.map(r => r.project_no).filter(Boolean), '项目');
+                populateSelect(filterModel, detailData.map(r => r.product_model).filter(Boolean), '型号');
+
+                function restoreSelect(select, saved) {
+                    if (!saved) return;
+                    const opts = select.options;
+                    for (let i = 0; i < opts.length; i++) {
+                        if (saved.includes(opts[i].value)) {
+                            opts[i].selected = true;
+                        }
+                    }
+                    if (saved.length > 0) {
+                        const allOpt = select.querySelector('option[value="__all__"]');
+                        if (allOpt) allOpt.selected = false;
+                    }
+                }
+                restoreSelect(filterLine, savedLine);
+                restoreSelect(filterProject, savedProj);
+                restoreSelect(filterModel, savedModel);
+
+                updateTimeStamp();
+            }
+
+            function render() {
+                renderKPI();
+                renderTable();
+            }
+
+            // =================================================================
+            //  5. 数据加载
+            // =================================================================
+            function loadData(details, summary) {
+                detailData = details;
+                summaryData = summary || {};
+                currentPage = 1;
+
+                // 初始化筛选器
+                populateSelect(filterLine, detailData.map(r => r.line_name).filter(Boolean), '产线');
+                populateSelect(filterProject, detailData.map(r => r.project_no).filter(Boolean), '项目');
+                populateSelect(filterModel, detailData.map(r => r.product_model).filter(Boolean), '型号');
+
+                // 默认全部选中
+                [filterLine, filterProject, filterModel].forEach(sel => {
+                    const allOpt = sel.querySelector('option[value="__all__"]');
+                    if (allOpt) allOpt.selected = true;
+                });
+
+                render();
+            }
+
+            function loadMockData() {
+                isUsingMock = true;
+                const mock = generateMockData();
+                // 不显示任何成功提示
+                uploadStatus.textContent = '';
+                uploadStatus.className = 'upload-status';
+                loadData(mock.details, mock.summary);
+            }
+
+            // =================================================================
+            //  6. Excel 读取
+            // =================================================================
+            function handleExcelFile(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const json = XLSX.utils.sheet_to_json(firstSheet);
+
+                        if (!json || json.length === 0) {
+                            uploadStatus.textContent = '⚠️ 文件为空或格式不正确';
+                            uploadStatus.className = 'upload-status error';
+                            return;
+                        }
+
+                        // 字段映射（包含基础字段和汇总字段）
+                        const mapKey = (key) => {
+                            const k = key.trim();
+                            const lower = k.toLowerCase();
+                            const map = {
+                                'line_code': 'line_code',
+                                'linecode': 'line_code',
+                                '产线编码': 'line_code',
+                                'line_name': 'line_name',
+                                'linename': 'line_name',
+                                '产线名称': 'line_name',
+                                'project_no': 'project_no',
+                                'projectno': 'project_no',
+                                '项目号': 'project_no',
+                                'product_model': 'product_model',
+                                'productmodel': 'product_model',
+                                '产品型号': 'product_model',
+                                'drawing_no': 'drawing_no',
+                                'drawingno': 'drawing_no',
+                                '图号': 'drawing_no',
+                                'plan_qty': 'plan_qty',
+                                'planqty': 'plan_qty',
+                                '计划数量': 'plan_qty',
+                                'finish_qty': 'finish_qty',
+                                'finishqty': 'finish_qty',
+                                '完工数量': 'finish_qty',
+                                'plan_start_time': 'plan_start_time',
+                                'planstarttime': 'plan_start_time',
+                                '计划开工时间': 'plan_start_time',
+                                'plan_end_time': 'plan_end_time',
+                                'planendtime': 'plan_end_time',
+                                '计划完工时间': 'plan_end_time',
+                                'actual_start_time': 'actual_start_time',
+                                'actualstarttime': 'actual_start_time',
+                                '实际开工时间': 'actual_start_time',
+                                'actual_end_time': 'actual_end_time',
+                                'actualendtime': 'actual_end_time',
+                                '实际完工时间': 'actual_end_time',
+                                'actual_cycle_days': 'actual_cycle_days',
+                                'actualcycledays': 'actual_cycle_days',
+                                '实际制造周期': 'actual_cycle_days',
+                                // 汇总字段
+                                '产品计划完工数量/pc': 'plan_sum_pc',
+                                '产品计划完工数量': 'plan_sum_pc',
+                                '实际产品完工数量/pc': 'finish_sum_pc',
+                                '实际产品完工数量': 'finish_sum_pc',
+                                '实际工作时长/h': 'actual_work_hours',
+                                '实际工作时长': 'actual_work_hours',
+                                '单件产品实际完工时长/min': 'actual_time_per_unit',
+                                '单件产品实际完工时长': 'actual_time_per_unit',
+                                '单件产品标准完工时长/min': 'standard_time_per_unit',
+                                '单件产品标准完工时长': 'standard_time_per_unit',
+                                '产线单件产品节拍兑现率': 'takt_rate',
+                                '未达到计划完工的工位数量/pc': 'unmet_stations',
+                                '未达到计划完工的工位数量': 'unmet_stations',
+                                '产线标准工位数量/pc': 'standard_stations',
+                                '产线标准工位数量': 'standard_stations',
+                                '工序节拍兑换率/%': 'process_rate',
+                                '工序节拍兑换率': 'process_rate',
+                            };
+                            return map[lower] || lower;
+                        };
+
+                        const headers = Object.keys(json[0]);
+                        const mappedHeaders = {};
+                        headers.forEach(h => {
+                            const mk = mapKey(h);
+                            if (mk) mappedHeaders[h] = mk;
+                        });
+
+                        const allRows = json.map(row => {
+                            const obj = {};
+                            for (const [orig, mapped] of Object.entries(mappedHeaders)) {
+                                let val = row[orig];
+                                // 处理日期
+                                if (typeof val === 'number' && val > 40000 && val < 50000) {
+                                    const d = new Date((val - 25569) * 86400 * 1000);
+                                    val = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+                                }
+                                if (val === undefined || val === null || val === '') {
+                                    if (['plan_qty', 'finish_qty', 'actual_cycle_days', 'plan_sum_pc', 'finish_sum_pc',
+                                            'actual_work_hours', 'actual_time_per_unit',
+                                            'standard_time_per_unit', 'takt_rate', 'unmet_stations',
+                                            'standard_stations', 'process_rate'
+                                        ].includes(mapped)) {
+                                        val = null;
+                                    } else {
+                                        val = '';
+                                    }
+                                }
+                                // 数字类型转换
+                                if (['plan_qty', 'finish_qty', 'actual_cycle_days', 'plan_sum_pc', 'finish_sum_pc',
+                                        'actual_work_hours', 'actual_time_per_unit',
+                                        'standard_time_per_unit', 'takt_rate', 'unmet_stations',
+                                        'standard_stations', 'process_rate'
+                                    ].includes(mapped) && val !== null && val !== '') {
+                                    val = parseFloat(val);
+                                    if (isNaN(val)) val = null;
+                                }
+                                obj[mapped] = val;
+                            }
+                            return obj;
+                        });
+
+                        // 分离汇总行（含有plan_sum_pc字段且不为空）和明细行
+                        const summaryRow = allRows.find(r => r.plan_sum_pc !== undefined && r.plan_sum_pc !== null);
+                        const detailRows = allRows.filter(r => r.plan_sum_pc === undefined || r.plan_sum_pc === null);
+
+                        if (detailRows.length === 0) {
+                            uploadStatus.textContent = '⚠️ 未识别到明细数据，请检查文件';
+                            uploadStatus.className = 'upload-status error';
+                            return;
+                        }
+
+                        // 提取汇总值
+                        let summary = {};
+                        if (summaryRow) {
+                            summary = {
+                                plan_sum_pc: summaryRow.plan_sum_pc || 0,
+                                actual_work_hours: summaryRow.actual_work_hours || 0,
+                                finish_sum_pc: summaryRow.finish_sum_pc || 0,
+                                actual_time_per_unit: summaryRow.actual_time_per_unit || 0,
+                                standard_time_per_unit: summaryRow.standard_time_per_unit || 0,
+                                takt_rate: summaryRow.takt_rate || 0,
+                                unmet_stations: summaryRow.unmet_stations || 0,
+                                standard_stations: summaryRow.standard_stations || 0,
+                                process_rate: summaryRow.process_rate || 0,
+                            };
+                        } else {
+                            // 如果没有汇总行，从明细计算部分值
+                            const totalPlan = detailRows.reduce((s, r) => s + (r.plan_qty || 0), 0);
+                            const totalFinish = detailRows.reduce((s, r) => s + (r.finish_qty || 0), 0);
+                            summary = {
+                                plan_sum_pc: totalPlan,
+                                finish_sum_pc: totalFinish,
+                                actual_work_hours: 0,
+                                actual_time_per_unit: 0,
+                                standard_time_per_unit: 45,
+                                takt_rate: totalPlan > 0 ? totalFinish / totalPlan : 0,
+                                unmet_stations: 10,
+                                standard_stations: 15,
+                                process_rate: 0.67,
+                            };
+                        }
+
+                        isUsingMock = false;
+                        // 成功时不显示任何文字
+                        uploadStatus.textContent = '';
+                        uploadStatus.className = 'upload-status';
+                        loadData(detailRows, summary);
+
+                    } catch (err) {
+                        console.error(err);
+                        uploadStatus.textContent = '❌ 读取失败: ' + err.message;
+                        uploadStatus.className = 'upload-status error';
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            // =================================================================
+            //  7. 事件绑定
+            // =================================================================
+            // 查询按钮：执行重置筛选（清空所有筛选条件并刷新）
+            queryBtn.addEventListener('click', function() {
+                [filterLine, filterProject, filterModel].forEach(sel => {
+                    const allOpt = sel.querySelector('option[value="__all__"]');
+                    if (allOpt) allOpt.selected = true;
+                    for (let i = 0; i < sel.options.length; i++) {
+                        if (sel.options[i].value !== '__all__') {
+                            sel.options[i].selected = false;
+                        }
+                    }
+                });
+                currentPage = 1;
+                render();
+            });
+
+            // 筛选器变化时自动刷新（实时联动）
+            [filterLine, filterProject, filterModel].forEach(sel => {
+                sel.addEventListener('change', function() {
+                    currentPage = 1;
+                    render();
+                });
+            });
+
+            // 分页事件
+            prevPageBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    render();
+                }
+            });
+
+            nextPageBtn.addEventListener('click', function() {
+                const totalPages = Math.ceil(filteredData.length / pageSize) || 1;
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    render();
+                }
+            });
+
+            jumpBtn.addEventListener('click', function() {
+                const val = parseInt(jumpPage.value);
+                const totalPages = Math.ceil(filteredData.length / pageSize) || 1;
+                if (!isNaN(val) && val >= 1 && val <= totalPages) {
+                    currentPage = val;
+                    render();
+                } else {
+                    alert('请输入有效的页码（1 ~ ' + totalPages + '）');
+                }
+            });
+
+            jumpPage.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    jumpBtn.click();
+                }
+            });
+
+            fileInput.addEventListener('change', function(e) {
+                if (this.files && this.files.length > 0) {
+                    handleExcelFile(this.files[0]);
+                }
+                this.value = '';
+            });
+
+            const uploadLabel = document.getElementById('uploadLabel');
+            uploadLabel.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#2d8cf0';
+                this.style.background = '#f0f7ff';
+            });
+            uploadLabel.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#b0c4d8';
+                this.style.background = '#f5f8fc';
+            });
+            uploadLabel.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#b0c4d8';
+                this.style.background = '#f5f8fc';
+                const files = e.dataTransfer.files;
+                if (files && files.length > 0) {
+                    const f = files[0];
+                    const ext = f.name.split('.').pop().toLowerCase();
+                    if (['xlsx', 'xls'].includes(ext)) {
+                        handleExcelFile(f);
+                    } else {
+                        uploadStatus.textContent = '⚠️ 请上传 .xlsx 或 .xls 文件';
+                        uploadStatus.className = 'upload-status error';
+                    }
+                }
+            });
+
+            // =================================================================
+            //  8. 启动
+            // =================================================================
+            loadMockData();
+
+            window.__debug = {
+                detailData: () => detailData,
+                filteredData: () => filteredData,
+                summaryData: () => summaryData,
+                currentPage: () => currentPage,
+                loadMock: loadMockData,
+            };
+
+        })();
+    </script>
+
+</body>
+</html>
